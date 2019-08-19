@@ -1,7 +1,7 @@
 <template>
     <div id="sidebar-wrapper" class="hide">
         <ul class="sidebar-nav">
-            <li><router-link id="link-acc" to="/list-report"><img class="ico-manag"
+            <li><router-link  to="/manage-account"><img class="ico-manag"
                                                                                 src="../../images/account-manager.png">Quản
                 lý tài khoản</router-link>
             </li>

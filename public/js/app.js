@@ -1747,6 +1747,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Header",
   data: function data() {
@@ -1822,7 +1824,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Layout",
-  component: {
+  components: {
     appHeader: _Header__WEBPACK_IMPORTED_MODULE_0__["default"],
     appFooter: _Footer__WEBPACK_IMPORTED_MODULE_1__["default"],
     appSidebar: _Sidebar__WEBPACK_IMPORTED_MODULE_2__["default"]
@@ -37887,67 +37889,74 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "nav",
-    { staticClass: "navbar navbar-expand bg-dark navbar-dark fixed-top" },
-    [
-      _c("div", { staticClass: "container-fluid" }, [
-        _c(
-          "div",
-          {
-            staticClass: " navbar-collapse justify-content-end",
-            attrs: { id: "collapsibleNavbar" }
-          },
-          [
-            _c("ul", { staticClass: "navbar-nav" }, [
-              _c(
-                "li",
-                { staticClass: "nav-item", attrs: { id: "recv-rp" } },
-                [
-                  _c(
-                    "router-link",
-                    {
-                      staticClass: "nav-link mr-100",
-                      attrs: { to: "/list-report" }
-                    },
-                    [
-                      _c("img", {
-                        staticClass: "ico-header",
-                        attrs: { src: __webpack_require__(/*! ../../images/email-icon.png */ "./resources/js/images/email-icon.png") }
-                      })
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "sum-notice" }, [
-                    _vm._v(_vm._s(_vm.countReport))
-                  ])
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "li",
-                { staticClass: "nav-item" },
-                [
-                  _c(
-                    "router-link",
-                    { staticClass: "nav-link", attrs: { to: "/info-account" } },
-                    [
-                      _c("img", {
-                        staticClass: "ico-header",
-                        attrs: { src: __webpack_require__(/*! ../../images/account-icon.png */ "./resources/js/images/account-icon.png") }
-                      })
-                    ]
-                  )
-                ],
-                1
-              )
-            ])
-          ]
-        )
-      ])
-    ]
-  )
+  return _c("div", [
+    _c(
+      "nav",
+      { staticClass: "navbar navbar-expand bg-dark navbar-dark fixed-top" },
+      [
+        _c("div", { staticClass: "container-fluid" }, [
+          _c(
+            "div",
+            {
+              staticClass: " navbar-collapse justify-content-end",
+              attrs: { id: "collapsibleNavbar" }
+            },
+            [
+              _c("ul", { staticClass: "navbar-nav" }, [
+                _c(
+                  "li",
+                  { staticClass: "nav-item", attrs: { id: "recv-rp" } },
+                  [
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "nav-link mr-100",
+                        attrs: { to: "/list-report" }
+                      },
+                      [
+                        _c("img", {
+                          staticClass: "ico-header",
+                          attrs: { src: __webpack_require__(/*! ../../images/email-icon.png */ "./resources/js/images/email-icon.png") }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "sum-notice" }, [
+                      _vm._v(_vm._s(_vm.countReport))
+                    ])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "li",
+                  { staticClass: "nav-item" },
+                  [
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "nav-link",
+                        attrs: { to: "/info-account" }
+                      },
+                      [
+                        _c("img", {
+                          staticClass: "ico-header",
+                          attrs: {
+                            src: __webpack_require__(/*! ../../images/account-icon.png */ "./resources/js/images/account-icon.png")
+                          }
+                        })
+                      ]
+                    )
+                  ],
+                  1
+                )
+              ])
+            ]
+          )
+        ])
+      ]
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -38094,7 +38103,7 @@ var render = function() {
       _c(
         "li",
         [
-          _c("router-link", { attrs: { id: "link-acc", to: "/list-report" } }, [
+          _c("router-link", { attrs: { to: "/manage-account" } }, [
             _c("img", {
               staticClass: "ico-manag",
               attrs: { src: __webpack_require__(/*! ../../images/account-manager.png */ "./resources/js/images/account-manager.png") }
@@ -53760,13 +53769,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "routes", function() { return routes; });
 /* harmony import */ var _components_backend_Report__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/backend/Report */ "./resources/js/components/backend/Report.vue");
 /* harmony import */ var _components_backend_InfoAdmin__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/backend/InfoAdmin */ "./resources/js/components/backend/InfoAdmin.vue");
-/* harmony import */ var _components_backend_ManageAccount__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/backend/ManageAccount */ "./resources/js/components/backend/ManageAccount.vue");
+/* harmony import */ var _components_backend_Layout__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/backend/Layout */ "./resources/js/components/backend/Layout.vue");
+/* harmony import */ var _components_backend_ManageAccount__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/backend/ManageAccount */ "./resources/js/components/backend/ManageAccount.vue");
+
 
 
 
 var routes = [{
-  path: '/',
-  component: _components_backend_ManageAccount__WEBPACK_IMPORTED_MODULE_2__["default"]
+  path: '/hehe',
+  components: {
+    companiesIndex: _components_backend_Layout__WEBPACK_IMPORTED_MODULE_2__["default"]
+  }
+}, {
+  path: '/manage-account',
+  component: _components_backend_ManageAccount__WEBPACK_IMPORTED_MODULE_3__["default"]
 }, {
   path: '/list-report',
   component: _components_backend_Report__WEBPACK_IMPORTED_MODULE_0__["default"]

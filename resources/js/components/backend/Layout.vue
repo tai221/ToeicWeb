@@ -21,7 +21,7 @@ import Footer from "./Footer";
 import Sidebar from "./Sidebar";
 export default {
     name: "Layout",
-    component:{
+    components:{
         appHeader: Header,
         appFooter: Footer,
         appSidebar: Sidebar
