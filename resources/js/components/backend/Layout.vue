@@ -2,10 +2,10 @@
     <div class="container">
         <app-header></app-header>
         <div class="row">
-            <div class="col-xs-2">
+            <div class="col-xs-2 col-sm-2">
                 <app-sidebar></app-sidebar>
             </div>
-            <div class="col-xs-10">
+            <div class="col-xs-10 col-sm-10">
 <!--                <transition name="slide" mode="out-in">-->
                     <router-view></router-view>
 <!--                </transition>-->

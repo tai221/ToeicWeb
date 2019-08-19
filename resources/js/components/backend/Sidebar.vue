@@ -1,5 +1,5 @@
 <template>
-    <div id="sidebar-wrapper" class="hide">
+    <div id="sidebar-wrapper" >
         <ul class="sidebar-nav">
             <li><router-link  to="/manage-account"><img class="ico-manag"
                                                                                 src="../../images/account-manager.png">Quản
@@ -32,5 +32,54 @@
 </script>
 
 <style scoped>
+    .sidebar-nav {
+        position: fixed;
+        top: 0;
+        height: 100%;
+        width: 15em;
+        margin-left: 0;
+        padding: 0;
+        background-color: #212529;
+        list-style: none;
+        z-index: 1;
+        padding-top: 4em;
+    }
 
+
+    li.nav-item{
+        cursor: pointer;
+        position: relative;
+    }
+
+
+    .sidebar-nav li {
+        text-indent: 2em;
+        line-height: 3.5em;
+    }
+
+    .sidebar-nav li a {
+        display: block;
+        text-decoration: none;
+        color: #999999;
+    }
+
+    .sidebar-nav li a:hover {
+        text-decoration: none;
+        color: #fff;
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    .sidebar-nav li a:active, .sidebar-nav li a:focus {
+        text-decoration: none;
+    }
+
+    .ico-manag {
+        width: 1.5em;
+        margin-right: 0.5em;
+    }
+
+
+    .hide {
+        display: none;
+    }
 </style>

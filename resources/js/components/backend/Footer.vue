@@ -17,6 +17,18 @@
         padding-left: 5em;
         bottom: 0;
         background-color: #E8E8E8;
-        z-index: 0
+        z-index: 0;
+        /*position: fixed;*/
+        /*width: 100%;*/
+        bottom: -12px !important;
+        position: absolute;
+    }
+    .container-fluid {
+        padding: 0;
+        margin: 0;
+        /*height: 100%;*/
+    }
+    * {
+        font-size: 0.97em;
     }
 </style>
