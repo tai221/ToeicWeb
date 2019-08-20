@@ -4,7 +4,10 @@ import Layout from "./components/backend/Layout";
 import ManageAccount from "./components/backend/ManageAccount";
 
 export const routes = [
-    { path: '/manage-account', component: ManageAccount},
-    { path: '/list-report', component: Report },
-    { path: '/info-account', component: InfoAdmin }
+    {
+        path: '/',
+        component: Layout},
+    { path: '/admin/companies/manage-account', component: ManageAccount, name:"manageaccount"},
+    { path: '/admin/companies/list-report', component: Report },
+    { path: '/admin/companies/info-account', component: InfoAdmin }
 ];

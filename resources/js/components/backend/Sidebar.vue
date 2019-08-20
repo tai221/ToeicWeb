@@ -1,7 +1,7 @@
 <template>
-    <div id="sidebar-wrapper" >
-        <ul class="sidebar-nav">
-            <li><router-link  to="/manage-account"><img class="ico-manag"
+    <div id="sidebar-wrapper" v-bind:class="{hide: !stateSidebar }" >
+        <ul class="sidebar-nav ">
+            <li><router-link  :to="{name: 'manageaccount'}" ><img class="ico-manag"
                                                                                 src="../../images/account-manager.png">Quản
                 lý tài khoản</router-link>
             </li>
@@ -26,8 +26,14 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex';
     export default {
-        name: "Sidebar"
+        name: "Sidebar",
+        computed:{
+            ...mapGetters([
+                'stateSidebar'
+            ])
+        }
     }
 </script>
 
@@ -37,7 +43,7 @@
         top: 0;
         height: 100%;
         width: 15em;
-        margin-left: 0;
+        margin: 0;
         padding: 0;
         background-color: #212529;
         list-style: none;

@@ -14,6 +14,7 @@ window.Vue.use(VueRouter);
 
 import App from './components/backend/Layout.vue';
 import { routes } from './routes';
+import {store} from "./store";
 
 /**
  * The following block of code may be used to automatically register your
@@ -35,11 +36,12 @@ import { routes } from './routes';
  */
 
 const router = new VueRouter({
-    mode: 'history',
+    // mode: 'history',
     routes
 });
 const app = new Vue({
     el: '#app',
     router,
+    store,
     render: h => h(App)
 });

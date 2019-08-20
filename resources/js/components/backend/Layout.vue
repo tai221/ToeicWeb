@@ -11,7 +11,7 @@
 <!--                </transition>-->
             </div>
         </div>
-        <app-footer></app-footer>
+<!--        <app-footer></app-footer>-->
     </div>
 </template>
 

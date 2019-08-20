@@ -3,24 +3,24 @@
         <nav class="navbar navbar-expand bg-dark navbar-dark fixed-top">
             <div class="container-fluid">
                 <!-- Brand -->
-        <!--		<img class="btn-expand" id="list-ico" alt="expand"-->
-        <!--			src="{{URL::asset("imgs/list.png")}}">-->
-        <!--		<img class="btn-expand hide" id="hide-ico" alt="expand"-->
-        <!--			src="{{URL::asset("imgs/hide.png")}}">-->
-        <!--        <router-link :to="xxx" class="navbar-brand">BKTOEIC ADMIN</router-link>-->
+        		<img class="btn-expand" id="list-ico" alt="expand" @click="changeStateSidebar" v-bind:class="{hide: stateSidebar}"
+        			src="../../images/list.png">
+        		<img class="btn-expand " id="hide-ico" alt="expand" v-bind:class="{hide: !stateSidebar}" @click="changeStateSidebar"
+        			src="../../images/hide.png">
+<!--                <router-link :to="xxx" class="navbar-brand">BKTOEIC ADMIN</router-link>-->
 
                 <!-- Navbar links -->
                 <div class=" navbar-collapse justify-content-end"
                     id="collapsibleNavbar">
                     <ul class="navbar-nav">
                         <li class="nav-item" id="recv-rp">
-                            <router-link to="/list-report" class="nav-link mr-100" >
+                            <router-link to="/admin/companies/list-report" class="nav-link mr-100" >
                                 <img class="ico-header" src="../../images/email-icon.png">
                             </router-link>
                             <div class="sum-notice">{{countReport}}</div>
                         </li>
 
-                        <li class="nav-item"><router-link to="/info-account" class="nav-link" ><img
+                        <li class="nav-item"><router-link to="/admin/companies/info-account" class="nav-link" ><img
                                 class="ico-header"
                                 src="../../images/account-icon.png"></router-link></li>
                     </ul>
@@ -30,12 +30,24 @@
     </div>
 </template>
 <script>
+    import {mapGetters} from 'vuex';
+    import {mapActions} from 'vuex'
     export default {
         name: "Header",
         data() {
             return {
                 countReport: 0
             }
+        },
+        computed:{
+            ...mapGetters([
+                'stateSidebar'
+            ])
+        },
+        methods: {
+            ...mapActions([
+                'changeStateSidebar'
+            ])
         }
         // mounted() {
         //     var app = this;
