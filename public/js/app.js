@@ -1718,7 +1718,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -1765,8 +1765,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       countReport: 0
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])(['stateSidebar'])),
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])(['changeStateSidebar'])) // mounted() {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['stateSidebar'])),
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['changeStateSidebar'])) // mounted() {
   //     var app = this;
   //     axios.get('/api/v1/companies')
   //         .then(function (resp) {
@@ -1886,16 +1886,18 @@ __webpack_require__.r(__webpack_exports__);
     return {
       userAccounts: []
     };
-  },
-  created: function created() {
-    var app = this;
-    axios.get('xxx').then(function (resp) {
-      app.userAccounts = resp.data;
-    })["catch"](function (resp) {
-      console.log(resp);
-      alert("Could not load userAccounts");
-    });
-  }
+  } // created() {
+  //     var app = this;
+  //     axios.get('xxx')
+  //         .then(function (resp) {
+  //             app.userAccounts = resp.data;
+  //         })
+  //         .catch(function (resp) {
+  //             console.log(resp);
+  //             alert("Could not load userAccounts");
+  //         });
+  // }
+
 });
 
 /***/ }),
@@ -1928,7 +1930,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -1965,7 +1967,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Sidebar",
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])(['stateSidebar']))
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['stateSidebar']))
 });
 
 /***/ }),
@@ -6465,7 +6467,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.main[data-v-62e2f0a0]{\n    padding-top: 5em;\n}\n.sidebar[data-v-62e2f0a0]{\n    margin-left: 0;\n}\n", ""]);
+exports.push([module.i, "\n.main[data-v-62e2f0a0]{\n    padding-top: 5em;\n}\n\n", ""]);
 
 // exports
 
@@ -6484,7 +6486,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.sidebar-nav[data-v-75810ec6] {\n    position: fixed;\n    top: 0;\n    height: 100%;\n    width: 15em;\n    margin: 0;\n    padding: 0;\n    background-color: #212529;\n    list-style: none;\n    z-index: 1;\n    padding-top: 4em;\n}\nli.nav-item[data-v-75810ec6]{\n    cursor: pointer;\n    position: relative;\n}\n.sidebar-nav li[data-v-75810ec6] {\n    text-indent: 2em;\n    line-height: 3.5em;\n}\n.sidebar-nav li a[data-v-75810ec6] {\n    display: block;\n    text-decoration: none;\n    color: #999999;\n}\n.sidebar-nav li a[data-v-75810ec6]:hover {\n    text-decoration: none;\n    color: #fff;\n    background: rgba(255, 255, 255, 0.2);\n}\n.sidebar-nav li a[data-v-75810ec6]:active, .sidebar-nav li a[data-v-75810ec6]:focus {\n    text-decoration: none;\n}\n.ico-manag[data-v-75810ec6] {\n    width: 1.5em;\n    margin-right: 0.5em;\n}\n.hide[data-v-75810ec6] {\n    display: none;\n}\n", ""]);
+exports.push([module.i, "\n.sidebar-nav[data-v-75810ec6] {\n    position: fixed;\n    top: 0;\n    height: 100%;\n    width: 15em;\n    margin-left: 0;\n    padding: 0;\n    background-color: #212529;\n    list-style: none;\n    z-index: 1;\n    padding-top: 4em;\n}\nli.nav-item[data-v-75810ec6]{\n    cursor: pointer;\n    position: relative;\n}\n.sidebar-nav li[data-v-75810ec6] {\n    text-indent: 2em;\n    line-height: 3.5em;\n}\n.sidebar-nav li a[data-v-75810ec6] {\n    display: block;\n    text-decoration: none;\n    color: #999999;\n}\n.sidebar-nav li a[data-v-75810ec6]:hover {\n    text-decoration: none;\n    color: #fff;\n    background: rgba(255, 255, 255, 0.2);\n}\n.sidebar-nav li a[data-v-75810ec6]:active, .sidebar-nav li a[data-v-75810ec6]:focus {\n    text-decoration: none;\n}\n.ico-manag[data-v-75810ec6] {\n    width: 1.5em;\n    margin-right: 0.5em;\n}\n.hide[data-v-75810ec6] {\n    display: none;\n}\n", ""]);
 
 // exports
 
@@ -38230,14 +38232,14 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container" },
+    { staticStyle: { "overflow-x": "hidden" } },
     [
       _c("app-header"),
       _vm._v(" "),
-      _c("div", [
+      _c("div", { staticClass: "row" }, [
         _c(
           "div",
-          { staticClass: "col-xs-2 col-sm-2 sidebar" },
+          { staticClass: "col-xs-2 col-sm-2 " },
           [_c("app-sidebar")],
           1
         ),
@@ -38248,7 +38250,9 @@ var render = function() {
           [_c("router-view")],
           1
         )
-      ])
+      ]),
+      _vm._v(" "),
+      _c("app-footer")
     ],
     1
   )
@@ -55185,11 +55189,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__["default"]);
-var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
+var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     sidebar: true
   },

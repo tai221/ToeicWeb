@@ -1,8 +1,8 @@
 <template>
-    <div class="container">
+    <div style="overflow-x: hidden;">
         <app-header></app-header>
-        <div>
-            <div class="col-xs-2 col-sm-2 sidebar">
+        <div class="row">
+            <div class="col-xs-2 col-sm-2 ">
                 <app-sidebar></app-sidebar>
             </div>
             <div class="col-xs-10 col-sm-10 main">
@@ -11,7 +11,7 @@
 <!--                </transition>-->
             </div>
         </div>
-<!--        <app-footer></app-footer>-->
+        <app-footer></app-footer>
     </div>
 </template>
 
@@ -34,7 +34,5 @@ export default {
     .main{
         padding-top: 5em;
     }
-    .sidebar{
-        margin-left: 0;
-    }
+
 </style>

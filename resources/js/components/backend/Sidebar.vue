@@ -43,7 +43,7 @@
         top: 0;
         height: 100%;
         width: 15em;
-        margin: 0;
+        margin-left: 0;
         padding: 0;
         background-color: #212529;
         list-style: none;

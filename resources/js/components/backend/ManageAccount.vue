@@ -32,18 +32,18 @@
             return {
                 userAccounts:[]
             }
-        },
-        created() {
-            var app = this;
-            axios.get('xxx')
-                .then(function (resp) {
-                    app.userAccounts = resp.data;
-                })
-                .catch(function (resp) {
-                    console.log(resp);
-                    alert("Could not load userAccounts");
-                });
         }
+        // created() {
+        //     var app = this;
+        //     axios.get('xxx')
+        //         .then(function (resp) {
+        //             app.userAccounts = resp.data;
+        //         })
+        //         .catch(function (resp) {
+        //             console.log(resp);
+        //             alert("Could not load userAccounts");
+        //         });
+        // }
     }
 </script>
 
