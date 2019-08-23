@@ -1,11 +1,11 @@
 <template>
     <div class="container">
         <app-header></app-header>
-        <div class="row">
-            <div class="col-xs-2 col-sm-2">
+        <div>
+            <div class="col-xs-2 col-sm-2 sidebar">
                 <app-sidebar></app-sidebar>
             </div>
-            <div class="col-xs-10 col-sm-10">
+            <div class="col-xs-10 col-sm-10 main">
 <!--                <transition name="slide" mode="out-in">-->
                     <router-view></router-view>
 <!--                </transition>-->
@@ -31,5 +31,10 @@ export default {
 </script>
 
 <style scoped>
-
+    .main{
+        padding-top: 5em;
+    }
+    .sidebar{
+        margin-left: 0;
+    }
 </style>
