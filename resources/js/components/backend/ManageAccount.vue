@@ -1,7 +1,12 @@
 <template>
+<div>
+        <div>
+            <span class="qltk">Quản lý tài khoản</span>
+            <div class="form-group">
+                <router-link :to="{name: 'createaccount'}" class="btn btn-primary">Create</router-link>
+            </div>
+        </div>
 
-    <div class="container">
-        <h2>Quản lý tài khoản</h2>
 
         <table class="table table-bordered">
             <thead>
@@ -14,15 +19,15 @@
             </thead>
             <tbody v-for="userAccount in userAccounts">
             <tr>
-                <td>{{userAccount.id}}</td>
-                <td>{{userAccount.username}}</td>
-                <td>{{userAccount.email}}</td>
-                <td>{{userAccount.role}}</td>
+                <td>{{ userAccount.id }}</td>
+                <td>{{ userAccount.username }}</td>
+                <td>{{ userAccount.email }}</td>
+                <td>{{ userAccount.hasRole }}</td>
             </tr>
             </tbody>
         </table>
-    </div>
-
+    <router-view></router-view>
+</div>
 </template>
 
 <script>
@@ -32,21 +37,24 @@
             return {
                 userAccounts:[]
             }
+        },
+        created() {
+            var app = this;
+            axios.get('/api/v1/account')
+                .then(function (resp) {
+                    app.userAccounts = resp.data;
+                })
+                .catch(function (resp) {
+                    console.log(resp);
+                    alert("Could not load accounts");
+                });
         }
-        // created() {
-        //     var app = this;
-        //     axios.get('xxx')
-        //         .then(function (resp) {
-        //             app.userAccounts = resp.data;
-        //         })
-        //         .catch(function (resp) {
-        //             console.log(resp);
-        //             alert("Could not load userAccounts");
-        //         });
-        // }
     }
 </script>
 
 <style scoped>
-
+    .qltk{
+        font-size: 20px;
+        font-family: "Nunito", sans-serif;
+    }
 </style>

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTable extends Migration
+class CreateMapPart7ParagraphsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->rememberToken();
+        Schema::create('map_part7_paragraphs', function (Blueprint $table) {
+            $table->integer('idDoanVan')->nullable(false);
+            $table->integer('idPartDoc')->nullable(false);
+
+            $table->primary(array('idDoanVan', 'idPartDoc'));
+
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('map_part7_paragraphs');
     }
 }
