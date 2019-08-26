@@ -1745,6 +1745,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CreateAccount.vue",
   data: function data() {
@@ -1755,7 +1756,8 @@ __webpack_require__.r(__webpack_exports__);
         email: '',
         hasRole: '',
         active: 1
-      }
+      },
+      errors: ''
     };
   },
   methods: {
@@ -1773,6 +1775,20 @@ __webpack_require__.r(__webpack_exports__);
         console.log(resp);
         alert("Could not create your account");
       });
+    }
+  },
+  watch: {
+    email: function email() {
+      if (!this.validEmail(this.account.email)) {
+        console.log('change');
+        this.errors = 'Valid email required.';
+      } else {
+        this.errors = '';
+      }
+    },
+    validEmail: function validEmail(email) {
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
     }
   }
 });
@@ -38386,7 +38402,9 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _vm._m(0)
+            _vm._m(0),
+            _vm._v(" "),
+            _c("span", [_vm._v(_vm._s(_vm.errors))])
           ]
         )
       ])

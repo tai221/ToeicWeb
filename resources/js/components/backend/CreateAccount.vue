@@ -17,7 +17,7 @@
                     <div class="row">
                         <div class="col-xs-12 form-group">
                             <label class="control-label">Email</label>
-                            <input type="text" v-model="account.email" class="form-control">
+                            <input  type="text" v-model="account.email" class="form-control">
                         </div>
                     </div>
                     <div class="row">
@@ -40,6 +40,7 @@
                             <button class="btn btn-success">Create</button>
                         </div>
                     </div>
+                    <span>{{errors}}</span>
                 </form>
             </div>
         </div>
@@ -57,7 +58,8 @@
                     email:'',
                     hasRole:'',
                     active:1
-                }
+                },
+                errors: ''
             }
         },
         methods: {
@@ -75,6 +77,21 @@
                         console.log(resp);
                         alert("Could not create your account");
                     });
+            }
+
+        },
+        watch: {
+            email(){
+                if (!this.validEmail(this.account.email)) {
+                    console.log('change');
+                    this.errors='Valid email required.';
+                }else{
+                    this.errors='';
+                }
+            },
+            validEmail(email){
+                var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(email);
             }
         }
     }
