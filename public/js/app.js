@@ -1697,6 +1697,8 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -1746,7 +1748,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = (_defineProperty({
   name: "CreateAccount.vue",
   data: function data() {
     return {
@@ -1778,20 +1780,23 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   watch: {
-    email: function email() {
-      if (!this.validEmail(this.account.email)) {
-        console.log('change');
-        this.errors = 'Valid email required.';
-      } else {
-        this.errors = '';
+    account: {
+      email: function email() {
+        if (!this.validEmail(this.account.email)) {
+          console.log('change');
+          this.errors = 'Valid email required.';
+        } else {
+          this.errors = '';
+        }
       }
-    },
-    validEmail: function validEmail(email) {
-      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(email);
     }
   }
-});
+}, "methods", {
+  validEmail: function validEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+}));
 
 /***/ }),
 

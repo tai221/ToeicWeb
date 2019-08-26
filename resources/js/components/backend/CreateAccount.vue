@@ -81,15 +81,19 @@
 
         },
         watch: {
-            email(){
-                if (!this.validEmail(this.account.email)) {
-                    console.log('change');
-                    this.errors='Valid email required.';
-                }else{
-                    this.errors='';
+            account: {
+                email() {
+                    if (!this.validEmail(this.account.email)) {
+                        console.log('change');
+                        this.errors = 'Valid email required.';
+                    } else {
+                        this.errors = '';
+                    }
                 }
-            },
-            validEmail(email){
+            }
+        },
+        methods: {
+            validEmail(email) {
                 var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 return re.test(email);
             }
