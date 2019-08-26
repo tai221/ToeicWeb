@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Account;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 
 class AccountController extends Controller
 {
@@ -36,7 +37,13 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
+        $username = $request["username"];
+        $email = $request["email"];
+        $password = $request["password"];
+        $role = $request["hasRole"];
+
         $account = Account::create($request->all());
+
         return $account;
     }
 

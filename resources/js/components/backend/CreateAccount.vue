@@ -18,6 +18,7 @@
                         <div class="col-xs-12 form-group">
                             <label class="control-label">Email</label>
                             <input  type="text" v-model="account.email" class="form-control">
+                            <span class="error-email">{{errors}}</span>
                         </div>
                     </div>
                     <div class="row">
@@ -40,7 +41,7 @@
                             <button class="btn btn-success">Create</button>
                         </div>
                     </div>
-                    <span>{{errors}}</span>
+
                 </form>
             </div>
         </div>
@@ -77,31 +78,35 @@
                         console.log(resp);
                         alert("Could not create your account");
                     });
+            },
+            validEmail(email) {
+                var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(email);
             }
 
         },
+        computed: {
+            email(){
+                return this.account.email;
+            }
+        },
         watch: {
-            account: {
                 email() {
                     if (!this.validEmail(this.account.email)) {
-                        console.log('change');
                         this.errors = 'Valid email required.';
                     } else {
                         this.errors = '';
                     }
                 }
-            }
+
         },
-        methods: {
-            validEmail(email) {
-                var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                return re.test(email);
-            }
-        }
     }
 </script>
 
 <style scoped>
+    .error-email{
+        color: #ff1e1c;
+    }
 
 </style>
 text
