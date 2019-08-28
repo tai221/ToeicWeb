@@ -41,11 +41,11 @@
     .sidebar-nav {
         position: fixed;
         top: 0;
-        height: 100%;
+        height: 91.5%;
         width: 15em;
         margin-left: 0;
         padding: 0;
-        background-color: #212529;
+        background-color: #304156;
         list-style: none;
         z-index: 1;
         padding-top: 4em;

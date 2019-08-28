@@ -19,10 +19,10 @@
         bottom: 0;
         background-color: #64d9d6;
         z-index: 0;
-        /*position: fixed;*/
+        position: fixed;
         /*width: 100%;*/
         bottom: -12px !important;
-        position: absolute;
+        /*position: absolute;*/
     }
     .container-fluid {
         padding: 0;

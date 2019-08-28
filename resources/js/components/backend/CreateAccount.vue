@@ -12,19 +12,21 @@
                         <div class="col-xs-12 form-group">
                             <label class="control-label">Username</label>
                             <input type="text" v-model="account.username" class="form-control">
+                            <span class="error">{{error.username}}</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-12 form-group">
                             <label class="control-label">Email</label>
                             <input  type="text" v-model="account.email" class="form-control">
-                            <span class="error-email">{{errors}}</span>
+                            <span class="error">{{error.email}}</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-12 form-group">
                             <label class="control-label">Password</label>
                             <input type="password" v-model="account.password" class="form-control">
+                            <span class="error">{{error.password}}</span>
                         </div>
                     </div>
                     <div class="row">
@@ -37,8 +39,8 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-12 form-group">
-                            <button class="btn btn-success">Create</button>
+                        <div class="col-xs-12 form-group " v-bind:class="{create: !submit}">
+                            <button class="btn btn-success " v-bind:class="{disabled: !submit}" >Create</button>
                         </div>
                     </div>
 
@@ -60,19 +62,74 @@
                     hasRole:'',
                     active:1
                 },
-                errors: ''
+                error: {
+                    username:'',
+                    email:'',
+                    password:''
+                },
+                check: {
+                    username:false,
+                    email:false,
+                    password:false,
+                    role:false
+                }
+                // submit: false
             }
+        },
+        computed: {
+            email(){
+                return this.account.email;
+            },
+            password(){
+                return this.account.password;
+            },
+            submit(){
+                    if(this.account.username != '' && this.check.email && this.check.password && this.account.hasRole != '') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+            }
+        },
+        watch: {
+            email() {
+                if (!this.validEmail(this.account.email)) {
+                    this.error.email = 'Valid email required.';
+                } else {
+                    this.error.email = '';
+                    // this.submit = true;
+                    this.check.email = true;
+                }
+            },
+            password(){
+                if(!this.validPassword(this.account.password)){
+                    this.error.password = 'Password must be 8 characters or longer';
+                } else {
+                    this.error.password = '';
+                    this.check.password = true;
+                }
+            }
+
         },
         methods: {
             saveForm(){
                 event.preventDefault();
                 var app = this;
                 var account = app.account;
-                console.log(account);
                 axios.post('/api/v1/account', account)
                     .then(function (resp) {
-                        console.log(resp);
-                        app.$router.push({name: 'manageaccount'});
+                        if(resp.data.checkUsername && resp.data.checkEmail) {
+                            app.error.username = 'Username exists!';
+                            app.error.email = 'Email exists!';
+                        } else if(resp.data.checkUsername) {
+                            app.error.username = 'Username exists!';
+                        } else if(resp.data.checkEmail) {
+                            app.error.email = 'Email exists!';
+                        } else {
+                            app.error.username = '';
+                            app.error.email = '';
+                            app.$router.push({name: 'manageaccount'});
+                        }
                     })
                     .catch(function (resp) {
                         console.log(resp);
@@ -82,30 +139,26 @@
             validEmail(email) {
                 var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 return re.test(email);
+            },
+            validPassword(password) {
+                var re = /^(?=.{8,})/;
+                return re.test(password);
             }
 
-        },
-        computed: {
-            email(){
-                return this.account.email;
-            }
-        },
-        watch: {
-                email() {
-                    if (!this.validEmail(this.account.email)) {
-                        this.errors = 'Valid email required.';
-                    } else {
-                        this.errors = '';
-                    }
-                }
+        }
 
-        },
     }
 </script>
 
 <style scoped>
-    .error-email{
+    .error{
         color: #ff1e1c;
+    }
+    .disabled {
+        pointer-events: none;
+    }
+    .create{
+        cursor: no-drop;
     }
 
 </style>

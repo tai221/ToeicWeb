@@ -1747,6 +1747,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CreateAccount.vue",
   data: function data() {
@@ -1758,20 +1760,74 @@ __webpack_require__.r(__webpack_exports__);
         hasRole: '',
         active: 1
       },
-      errors: ''
+      error: {
+        username: '',
+        email: '',
+        password: ''
+      },
+      check: {
+        username: false,
+        email: false,
+        password: false,
+        role: false // submit: false
+
+      }
     };
+  },
+  computed: {
+    email: function email() {
+      return this.account.email;
+    },
+    password: function password() {
+      return this.account.password;
+    },
+    submit: function submit() {
+      if (this.account.username != '' && this.check.email && this.check.password && this.account.hasRole != '') {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  },
+  watch: {
+    email: function email() {
+      if (!this.validEmail(this.account.email)) {
+        this.error.email = 'Valid email required.';
+      } else {
+        this.error.email = ''; // this.submit = true;
+
+        this.check.email = true;
+      }
+    },
+    password: function password() {
+      if (!this.validPassword(this.account.password)) {
+        this.error.password = 'Password must be 8 characters or longer';
+      } else {
+        this.error.password = '';
+        this.check.password = true;
+      }
+    }
   },
   methods: {
     saveForm: function saveForm() {
       event.preventDefault();
       var app = this;
       var account = app.account;
-      console.log(account);
       axios.post('/api/v1/account', account).then(function (resp) {
-        console.log(resp);
-        app.$router.push({
-          name: 'manageaccount'
-        });
+        if (resp.data.checkUsername && resp.data.checkEmail) {
+          app.error.username = 'Username exists!';
+          app.error.email = 'Email exists!';
+        } else if (resp.data.checkUsername) {
+          app.error.username = 'Username exists!';
+        } else if (resp.data.checkEmail) {
+          app.error.email = 'Email exists!';
+        } else {
+          app.error.username = '';
+          app.error.email = '';
+          app.$router.push({
+            name: 'manageaccount'
+          });
+        }
       })["catch"](function (resp) {
         console.log(resp);
         alert("Could not create your account");
@@ -1780,20 +1836,10 @@ __webpack_require__.r(__webpack_exports__);
     validEmail: function validEmail(email) {
       var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(email);
-    }
-  },
-  computed: {
-    email: function email() {
-      return this.account.email;
-    }
-  },
-  watch: {
-    email: function email() {
-      if (!this.validEmail(this.account.email)) {
-        this.errors = 'Valid email required.';
-      } else {
-        this.errors = '';
-      }
+    },
+    validPassword: function validPassword(password) {
+      var re = /^(?=.{8,})/;
+      return re.test(password);
     }
   }
 });
@@ -1979,59 +2025,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/backend/ManageAccount.vue?vue&type=script&lang=js& ***!
   \********************************************************************************************************************************************************************************/
 /*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: "ManageAccount",
-  data: function data() {
-    return {
-      userAccounts: []
-    };
-  },
-  created: function created() {
-    var app = this;
-    axios.get('/api/v1/account').then(function (resp) {
-      app.userAccounts = resp.data;
-    })["catch"](function (resp) {
-      console.log(resp);
-      alert("Could not load accounts");
-    });
-  }
-});
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: /var/www/html/ToeicWeb/resources/js/components/backend/ManageAccount.vue: Unexpected token, expected \",\" (67:26)\n\n\u001b[0m \u001b[90m 65 | \u001b[39m    }\u001b[33m,\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 66 | \u001b[39m    computed\u001b[33m:\u001b[39m {\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 67 | \u001b[39m        status(userAccount\u001b[33m.\u001b[39mactive) {\u001b[0m\n\u001b[0m \u001b[90m    | \u001b[39m                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 68 | \u001b[39m            \u001b[36mif\u001b[39m(userAccount\u001b[33m.\u001b[39mactive \u001b[33m==\u001b[39m \u001b[35m1\u001b[39m) {\u001b[0m\n\u001b[0m \u001b[90m 69 | \u001b[39m                \u001b[36mreturn\u001b[39m \u001b[36mfalse\u001b[39m\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 70 | \u001b[39m            } \u001b[36melse\u001b[39m {\u001b[0m\n    at Parser.raise (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:6325:17)\n    at Parser.unexpected (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:7642:16)\n    at Parser.expect (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:7628:28)\n    at Parser.parseBindingList (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:7942:14)\n    at Parser.parseFunctionParams (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:10557:24)\n    at Parser.parseMethod (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:9346:10)\n    at Parser.parseObjectMethod (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:9264:19)\n    at Parser.parseObjPropValue (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:9306:23)\n    at Parser.parseObjectMember (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:9230:10)\n    at Parser.parseObj (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:9154:25)\n    at Parser.parseExprAtom (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:8784:28)\n    at Parser.parseExprSubscripts (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:8412:23)\n    at Parser.parseMaybeUnary (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:8392:21)\n    at Parser.parseExprOps (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:8267:23)\n    at Parser.parseMaybeConditional (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:8240:23)\n    at Parser.parseMaybeAssign (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:8187:21)\n    at Parser.parseObjectProperty (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:9281:101)\n    at Parser.parseObjPropValue (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:9306:101)\n    at Parser.parseObjectMember (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:9230:10)\n    at Parser.parseObj (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:9154:25)\n    at Parser.parseExprAtom (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:8784:28)\n    at Parser.parseExprSubscripts (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:8412:23)\n    at Parser.parseMaybeUnary (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:8392:21)\n    at Parser.parseExprOps (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:8267:23)\n    at Parser.parseMaybeConditional (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:8240:23)\n    at Parser.parseMaybeAssign (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:8187:21)\n    at Parser.parseExportDefaultExpression (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:11010:24)\n    at Parser.parseExport (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:10905:31)\n    at Parser.parseStatementContent (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:9933:27)\n    at Parser.parseStatement (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:9829:17)\n    at Parser.parseBlockOrModuleBlockBody (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:10405:25)\n    at Parser.parseBlockBody (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:10392:10)\n    at Parser.parseTopLevel (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:9758:10)\n    at Parser.parse (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:11270:17)\n    at parse (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:11306:38)\n    at parser (/var/www/html/ToeicWeb/node_modules/@babel/core/lib/transformation/normalize-file.js:170:34)");
 
 /***/ }),
 
@@ -6562,7 +6558,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.error-email[data-v-5f99a8fb]{\n    color: #ff1e1c;\n}\n\n", ""]);
+exports.push([module.i, "\n.error[data-v-5f99a8fb]{\n    color: #ff1e1c;\n}\n.disabled[data-v-5f99a8fb] {\n    pointer-events: none;\n}\n.create[data-v-5f99a8fb]{\n    cursor: no-drop;\n}\n\n", ""]);
 
 // exports
 
@@ -6581,7 +6577,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.footer[data-v-0edda1a1]{\n    height: 5em;\n    line-height: 5em;\n    padding-left: 5em;\n    bottom: 0;\n    background-color: #64d9d6;\n    z-index: 0;\n    /*position: fixed;*/\n    /*width: 100%;*/\n    bottom: -12px !important;\n    position: absolute;\n}\n.container-fluid[data-v-0edda1a1] {\n    padding: 0;\n    margin: 0;\n    /*height: 100%;*/\n}\n*[data-v-0edda1a1] {\n    font-size: 0.97em;\n}\n.avatar[data-v-0edda1a1]{\n    height: 50px;\n    width: 45px;\n    align-content: center;\n    padding-top: 10px;\n    margin-left: 10px;\n    /*border-radius: 10px;*/\n    /*border-top-left-radius: 10px;*/\n}\n", ""]);
+exports.push([module.i, "\n.footer[data-v-0edda1a1]{\n    height: 5em;\n    line-height: 5em;\n    padding-left: 5em;\n    bottom: 0;\n    background-color: #64d9d6;\n    z-index: 0;\n    position: fixed;\n    /*width: 100%;*/\n    bottom: -12px !important;\n    /*position: absolute;*/\n}\n.container-fluid[data-v-0edda1a1] {\n    padding: 0;\n    margin: 0;\n    /*height: 100%;*/\n}\n*[data-v-0edda1a1] {\n    font-size: 0.97em;\n}\n.avatar[data-v-0edda1a1]{\n    height: 50px;\n    width: 45px;\n    align-content: center;\n    padding-top: 10px;\n    margin-left: 10px;\n    /*border-radius: 10px;*/\n    /*border-top-left-radius: 10px;*/\n}\n", ""]);
 
 // exports
 
@@ -6638,7 +6634,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.qltk[data-v-d0c7fe1c]{\n    font-size: 20px;\n    font-family: \"Nunito\", sans-serif;\n}\n", ""]);
+exports.push([module.i, "\n.qltk[data-v-d0c7fe1c]{\n    font-size: 20px;\n    font-family: \"Nunito\", sans-serif;\n}\n.ban[data-v-d0c7fe1c]{\n    background-color: #0b5a0e;\n}\n", ""]);
 
 // exports
 
@@ -6657,7 +6653,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.sidebar-nav[data-v-75810ec6] {\n    position: fixed;\n    top: 0;\n    height: 100%;\n    width: 15em;\n    margin-left: 0;\n    padding: 0;\n    background-color: #212529;\n    list-style: none;\n    z-index: 1;\n    padding-top: 4em;\n}\nli.nav-item[data-v-75810ec6]{\n    cursor: pointer;\n    position: relative;\n}\n.sidebar-nav li[data-v-75810ec6] {\n    text-indent: 2em;\n    line-height: 3.5em;\n}\n.sidebar-nav li a[data-v-75810ec6] {\n    display: block;\n    text-decoration: none;\n    color: #999999;\n}\n.sidebar-nav li a[data-v-75810ec6]:hover {\n    text-decoration: none;\n    color: #fff;\n    background: rgba(255, 255, 255, 0.2);\n}\n.sidebar-nav li a[data-v-75810ec6]:active, .sidebar-nav li a[data-v-75810ec6]:focus {\n    text-decoration: none;\n}\n.ico-manag[data-v-75810ec6] {\n    width: 1.5em;\n    margin-right: 0.5em;\n}\n.hide[data-v-75810ec6] {\n    display: none;\n}\n", ""]);
+exports.push([module.i, "\n.sidebar-nav[data-v-75810ec6] {\n    position: fixed;\n    top: 0;\n    height: 91.5%;\n    width: 15em;\n    margin-left: 0;\n    padding: 0;\n    background-color: #304156;\n    list-style: none;\n    z-index: 1;\n    padding-top: 4em;\n}\nli.nav-item[data-v-75810ec6]{\n    cursor: pointer;\n    position: relative;\n}\n.sidebar-nav li[data-v-75810ec6] {\n    text-indent: 2em;\n    line-height: 3.5em;\n}\n.sidebar-nav li a[data-v-75810ec6] {\n    display: block;\n    text-decoration: none;\n    color: #999999;\n}\n.sidebar-nav li a[data-v-75810ec6]:hover {\n    text-decoration: none;\n    color: #fff;\n    background: rgba(255, 255, 255, 0.2);\n}\n.sidebar-nav li a[data-v-75810ec6]:active, .sidebar-nav li a[data-v-75810ec6]:focus {\n    text-decoration: none;\n}\n.ico-manag[data-v-75810ec6] {\n    width: 1.5em;\n    margin-right: 0.5em;\n}\n.hide[data-v-75810ec6] {\n    display: none;\n}\n", ""]);
 
 // exports
 
@@ -38348,7 +38344,11 @@ var render = function() {
                       _vm.$set(_vm.account, "username", $event.target.value)
                     }
                   }
-                })
+                }),
+                _vm._v(" "),
+                _c("span", { staticClass: "error" }, [
+                  _vm._v(_vm._s(_vm.error.username))
+                ])
               ])
             ]),
             _vm._v(" "),
@@ -38380,8 +38380,8 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _c("span", { staticClass: "error-email" }, [
-                  _vm._v(_vm._s(_vm.errors))
+                _c("span", { staticClass: "error" }, [
+                  _vm._v(_vm._s(_vm.error.email))
                 ])
               ])
             ]),
@@ -38412,7 +38412,11 @@ var render = function() {
                       _vm.$set(_vm.account, "password", $event.target.value)
                     }
                   }
-                })
+                }),
+                _vm._v(" "),
+                _c("span", { staticClass: "error" }, [
+                  _vm._v(_vm._s(_vm.error.password))
+                ])
               ])
             ]),
             _vm._v(" "),
@@ -38460,25 +38464,32 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _vm._m(0)
+            _c("div", { staticClass: "row" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "col-xs-12 form-group ",
+                  class: { create: !_vm.submit }
+                },
+                [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success ",
+                      class: { disabled: !_vm.submit }
+                    },
+                    [_vm._v("Create")]
+                  )
+                ]
+              )
+            ])
           ]
         )
       ])
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-xs-12 form-group" }, [
-        _c("button", { staticClass: "btn btn-success" }, [_vm._v("Create")])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -38760,16 +38771,54 @@ var render = function() {
         [
           _vm._m(0),
           _vm._v(" "),
-          _vm._l(_vm.userAccounts, function(userAccount) {
+          _vm._l(_vm.userAccounts, function(userAccount, index) {
             return _c("tbody", [
-              _c("tr", [
+              _c("tr", { class: { ban: _vm.status(userAccount.active) } }, [
                 _c("td", [_vm._v(_vm._s(userAccount.id))]),
                 _vm._v(" "),
                 _c("td", [_vm._v(_vm._s(userAccount.username))]),
                 _vm._v(" "),
                 _c("td", [_vm._v(_vm._s(userAccount.email))]),
                 _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(userAccount.hasRole))])
+                _c("td", [_vm._v(_vm._s(userAccount.hasRole))]),
+                _vm._v(" "),
+                _c("td", [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-sm btn-danger",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          return _vm.deleteAccount(userAccount.id, index)
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                        Delete\n                    "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-sm btn-warning",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          return _vm.banAccount(userAccount.id, index)
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                        Ban\n                    "
+                      )
+                    ]
+                  )
+                ])
               ])
             ])
           })
