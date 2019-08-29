@@ -82,7 +82,8 @@ class AccountController extends Controller
      */
     public function show($id)
     {
-        //
+        $account = Account::where('id', $id)->first();
+        return $account;
     }
 
     /**
@@ -93,7 +94,13 @@ class AccountController extends Controller
      */
     public function edit($id)
     {
-        Account::where('id', $id)->update(['active', 0]);
+        $account = Account::where('id', $id)->first();
+        $active = $account->active;
+        if($active == 1) {
+            $account->update(['active' => 0]);
+        } else {
+            $account->update(['active' => 1]);
+        }
     }
 
     /**
@@ -105,7 +112,42 @@ class AccountController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        Log::info($id);
+        $username = $request["username"];
+        $email = $request["email"];
+        $password = $request["password"];
+        $hasRole = $request["hasRole"];
+
+        $account = Account::find($id);
+        $account->username = $username;
+        $account->email = $email;
+        $account->password = Hash::make($password);
+        $account->hasRole = $hasRole;
+
+        $res = array();
+        $checkUserName = Account::where('username', $username)->first();
+        Log::info($checkUserName["id"]);
+        $checkEmail = Account::where('email', $email)->first();
+        if($checkUserName["id"] != $id && $checkEmail["id"] != $id ) {
+            Log::info('z1');
+            $res["checkUsername"] = true;
+            $res["checkEmail"] = true;
+        } elseif($checkUserName["id"] != $id) {
+            Log::info('z2');
+            $res["checkUsername"] = true;
+            $res["checkEmail"] = false;
+        } elseif($checkEmail["id"] != $id) {
+            Log::info('z3');
+            $res["checkUsername"] = false;
+            $res["checkEmail"] = true;
+        } else {
+            Log::info('z4');
+            $account->save();
+            $res["checkUsername"] = false;
+            $res["checkEmail"] = false;
+        }
+
+        return $res;
     }
 
     /**

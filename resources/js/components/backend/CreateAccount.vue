@@ -40,7 +40,7 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-12 form-group " v-bind:class="{create: !submit}">
-                            <button class="btn btn-success " v-bind:class="{disabled: !submit}" >Create</button>
+                            <button class="btn btn-success " v-bind:class="{disabled: !submit}" >{{isEdit? 'Update':'Create'}}</button>
                         </div>
                     </div>
 
@@ -55,26 +55,47 @@
         name: "CreateAccount.vue",
         data(){
             return{
+                accountId: null,
                 account: {
-                    username:'',
-                    password:'',
-                    email:'',
-                    hasRole:'',
-                    active:1
+                    username: '',
+                    password: '',
+                    email: '',
+                    hasRole: '',
+                    active: 1
                 },
                 error: {
-                    username:'',
-                    email:'',
-                    password:''
+                    username: '',
+                    email: '',
+                    password: ''
                 },
                 check: {
-                    username:false,
-                    email:false,
-                    password:false,
-                    role:false
-                }
+                    username: false,
+                    email: false,
+                    password: false,
+                    role: false
+                },
+                isEdit: false
                 // submit: false
             }
+        },
+        created(){
+          let app = this;
+
+          let id = app.$route.params.id;
+          if(id){
+              app.isEdit = true;
+              app.accountId = id;
+              axios.get('/api/v1/account/' + id)
+                  .then(function (resp) {
+                      app.account.username = resp.data["username"];
+                      app.account.email = resp.data["email"];
+                      app.account.hasRole = resp.data["hasRole"];
+                  })
+                  .catch(function () {
+                      alert('could not load account')
+                  })
+          }
+
         },
         computed: {
             email(){
@@ -85,8 +106,10 @@
             },
             submit(){
                     if(this.account.username != '' && this.check.email && this.check.password && this.account.hasRole != '') {
+                        console.log('ok');
                         return true;
                     } else {
+                        console.log('not ok');
                         return false;
                     }
             }
@@ -94,6 +117,7 @@
         watch: {
             email() {
                 if (!this.validEmail(this.account.email)) {
+                    this.check.email = false;
                     this.error.email = 'Valid email required.';
                 } else {
                     this.error.email = '';
@@ -103,6 +127,7 @@
             },
             password(){
                 if(!this.validPassword(this.account.password)){
+                    this.check.password = false;
                     this.error.password = 'Password must be 8 characters or longer';
                 } else {
                     this.error.password = '';
@@ -114,6 +139,16 @@
         methods: {
             saveForm(){
                 event.preventDefault();
+                var app = this;
+                if(app.isEdit){
+                    console.log('edit')
+                    app.updateAccount();
+                }else {
+                    app.createAccount();
+                }
+
+            },
+            createAccount(){
                 var app = this;
                 var account = app.account;
                 axios.post('/api/v1/account', account)
@@ -134,6 +169,33 @@
                     .catch(function (resp) {
                         console.log(resp);
                         alert("Could not create your account");
+                    });
+            },
+            updateAccount(){
+                var app = this;
+                var account = app.account;
+                axios.patch('/api/v1/account/' + app.accountId, account)
+                    .then(function (resp) {
+                        if(resp.data.checkUsername && resp.data.checkEmail) {
+                            console.log('a1');
+                            app.error.username = 'Username exists!';
+                            app.error.email = 'Email exists!';
+                        } else if(resp.data.checkUsername) {
+                            console.log('a2');
+                            app.error.username = 'Username exists!';
+                        } else if(resp.data.checkEmail) {
+                            console.log('a3');
+                            app.error.email = 'Email exists!';
+                        } else {
+                            console.log('a4');
+                            app.error.username = '';
+                            app.error.email = '';
+                            app.$router.push({name: 'manageaccount'});
+                        }
+                    })
+                    .catch(function (resp) {
+                        console.log(resp);
+                        alert("Could not update your account");
                     });
             },
             validEmail(email) {

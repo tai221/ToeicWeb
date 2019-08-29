@@ -15,29 +15,56 @@
                 <th>Username</th>
                 <th>Email</th>
                 <th>Role</th>
+                <th></th>
             </tr>
             </thead>
             <tbody v-for="userAccount, index in userAccounts">
-            <tr v-bind:class="{ban: status(userAccount.active)}">
-                <td>{{ userAccount.id }}</td>
-                <td>{{ userAccount.username }}</td>
-                <td>{{ userAccount.email }}</td>
-                <td>{{ userAccount.hasRole }}</td>
-                <td>
-                    <a href="#"
-                       class="btn btn-sm btn-danger"
-                       v-on:click="deleteAccount(userAccount.id, index)">
-                        Delete
-                    </a>
+            <tr v-if="userAccount.active == 1">
 
-                    <a href="#"
-                       class="btn btn-sm btn-warning"
-                       v-on:click="banAccount(userAccount.id, index)">
-                        Ban
-                    </a>
-                </td>
+                    <td>{{ userAccount.id }}</td>
+                    <td>{{ userAccount.username }}</td>
+                    <td>{{ userAccount.email }}</td>
+                    <td>{{ userAccount.hasRole }}</td>
+                    <td>
+                        <router-link :to="{name: 'editaccount', params: {id: userAccount.id}}" class="btn btn-sm btn-info">Update</router-link>
+                        <a href="#"
+                           class="btn btn-sm btn-danger"
+                           v-on:click="deleteAccount(userAccount.id, index)">
+                            Delete
+                        </a>
+
+                        <a href="#"
+                           class="btn btn-sm btn-warning"
+                           v-on:click="banAccount(userAccount.id, index)">
+                            Ban
+                        </a>
+                    </td>
+
 
             </tr>
+            <tr v-else class="ban">
+
+                    <td>{{ userAccount.id }}</td>
+                    <td>{{ userAccount.username }}</td>
+                    <td>{{ userAccount.email }}</td>
+                    <td>{{ userAccount.hasRole }}</td>
+                    <td>
+                        <router-link :to="{name: 'editaccount', params: {id: userAccount.id}}" class="btn btn-sm btn-info">Update</router-link>
+                        <a href="#"
+                           class="btn btn-sm btn-danger"
+                           v-on:click="deleteAccount(userAccount.id, index)">
+                            Delete
+                        </a>
+
+                        <a href="#"
+                           class="btn btn-sm btn-warning"
+                           v-on:click="unbanAccount(userAccount.id, index)">
+                            Unban
+                        </a>
+                    </td>
+
+            </tr>
+
             </tbody>
         </table>
     <router-view></router-view>
@@ -64,13 +91,7 @@
                 });
         },
         computed: {
-            status(userAccount.active) {
-                if(userAccount.active == 1) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
+
         },
         methods: {
             deleteAccount(id, index) {
@@ -89,10 +110,20 @@
                 console.log(id);
                 axios.get('/api/v1/account/' + id + '/edit')
                     .then(function (resp) {
-                        app.userAccounts
+                        app.userAccounts[index].active = 0;
                     })
                     .catch(function (resp) {
                         alert('could not ban account')
+                    });
+            },
+            unbanAccount(id, index){
+                var app = this;
+                axios.get('api/v1/account/' + id + '/edit')
+                    .then(function (resp) {
+                        app.userAccounts[index].active = 1;
+                    })
+                    .catch(function (resp) {
+                        alert('could not unban account')
                     });
             }
         }
@@ -105,6 +136,6 @@
         font-family: "Nunito", sans-serif;
     }
     .ban{
-        background-color: #0b5a0e;
+        background-color: #B1A9A7;
     }
 </style>

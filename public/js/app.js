@@ -1753,6 +1753,7 @@ __webpack_require__.r(__webpack_exports__);
   name: "CreateAccount.vue",
   data: function data() {
     return {
+      accountId: null,
       account: {
         username: '',
         password: '',
@@ -1769,10 +1770,27 @@ __webpack_require__.r(__webpack_exports__);
         username: false,
         email: false,
         password: false,
-        role: false // submit: false
+        role: false
+      },
+      isEdit: false // submit: false
 
-      }
     };
+  },
+  created: function created() {
+    var app = this;
+    var id = app.$route.params.id;
+
+    if (id) {
+      app.isEdit = true;
+      app.accountId = id;
+      axios.get('/api/v1/account/' + id).then(function (resp) {
+        app.account.username = resp.data["username"];
+        app.account.email = resp.data["email"];
+        app.account.hasRole = resp.data["hasRole"];
+      })["catch"](function () {
+        alert('could not load account');
+      });
+    }
   },
   computed: {
     email: function email() {
@@ -1783,8 +1801,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     submit: function submit() {
       if (this.account.username != '' && this.check.email && this.check.password && this.account.hasRole != '') {
+        console.log('ok');
         return true;
       } else {
+        console.log('not ok');
         return false;
       }
     }
@@ -1792,6 +1812,7 @@ __webpack_require__.r(__webpack_exports__);
   watch: {
     email: function email() {
       if (!this.validEmail(this.account.email)) {
+        this.check.email = false;
         this.error.email = 'Valid email required.';
       } else {
         this.error.email = ''; // this.submit = true;
@@ -1801,6 +1822,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     password: function password() {
       if (!this.validPassword(this.account.password)) {
+        this.check.password = false;
         this.error.password = 'Password must be 8 characters or longer';
       } else {
         this.error.password = '';
@@ -1811,6 +1833,16 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     saveForm: function saveForm() {
       event.preventDefault();
+      var app = this;
+
+      if (app.isEdit) {
+        console.log('edit');
+        app.updateAccount();
+      } else {
+        app.createAccount();
+      }
+    },
+    createAccount: function createAccount() {
       var app = this;
       var account = app.account;
       axios.post('/api/v1/account', account).then(function (resp) {
@@ -1831,6 +1863,33 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (resp) {
         console.log(resp);
         alert("Could not create your account");
+      });
+    },
+    updateAccount: function updateAccount() {
+      var app = this;
+      var account = app.account;
+      axios.patch('/api/v1/account/' + app.accountId, account).then(function (resp) {
+        if (resp.data.checkUsername && resp.data.checkEmail) {
+          console.log('a1');
+          app.error.username = 'Username exists!';
+          app.error.email = 'Email exists!';
+        } else if (resp.data.checkUsername) {
+          console.log('a2');
+          app.error.username = 'Username exists!';
+        } else if (resp.data.checkEmail) {
+          console.log('a3');
+          app.error.email = 'Email exists!';
+        } else {
+          console.log('a4');
+          app.error.username = '';
+          app.error.email = '';
+          app.$router.push({
+            name: 'manageaccount'
+          });
+        }
+      })["catch"](function (resp) {
+        console.log(resp);
+        alert("Could not update your account");
       });
     },
     validEmail: function validEmail(email) {
@@ -2025,9 +2084,129 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/backend/ManageAccount.vue?vue&type=script&lang=js& ***!
   \********************************************************************************************************************************************************************************/
 /*! exports provided: default */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: /var/www/html/ToeicWeb/resources/js/components/backend/ManageAccount.vue: Unexpected token, expected \",\" (67:26)\n\n\u001b[0m \u001b[90m 65 | \u001b[39m    }\u001b[33m,\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 66 | \u001b[39m    computed\u001b[33m:\u001b[39m {\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 67 | \u001b[39m        status(userAccount\u001b[33m.\u001b[39mactive) {\u001b[0m\n\u001b[0m \u001b[90m    | \u001b[39m                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 68 | \u001b[39m            \u001b[36mif\u001b[39m(userAccount\u001b[33m.\u001b[39mactive \u001b[33m==\u001b[39m \u001b[35m1\u001b[39m) {\u001b[0m\n\u001b[0m \u001b[90m 69 | \u001b[39m                \u001b[36mreturn\u001b[39m \u001b[36mfalse\u001b[39m\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 70 | \u001b[39m            } \u001b[36melse\u001b[39m {\u001b[0m\n    at Parser.raise (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:6325:17)\n    at Parser.unexpected (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:7642:16)\n    at Parser.expect (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:7628:28)\n    at Parser.parseBindingList (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:7942:14)\n    at Parser.parseFunctionParams (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:10557:24)\n    at Parser.parseMethod (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:9346:10)\n    at Parser.parseObjectMethod (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:9264:19)\n    at Parser.parseObjPropValue (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:9306:23)\n    at Parser.parseObjectMember (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:9230:10)\n    at Parser.parseObj (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:9154:25)\n    at Parser.parseExprAtom (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:8784:28)\n    at Parser.parseExprSubscripts (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:8412:23)\n    at Parser.parseMaybeUnary (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:8392:21)\n    at Parser.parseExprOps (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:8267:23)\n    at Parser.parseMaybeConditional (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:8240:23)\n    at Parser.parseMaybeAssign (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:8187:21)\n    at Parser.parseObjectProperty (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:9281:101)\n    at Parser.parseObjPropValue (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:9306:101)\n    at Parser.parseObjectMember (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:9230:10)\n    at Parser.parseObj (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:9154:25)\n    at Parser.parseExprAtom (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:8784:28)\n    at Parser.parseExprSubscripts (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:8412:23)\n    at Parser.parseMaybeUnary (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:8392:21)\n    at Parser.parseExprOps (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:8267:23)\n    at Parser.parseMaybeConditional (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:8240:23)\n    at Parser.parseMaybeAssign (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:8187:21)\n    at Parser.parseExportDefaultExpression (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:11010:24)\n    at Parser.parseExport (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:10905:31)\n    at Parser.parseStatementContent (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:9933:27)\n    at Parser.parseStatement (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:9829:17)\n    at Parser.parseBlockOrModuleBlockBody (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:10405:25)\n    at Parser.parseBlockBody (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:10392:10)\n    at Parser.parseTopLevel (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:9758:10)\n    at Parser.parse (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:11270:17)\n    at parse (/var/www/html/ToeicWeb/node_modules/@babel/parser/lib/index.js:11306:38)\n    at parser (/var/www/html/ToeicWeb/node_modules/@babel/core/lib/transformation/normalize-file.js:170:34)");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "ManageAccount",
+  data: function data() {
+    return {
+      userAccounts: []
+    };
+  },
+  created: function created() {
+    var app = this;
+    axios.get('/api/v1/account').then(function (resp) {
+      app.userAccounts = resp.data;
+    })["catch"](function (resp) {
+      console.log(resp);
+      alert("Could not load accounts");
+    });
+  },
+  computed: {},
+  methods: {
+    deleteAccount: function deleteAccount(id, index) {
+      var app = this;
+      console.log(id);
+      axios["delete"]('/api/v1/account/' + id).then(function (resp) {
+        app.userAccounts.splice(index, 1);
+      })["catch"](function (resp) {
+        alert('could not delete account');
+      });
+    },
+    banAccount: function banAccount(id, index) {
+      var app = this;
+      console.log(id);
+      axios.get('/api/v1/account/' + id + '/edit').then(function (resp) {
+        app.userAccounts[index].active = 0;
+      })["catch"](function (resp) {
+        alert('could not ban account');
+      });
+    },
+    unbanAccount: function unbanAccount(id, index) {
+      var app = this;
+      axios.get('api/v1/account/' + id + '/edit').then(function (resp) {
+        app.userAccounts[index].active = 1;
+      })["catch"](function (resp) {
+        alert('could not unban account');
+      });
+    }
+  }
+});
 
 /***/ }),
 
@@ -6634,7 +6813,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.qltk[data-v-d0c7fe1c]{\n    font-size: 20px;\n    font-family: \"Nunito\", sans-serif;\n}\n.ban[data-v-d0c7fe1c]{\n    background-color: #0b5a0e;\n}\n", ""]);
+exports.push([module.i, "\n.qltk[data-v-d0c7fe1c]{\n    font-size: 20px;\n    font-family: \"Nunito\", sans-serif;\n}\n.ban[data-v-d0c7fe1c]{\n    background-color: #B1A9A7;\n}\n", ""]);
 
 // exports
 
@@ -38478,7 +38657,7 @@ var render = function() {
                       staticClass: "btn btn-success ",
                       class: { disabled: !_vm.submit }
                     },
-                    [_vm._v("Create")]
+                    [_vm._v(_vm._s(_vm.isEdit ? "Update" : "Create"))]
                   )
                 ]
               )
@@ -38773,53 +38952,137 @@ var render = function() {
           _vm._v(" "),
           _vm._l(_vm.userAccounts, function(userAccount, index) {
             return _c("tbody", [
-              _c("tr", { class: { ban: _vm.status(userAccount.active) } }, [
-                _c("td", [_vm._v(_vm._s(userAccount.id))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(userAccount.username))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(userAccount.email))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(userAccount.hasRole))]),
-                _vm._v(" "),
-                _c("td", [
-                  _c(
-                    "a",
-                    {
-                      staticClass: "btn btn-sm btn-danger",
-                      attrs: { href: "#" },
-                      on: {
-                        click: function($event) {
-                          return _vm.deleteAccount(userAccount.id, index)
-                        }
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n                        Delete\n                    "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      staticClass: "btn btn-sm btn-warning",
-                      attrs: { href: "#" },
-                      on: {
-                        click: function($event) {
-                          return _vm.banAccount(userAccount.id, index)
-                        }
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n                        Ban\n                    "
-                      )
-                    ]
-                  )
-                ])
-              ])
+              userAccount.active == 1
+                ? _c("tr", [
+                    _c("td", [_vm._v(_vm._s(userAccount.id))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(userAccount.username))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(userAccount.email))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(userAccount.hasRole))]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      [
+                        _c(
+                          "router-link",
+                          {
+                            staticClass: "btn btn-sm btn-info",
+                            attrs: {
+                              to: {
+                                name: "editaccount",
+                                params: { id: userAccount.id }
+                              }
+                            }
+                          },
+                          [_vm._v("Update")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "a",
+                          {
+                            staticClass: "btn btn-sm btn-danger",
+                            attrs: { href: "#" },
+                            on: {
+                              click: function($event) {
+                                return _vm.deleteAccount(userAccount.id, index)
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                            Delete\n                        "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "a",
+                          {
+                            staticClass: "btn btn-sm btn-warning",
+                            attrs: { href: "#" },
+                            on: {
+                              click: function($event) {
+                                return _vm.banAccount(userAccount.id, index)
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                            Ban\n                        "
+                            )
+                          ]
+                        )
+                      ],
+                      1
+                    )
+                  ])
+                : _c("tr", { staticClass: "ban" }, [
+                    _c("td", [_vm._v(_vm._s(userAccount.id))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(userAccount.username))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(userAccount.email))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(userAccount.hasRole))]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      [
+                        _c(
+                          "router-link",
+                          {
+                            staticClass: "btn btn-sm btn-info",
+                            attrs: {
+                              to: {
+                                name: "editaccount",
+                                params: { id: userAccount.id }
+                              }
+                            }
+                          },
+                          [_vm._v("Update")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "a",
+                          {
+                            staticClass: "btn btn-sm btn-danger",
+                            attrs: { href: "#" },
+                            on: {
+                              click: function($event) {
+                                return _vm.deleteAccount(userAccount.id, index)
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                            Delete\n                        "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "a",
+                          {
+                            staticClass: "btn btn-sm btn-warning",
+                            attrs: { href: "#" },
+                            on: {
+                              click: function($event) {
+                                return _vm.unbanAccount(userAccount.id, index)
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                            Unban\n                        "
+                            )
+                          ]
+                        )
+                      ],
+                      1
+                    )
+                  ])
             ])
           })
         ],
@@ -38844,7 +39107,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Email")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Role")])
+        _c("th", [_vm._v("Role")]),
+        _vm._v(" "),
+        _c("th")
       ])
     ])
   }
@@ -55798,11 +56063,15 @@ var routes = [{
 }, {
   path: '/admin/companies/manage-account',
   component: _components_backend_ManageAccount__WEBPACK_IMPORTED_MODULE_3__["default"],
-  name: "manageaccount"
+  name: 'manageaccount'
 }, {
   path: '/admin/companies/manage-account/create',
   component: _components_backend_CreateAccount__WEBPACK_IMPORTED_MODULE_4__["default"],
-  name: "createaccount"
+  name: 'createaccount'
+}, {
+  path: '/admin/companies/manage-account/edit/:id',
+  component: _components_backend_CreateAccount__WEBPACK_IMPORTED_MODULE_4__["default"],
+  name: 'editaccount'
 }, {
   path: '/admin/companies/list-report',
   component: _components_backend_Report__WEBPACK_IMPORTED_MODULE_0__["default"]
