@@ -153,12 +153,15 @@
                 var account = app.account;
                 axios.post('/api/v1/account', account)
                     .then(function (resp) {
+                        console.log(resp);
                         if(resp.data.checkUsername && resp.data.checkEmail) {
                             app.error.username = 'Username exists!';
                             app.error.email = 'Email exists!';
                         } else if(resp.data.checkUsername) {
                             app.error.username = 'Username exists!';
+                            app.error.email = '';
                         } else if(resp.data.checkEmail) {
+                            app.error.username = '';
                             app.error.email = 'Email exists!';
                         } else {
                             app.error.username = '';
@@ -176,6 +179,7 @@
                 var account = app.account;
                 axios.patch('/api/v1/account/' + app.accountId, account)
                     .then(function (resp) {
+                        console.log(resp);
                         if(resp.data.checkUsername && resp.data.checkEmail) {
                             console.log('a1');
                             app.error.username = 'Username exists!';
@@ -183,8 +187,10 @@
                         } else if(resp.data.checkUsername) {
                             console.log('a2');
                             app.error.username = 'Username exists!';
+                            app.error.email = '';
                         } else if(resp.data.checkEmail) {
                             console.log('a3');
+                            app.error.username = '';
                             app.error.email = 'Email exists!';
                         } else {
                             console.log('a4');

@@ -38,7 +38,6 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-        Log::info($request);
         $username = $request["username"];
         $email = $request["email"];
         $password = $request["password"];
@@ -54,21 +53,39 @@ class AccountController extends Controller
         $res = array();
         $checkUserName = Account::where('username', $username)->get();
         $checkEmail = Account::where('email', $email)->get();
-        if(sizeof($checkUserName) > 0 && sizeof($checkEmail) > 0 ) {
+
+        //codecu------
+//        if(sizeof($checkUserName) > 0 && sizeof($checkEmail) > 0 ) {
+//            $res["checkUsername"] = true;
+//            $res["checkEmail"] = true;
+//        } elseif(sizeof($checkUserName) > 0) {
+//            $res["checkUsername"] = true;
+//            $res["checkEmail"] = false;
+//        } elseif(sizeof($checkEmail) > 0) {
+//            $res["checkUsername"] = false;
+//            $res["checkEmail"] = true;
+//        } else {
+//            $account->save();
+//            $res["checkUsername"] = false;
+//            $res["checkEmail"] = false;
+//        }
+        //-------------
+
+        if(sizeof($checkUserName) > 0) {
             $res["checkUsername"] = true;
-            $res["checkEmail"] = true;
-        } elseif(sizeof($checkUserName) > 0) {
-            $res["checkUsername"] = true;
-            $res["checkEmail"] = false;
-        } elseif(sizeof($checkEmail) > 0) {
+        } else {
             $res["checkUsername"] = false;
+        }
+
+        if(sizeof($checkEmail) > 0){
             $res["checkEmail"] = true;
         } else {
-            $account->save();
-            $res["checkUsername"] = false;
             $res["checkEmail"] = false;
         }
 
+        if($res["checkUsername"] == false && $res["checkEmail"] ==false) {
+            $account->save();
+        }
 //        $account = Account::create($request->all());
 
         return $res;
@@ -112,7 +129,6 @@ class AccountController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Log::info($id);
         $username = $request["username"];
         $email = $request["email"];
         $password = $request["password"];
@@ -126,25 +142,23 @@ class AccountController extends Controller
 
         $res = array();
         $checkUserName = Account::where('username', $username)->first();
-        Log::info($checkUserName["id"]);
+        Log::info($checkUserName);
         $checkEmail = Account::where('email', $email)->first();
-        if($checkUserName["id"] != $id && $checkEmail["id"] != $id ) {
-            Log::info('z1');
-            $res["checkUsername"] = true;
-            $res["checkEmail"] = true;
-        } elseif($checkUserName["id"] != $id) {
-            Log::info('z2');
-            $res["checkUsername"] = true;
-            $res["checkEmail"] = false;
-        } elseif($checkEmail["id"] != $id) {
-            Log::info('z3');
+
+        if($checkUserName["id"] == '' || $checkUserName["id"] == $id){
             $res["checkUsername"] = false;
-            $res["checkEmail"] = true;
         } else {
-            Log::info('z4');
+            $res["checkUsername"] = true;
+        }
+
+        if($checkEmail["id"] == ''|| $checkEmail["id"] == $id){
+            $res["checkEmail"] = false;;
+        } else {
+            $res["checkEmail"] = true;
+        }
+
+        if(!$res["checkUsername"] && !$res["checkEmail"]){
             $account->save();
-            $res["checkUsername"] = false;
-            $res["checkEmail"] = false;
         }
 
         return $res;

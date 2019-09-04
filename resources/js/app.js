@@ -36,7 +36,7 @@ import {store} from "./store";
  */
 
 const router = new VueRouter({
-    // mode: 'history',
+    // mode: 'history',npm install font-awesome --save
     routes
 });
 const app = new Vue({

@@ -1846,12 +1846,16 @@ __webpack_require__.r(__webpack_exports__);
       var app = this;
       var account = app.account;
       axios.post('/api/v1/account', account).then(function (resp) {
+        console.log(resp);
+
         if (resp.data.checkUsername && resp.data.checkEmail) {
           app.error.username = 'Username exists!';
           app.error.email = 'Email exists!';
         } else if (resp.data.checkUsername) {
           app.error.username = 'Username exists!';
+          app.error.email = '';
         } else if (resp.data.checkEmail) {
+          app.error.username = '';
           app.error.email = 'Email exists!';
         } else {
           app.error.username = '';
@@ -1869,6 +1873,8 @@ __webpack_require__.r(__webpack_exports__);
       var app = this;
       var account = app.account;
       axios.patch('/api/v1/account/' + app.accountId, account).then(function (resp) {
+        console.log(resp);
+
         if (resp.data.checkUsername && resp.data.checkEmail) {
           console.log('a1');
           app.error.username = 'Username exists!';
@@ -1876,8 +1882,10 @@ __webpack_require__.r(__webpack_exports__);
         } else if (resp.data.checkUsername) {
           console.log('a2');
           app.error.username = 'Username exists!';
+          app.error.email = '';
         } else if (resp.data.checkEmail) {
           console.log('a3');
+          app.error.username = '';
           app.error.email = 'Email exists!';
         } else {
           console.log('a4');
@@ -2161,11 +2169,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ManageAccount",
   data: function data() {
     return {
-      userAccounts: []
+      userAccounts: [],
+      inputSearch: ''
     };
   },
   created: function created() {
@@ -2204,6 +2221,15 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (resp) {
         alert('could not unban account');
       });
+    },
+    search: function search() {
+      event.preventDefault();
+      var app = this;
+      var inputSearch = app.inputSearch;
+      var array = [];
+      array['inputSearch'] = inputSearch;
+      console.log(inputSearch);
+      axios.post('/api/v1/search/account', array).then(function (resp) {})["catch"](function (resp) {});
     }
   }
 });
@@ -38927,28 +38953,67 @@ var render = function() {
       _c("div", [
         _c("span", { staticClass: "qltk" }, [_vm._v("Quản lý tài khoản")]),
         _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "form-group" },
-          [
+        _c("div", { staticClass: "row " }, [
+          _c(
+            "div",
+            { staticClass: "form-group col-1" },
+            [
+              _c(
+                "router-link",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { to: { name: "createaccount" } }
+                },
+                [_vm._v("Create")]
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "search-container col-4" }, [
             _c(
-              "router-link",
+              "form",
               {
-                staticClass: "btn btn-primary",
-                attrs: { to: { name: "createaccount" } }
+                on: {
+                  submit: function($event) {
+                    return _vm.search()
+                  }
+                }
               },
-              [_vm._v("Create")]
+              [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.inputSearch,
+                      expression: "inputSearch"
+                    }
+                  ],
+                  attrs: { type: "text", placeholder: "Search by username" },
+                  domProps: { value: _vm.inputSearch },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.inputSearch = $event.target.value
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm._m(0)
+              ]
             )
-          ],
-          1
-        )
+          ])
+        ])
       ]),
       _vm._v(" "),
       _c(
         "table",
         { staticClass: "table table-bordered" },
         [
-          _vm._m(0),
+          _vm._m(1),
           _vm._v(" "),
           _vm._l(_vm.userAccounts, function(userAccount, index) {
             return _c("tbody", [
@@ -39095,6 +39160,14 @@ var render = function() {
   )
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("button", { attrs: { type: "submit" } }, [
+      _c("i", { staticClass: "fa fa-search" })
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -55250,7 +55323,7 @@ window.Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]);
  */
 
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
-  // mode: 'history',
+  // mode: 'history',npm install font-awesome --save
   routes: _routes__WEBPACK_IMPORTED_MODULE_2__["routes"]
 });
 var app = new Vue({

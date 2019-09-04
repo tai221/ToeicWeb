@@ -2,8 +2,16 @@
 <div>
         <div>
             <span class="qltk">Quản lý tài khoản</span>
-            <div class="form-group">
-                <router-link :to="{name: 'createaccount'}" class="btn btn-primary">Create</router-link>
+            <div class="row ">
+                <div class="form-group col-1">
+                    <router-link :to="{name: 'createaccount'}" class="btn btn-primary">Create</router-link>
+                </div>
+                <div class="search-container col-4">
+                    <form v-on:submit="search()">
+                        <input type="text" placeholder="Search by username" v-model="inputSearch">
+                        <button type="submit"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
             </div>
         </div>
 
@@ -76,7 +84,8 @@
         name: "ManageAccount",
         data() {
             return {
-                userAccounts:[]
+                userAccounts:[],
+                inputSearch:''
             }
         },
         created() {
@@ -124,6 +133,21 @@
                     })
                     .catch(function (resp) {
                         alert('could not unban account')
+                    });
+            },
+            search(){
+                event.preventDefault();
+                var app = this;
+                var inputSearch = app.inputSearch;
+                var array = [];
+                    array['inputSearch'] = inputSearch;
+                console.log(inputSearch);
+                axios.post('/api/v1/search/account', array)
+                    .then(function (resp) {
+
+                    })
+                    .catch(function (resp) {
+
                     });
             }
         }
