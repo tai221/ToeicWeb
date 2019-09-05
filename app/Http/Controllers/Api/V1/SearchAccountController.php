@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Account;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
@@ -36,8 +37,9 @@ class SearchAccountController extends Controller
      */
     public function store(Request $request)
     {
-        $username = $request;
-        Log::info($username);
+        $username = $request['inputSearch'];
+        $accounts = Account::where('username', 'LIKE', '%'.$username.'%')->get();
+        return $accounts;
     }
 
     /**

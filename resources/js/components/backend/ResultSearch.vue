@@ -1,33 +1,21 @@
 <template>
-<div>
+    <div>
         <div>
-            <span class="qltk">Quản lý tài khoản</span>
-            <div class="row ">
-                <div class="form-group col-1">
-                    <router-link :to="{name: 'createaccount'}" class="btn btn-primary">Create</router-link>
-                </div>
-                <div class="search-container col-4">
-                    <form v-on:submit="search()">
-                        <input type="text" placeholder="Search by username" v-model="inputSearch">
-                        <button type="submit"><i class="fa fa-search"></i></button>
-                    </form>
-                </div>
-            </div>
+            <h3>Result Search:</h3>
         </div>
-
-
-        <table class="table table-bordered" >
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody v-for="userAccount, index in userAccounts">
-            <tr v-if="userAccount.active == 1">
+        <div>
+            <table class="table table-bordered" >
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody v-for="userAccount, index in resultAccounts">
+                <tr v-if="userAccount.active == 1">
 
                     <td>{{ userAccount.id }}</td>
                     <td>{{ userAccount.username }}</td>
@@ -49,8 +37,8 @@
                     </td>
 
 
-            </tr>
-            <tr v-else class="ban">
+                </tr>
+                <tr v-else class="ban">
 
                     <td>{{ userAccount.id }}</td>
                     <td>{{ userAccount.username }}</td>
@@ -71,37 +59,23 @@
                         </a>
                     </td>
 
-            </tr>
+                </tr>
 
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-    <router-view></router-view>
-</div>
 </template>
 
 <script>
+    import {mapGetters}  from 'vuex'
     export default {
-        name: "ManageAccount",
-        data() {
-            return {
-                userAccounts:[],
-                inputSearch:''
-            }
-        },
-        created() {
-            var app = this;
-            axios.get('/api/v1/account')
-                .then(function (resp) {
-                    app.userAccounts = resp.data;
-                })
-                .catch(function (resp) {
-                    console.log(resp);
-                    alert("Could not load accounts");
-                });
-        },
+        name: "ResultSearch",
         computed: {
-
+            ...mapGetters({
+                resultAccounts: 'resultAccounts'
+            })
         },
         methods: {
             deleteAccount(id, index) {
@@ -109,7 +83,7 @@
                 console.log(id);
                 axios.delete('/api/v1/account/' + id)
                     .then(function (resp) {
-                        app.userAccounts.splice(index, 1);
+                        app.resultAccounts.splice(index, 1);
                     })
                     .catch(function (resp) {
                         alert('could not delete account');
@@ -120,7 +94,7 @@
                 console.log(id);
                 axios.get('/api/v1/account/' + id + '/edit')
                     .then(function (resp) {
-                        app.userAccounts[index].active = 0;
+                        app.resultAccounts[index].active = 0;
                     })
                     .catch(function (resp) {
                         alert('could not ban account')
@@ -130,26 +104,10 @@
                 var app = this;
                 axios.get('api/v1/account/' + id + '/edit')
                     .then(function (resp) {
-                        app.userAccounts[index].active = 1;
+                        app.resultAccounts[index].active = 1;
                     })
                     .catch(function (resp) {
                         alert('could not unban account')
-                    });
-            },
-            search(){
-                event.preventDefault();
-                var app = this;
-                var inputSearch = app.inputSearch;
-                var array = {'inputSearch': inputSearch};
-                console.log(array);
-                axios.post('/api/v1/search/account', array)
-                    .then(function (resp) {
-                        console.log(resp.data);
-                        app.$store.dispatch('setResultAccounts', resp.data);
-                        app.$router.push({name:'resultSearch'});
-                    })
-                    .catch(function (resp) {
-                        console.log("xay ra loi gui ket qua")
                     });
             }
         }
@@ -157,10 +115,6 @@
 </script>
 
 <style scoped>
-    .qltk{
-        font-size: 20px;
-        font-family: "Nunito", sans-serif;
-    }
     .ban{
         background-color: #B1A9A7;
     }

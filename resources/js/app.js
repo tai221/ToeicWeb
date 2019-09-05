@@ -14,7 +14,7 @@ window.Vue.use(VueRouter);
 
 import App from './components/backend/Layout.vue';
 import { routes } from './routes';
-import {store} from "./store";
+import {store} from "./store/store";
 
 /**
  * The following block of code may be used to automatically register your
