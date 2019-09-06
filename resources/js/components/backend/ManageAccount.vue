@@ -26,7 +26,7 @@
                 <th></th>
             </tr>
             </thead>
-            <tbody v-for="userAccount, index in userAccounts">
+            <tbody v-for="userAccount, index in partOfAccounts">
             <tr v-if="userAccount.active == 1">
 
                     <td>{{ userAccount.id }}</td>
@@ -75,25 +75,36 @@
 
             </tbody>
         </table>
+        <app-pagination :list-data="userAccounts" @paginate="partOfAccounts = $event"></app-pagination>
 
     <router-view></router-view>
 </div>
 </template>
 
 <script>
+    import Pagination from "./Pagination";
     export default {
         name: "ManageAccount",
         data() {
             return {
                 userAccounts:[],
+                partOfAccounts:[],
                 inputSearch:''
             }
+        },
+        components:{
+            appPagination: Pagination
         },
         created() {
             var app = this;
             axios.get('/api/v1/account')
                 .then(function (resp) {
                     app.userAccounts = resp.data;
+                    if(app.userAccounts.length > 10){
+                        app.partOfAccounts = app.userAccounts.slice(0,10);
+                    }else{
+                        app.partOfAccounts = app.userAccounts;
+                    }
                 })
                 .catch(function (resp) {
                     console.log(resp);

@@ -1,5 +1,8 @@
 <template>
     <div>
+        <div class="form-group">
+            <router-link :to="{name: 'manageaccount'}" class="btn btn-info">Back</router-link>
+        </div>
         <div>
             <h3>Result Search:</h3>
         </div>
