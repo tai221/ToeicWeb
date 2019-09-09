@@ -107,7 +107,6 @@
                     }
                 })
                 .catch(function (resp) {
-                    console.log(resp);
                     alert("Could not load accounts");
                 });
         },
@@ -117,7 +116,6 @@
         methods: {
             deleteAccount(id, index) {
                 var app = this;
-                console.log(id);
                 axios.delete('/api/v1/account/' + id)
                     .then(function (resp) {
                         app.userAccounts.splice(index, 1);
@@ -128,7 +126,6 @@
             },
             banAccount(id, index){
                 var app = this;
-                console.log(id);
                 axios.get('/api/v1/account/' + id + '/edit')
                     .then(function (resp) {
                         app.userAccounts[index].active = 0;
@@ -152,10 +149,8 @@
                 var app = this;
                 var inputSearch = app.inputSearch;
                 var array = {'inputSearch': inputSearch};
-                console.log(array);
                 axios.post('/api/v1/search/account', array)
                     .then(function (resp) {
-                        console.log(resp.data);
                         app.$store.dispatch('setResultAccounts', resp.data);
                         app.$router.push({name:'resultSearch'});
                     })

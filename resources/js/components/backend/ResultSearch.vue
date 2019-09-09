@@ -82,8 +82,6 @@
         },
         methods: {
             deleteAccount(id, index) {
-                var app = this;
-                console.log(id);
                 axios.delete('/api/v1/account/' + id)
                     .then(function (resp) {
                         app.resultAccounts.splice(index, 1);
@@ -94,7 +92,6 @@
             },
             banAccount(id, index){
                 var app = this;
-                console.log(id);
                 axios.get('/api/v1/account/' + id + '/edit')
                     .then(function (resp) {
                         app.resultAccounts[index].active = 0;

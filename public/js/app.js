@@ -1801,10 +1801,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     submit: function submit() {
       if (this.account.username != '' && this.check.email && this.check.password && this.account.hasRole != '') {
-        console.log('ok');
         return true;
       } else {
-        console.log('not ok');
         return false;
       }
     }
@@ -1836,7 +1834,6 @@ __webpack_require__.r(__webpack_exports__);
       var app = this;
 
       if (app.isEdit) {
-        console.log('edit');
         app.updateAccount();
       } else {
         app.createAccount();
@@ -1846,8 +1843,6 @@ __webpack_require__.r(__webpack_exports__);
       var app = this;
       var account = app.account;
       axios.post('/api/v1/account', account).then(function (resp) {
-        console.log(resp);
-
         if (resp.data.checkUsername && resp.data.checkEmail) {
           app.error.username = 'Username exists!';
           app.error.email = 'Email exists!';
@@ -1865,7 +1860,6 @@ __webpack_require__.r(__webpack_exports__);
           });
         }
       })["catch"](function (resp) {
-        console.log(resp);
         alert("Could not create your account");
       });
     },
@@ -1873,22 +1867,16 @@ __webpack_require__.r(__webpack_exports__);
       var app = this;
       var account = app.account;
       axios.patch('/api/v1/account/' + app.accountId, account).then(function (resp) {
-        console.log(resp);
-
         if (resp.data.checkUsername && resp.data.checkEmail) {
-          console.log('a1');
           app.error.username = 'Username exists!';
           app.error.email = 'Email exists!';
         } else if (resp.data.checkUsername) {
-          console.log('a2');
           app.error.username = 'Username exists!';
           app.error.email = '';
         } else if (resp.data.checkEmail) {
-          console.log('a3');
           app.error.username = '';
           app.error.email = 'Email exists!';
         } else {
-          console.log('a4');
           app.error.username = '';
           app.error.email = '';
           app.$router.push({
@@ -1896,7 +1884,6 @@ __webpack_require__.r(__webpack_exports__);
           });
         }
       })["catch"](function (resp) {
-        console.log(resp);
         alert("Could not update your account");
       });
     },
@@ -2204,7 +2191,6 @@ __webpack_require__.r(__webpack_exports__);
         app.partOfAccounts = app.userAccounts;
       }
     })["catch"](function (resp) {
-      console.log(resp);
       alert("Could not load accounts");
     });
   },
@@ -2212,7 +2198,6 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     deleteAccount: function deleteAccount(id, index) {
       var app = this;
-      console.log(id);
       axios["delete"]('/api/v1/account/' + id).then(function (resp) {
         app.userAccounts.splice(index, 1);
       })["catch"](function (resp) {
@@ -2221,7 +2206,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     banAccount: function banAccount(id, index) {
       var app = this;
-      console.log(id);
       axios.get('/api/v1/account/' + id + '/edit').then(function (resp) {
         app.userAccounts[index].active = 0;
       })["catch"](function (resp) {
@@ -2243,9 +2227,7 @@ __webpack_require__.r(__webpack_exports__);
       var array = {
         'inputSearch': inputSearch
       };
-      console.log(array);
       axios.post('/api/v1/search/account', array).then(function (resp) {
-        console.log(resp.data);
         app.$store.dispatch('setResultAccounts', resp.data);
         app.$router.push({
           name: 'resultSearch'
@@ -2435,8 +2417,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   })),
   methods: {
     deleteAccount: function deleteAccount(id, index) {
-      var app = this;
-      console.log(id);
       axios["delete"]('/api/v1/account/' + id).then(function (resp) {
         app.resultAccounts.splice(index, 1);
       })["catch"](function (resp) {
@@ -2445,7 +2425,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     banAccount: function banAccount(id, index) {
       var app = this;
-      console.log(id);
       axios.get('/api/v1/account/' + id + '/edit').then(function (resp) {
         app.resultAccounts[index].active = 0;
       })["catch"](function (resp) {

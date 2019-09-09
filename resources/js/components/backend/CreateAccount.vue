@@ -106,10 +106,8 @@
             },
             submit(){
                     if(this.account.username != '' && this.check.email && this.check.password && this.account.hasRole != '') {
-                        console.log('ok');
                         return true;
                     } else {
-                        console.log('not ok');
                         return false;
                     }
             }
@@ -141,7 +139,6 @@
                 event.preventDefault();
                 var app = this;
                 if(app.isEdit){
-                    console.log('edit')
                     app.updateAccount();
                 }else {
                     app.createAccount();
@@ -153,7 +150,6 @@
                 var account = app.account;
                 axios.post('/api/v1/account', account)
                     .then(function (resp) {
-                        console.log(resp);
                         if(resp.data.checkUsername && resp.data.checkEmail) {
                             app.error.username = 'Username exists!';
                             app.error.email = 'Email exists!';
@@ -170,7 +166,6 @@
                         }
                     })
                     .catch(function (resp) {
-                        console.log(resp);
                         alert("Could not create your account");
                     });
             },
@@ -179,28 +174,22 @@
                 var account = app.account;
                 axios.patch('/api/v1/account/' + app.accountId, account)
                     .then(function (resp) {
-                        console.log(resp);
                         if(resp.data.checkUsername && resp.data.checkEmail) {
-                            console.log('a1');
                             app.error.username = 'Username exists!';
                             app.error.email = 'Email exists!';
                         } else if(resp.data.checkUsername) {
-                            console.log('a2');
                             app.error.username = 'Username exists!';
                             app.error.email = '';
                         } else if(resp.data.checkEmail) {
-                            console.log('a3');
                             app.error.username = '';
                             app.error.email = 'Email exists!';
                         } else {
-                            console.log('a4');
                             app.error.username = '';
                             app.error.email = '';
                             app.$router.push({name: 'manageaccount'});
                         }
                     })
                     .catch(function (resp) {
-                        console.log(resp);
                         alert("Could not update your account");
                     });
             },
