@@ -5,9 +5,9 @@
                 <!-- Brand -->
 
         		<img class="btn-expand" id="list-ico" alt="expand" @click="changeStateSidebar" v-bind:class="{hide: stateSidebar}"
-        			src="../../images/list.png">
+        			src="../../../images/list.png">
         		<img class="btn-expand " id="hide-ico" alt="expand" v-bind:class="{hide: !stateSidebar}" @click="changeStateSidebar"
-        			src="../../images/hide.png">
+        			src="../../../images/hide.png">
 <!--                <router-link :to="xxx" class="navbar-brand">BKTOEIC ADMIN</router-link>-->
 
                 <!-- Navbar links -->
@@ -16,14 +16,14 @@
                     <ul class="navbar-nav ">
                         <li class="nav-item" id="recv-rp">
                             <router-link to="/admin/companies/list-report" class="nav-link mr-100" >
-                                <img class="ico-header" src="../../images/email-icon.png">
+                                <img class="ico-header" src="../../../images/email-icon.png">
                             </router-link>
                             <div class="sum-notice">{{countReport}}</div>
                         </li>
 
                         <li class="nav-item">
                             <router-link to="/admin/companies/info-account" class="nav-link" >
-                                <img class="ico-header" src="../../images/account-icon.png">
+                                <img class="ico-header" src="../../../images/account-icon.png">
                             </router-link>
                         </li>
                     </ul>

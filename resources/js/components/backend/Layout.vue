@@ -21,9 +21,9 @@
 </template>
 
 <script>
-import Header from './Header';
-import Footer from "./Footer";
-import Sidebar from "./Sidebar";
+import Header from './Header/Header';
+import Footer from "./Footer/Footer";
+import Sidebar from "./Sidebar/Sidebar";
 import {mapGetters} from 'vuex';
 export default {
     name: "Layout",

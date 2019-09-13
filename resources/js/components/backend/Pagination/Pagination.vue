@@ -1,6 +1,7 @@
 <template>
     <div class="pag">
         <button @click="prevPage" :disabled="pageNumber == 0">Previous</button>
+        <span>Page {{ pageNumber + 1 }} of {{ pageCount }}</span>
         <button @click="nextPage" :disabled="pageNumber >= pageCount-1">Next</button>
     </div>
 </template>

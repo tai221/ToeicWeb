@@ -1,9 +1,9 @@
-import Report from "./components/backend/Report";
-import InfoAdmin from "./components/backend/InfoAdmin";
+import Report from "./components/backend/Report/Report";
+import InfoAdmin from "./components/backend/InfoAdmin/InfoAdmin";
 import Layout from "./components/backend/Layout";
-import ManageAccount from "./components/backend/ManageAccount";
-import CreateAccount from "./components/backend/CreateAccount";
-import ResultSearch from "./components/backend/ResultSearch";
+import ManageAccount from "./components/backend/ManageAccount/ManageAccount";
+import CreateAccount from "./components/backend/ManageAccount/CreateAccount";
+import ResultSearch from "./components/backend/ManageAccount/ResultSearch";
 
 export const routes = [
     {

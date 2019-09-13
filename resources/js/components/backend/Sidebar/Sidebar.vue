@@ -2,7 +2,7 @@
     <div id="sidebar-wrapper" v-bind:class="{hide: !stateSidebar }" >
         <ul class="sidebar-nav ">
             <li><router-link  :to="{name: 'manageaccount'}" ><img class="ico-manag"
-                                                                                src="../../images/account-manager.png">Quản
+                                                                                src="../../../images/account-manager.png">Quản
                 lý tài khoản</router-link>
             </li>
 
@@ -41,7 +41,7 @@
     .sidebar-nav {
         position: fixed;
         top: 0;
-        height: 91.5%;
+        height: 94%;
         width: 15em;
         margin-left: 0;
         padding: 0;

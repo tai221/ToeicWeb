@@ -82,7 +82,7 @@
 </template>
 
 <script>
-    import Pagination from "./Pagination";
+    import Pagination from "../Pagination/Pagination";
     export default {
         name: "ManageAccount",
         data() {
