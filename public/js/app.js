@@ -56868,26 +56868,26 @@ var routes = [{
   path: '/',
   component: _components_backend_Layout__WEBPACK_IMPORTED_MODULE_2__["default"]
 }, {
-  path: '/admin/companies/manage-account',
+  path: '/admin/manage-account',
   component: _components_backend_ManageAccount_ManageAccount__WEBPACK_IMPORTED_MODULE_3__["default"],
   name: 'manageaccount'
 }, {
-  path: '/admin/companies/manage-account/create',
+  path: '/admin/manage-account/create',
   component: _components_backend_ManageAccount_CreateAccount__WEBPACK_IMPORTED_MODULE_4__["default"],
   name: 'createaccount'
 }, {
-  path: '/admin/companies/manage-account/edit/:id',
+  path: '/admin/manage-account/edit/:id',
   component: _components_backend_ManageAccount_CreateAccount__WEBPACK_IMPORTED_MODULE_4__["default"],
   name: 'editaccount'
 }, {
-  path: '/admin/companies/manage-account/result',
+  path: '/admin/manage-account/result',
   component: _components_backend_ManageAccount_ResultSearch__WEBPACK_IMPORTED_MODULE_5__["default"],
   name: 'resultSearch'
 }, {
-  path: '/admin/companies/list-report',
+  path: '/admin/list-report',
   component: _components_backend_Report_Report__WEBPACK_IMPORTED_MODULE_0__["default"]
 }, {
-  path: '/admin/companies/info-account',
+  path: '/admin/info-account',
   component: _components_backend_InfoAdmin_InfoAdmin__WEBPACK_IMPORTED_MODULE_1__["default"]
 }];
 

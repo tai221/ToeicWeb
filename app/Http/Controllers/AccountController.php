@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
-class CompaniesController extends Controller
+class AccountController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -10,7 +10,7 @@ class CompaniesController extends Controller
      */
     public function index()
     {
-        return view('admin.companies.index');
+        return view('admin.index');
     }
 }
 ?>

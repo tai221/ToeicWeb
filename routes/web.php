@@ -18,6 +18,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::get('companies', 'CompaniesController@index')->name('companies.index');
-});
+//Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+//    Route::get('account', 'AccountController@index')->name('admin.index');
+//});
