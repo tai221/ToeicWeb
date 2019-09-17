@@ -1,21 +1,16 @@
 <template>
-    <div style="overflow-x: hidden;">
+    <div style="overflow-x: hidden;" id="app" >
         <app-header></app-header>
-<!--        <div class="row">-->
-<!--            <div class="col-xs-2 col-sm-2 ">-->
-                <app-sidebar></app-sidebar>
-<!--            </div>-->
-<!--            <div class="col-xs-10 col-sm-10 main">-->
-<!--                <transition name="slide" mode="out-in">-->
-        <div class="container">
-            <div v-bind:class="{ container1: stateSidebar, container2: !stateSidebar }">
-                 <router-view></router-view>
-            </div>
-        </div>
+        <app-sidebar></app-sidebar>
 
-<!--                </transition>-->
-<!--            </div>-->
-<!--        </div>-->
+<!--    <transition name="slide" mode="out-in">-->
+            <div class="container">
+                <div v-bind:class="{ container1: stateSidebar, container2: !stateSidebar }">
+                    <router-view></router-view>
+                </div>
+            </div>
+<!--    </transition>-->
+
         <app-footer></app-footer>
     </div>
 </template>
@@ -51,7 +46,6 @@ export default {
     }
     .container2{
         padding-top: 55px;
-        /*margin-left: 20%;*/
     }
 
 </style>

@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
-class AccountController extends Controller
+class AdminController extends Controller
 {
     /**
      * Display a listing of the resource.

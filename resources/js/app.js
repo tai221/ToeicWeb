@@ -12,7 +12,7 @@ import VueRouter from 'vue-router';
 
 window.Vue.use(VueRouter);
 
-import App from './components/backend/Layout.vue';
+import App from './App';
 import { routes } from './routes';
 import {store} from "./store/store";
 
@@ -34,7 +34,7 @@ import {store} from "./store/store";
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
+console.log(routes)
 const router = new VueRouter({
     // mode: 'history',npm install font-awesome --save
     routes

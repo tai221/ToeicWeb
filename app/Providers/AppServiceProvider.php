@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\ApplePay;
+use App\CreaditCard;
+use App\PaymentInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +16,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind( PaymentInterface::class,function(){
+           if(request('method') == 1){
+               return new CreaditCard;
+           }
+           return new ApplePay;
+        });
     }
 
     /**
