@@ -26,6 +26,12 @@
                                 <img class="ico-header" src="../../../images/account-icon.png">
                             </router-link>
                         </li>
+                        <li style="size: 20px; color: #ae1c17">
+                            {{username}}
+                        </li>
+                        <li class="nav-item" style="color: #3f9ae5; size: 20px" v-if="loggedIn" v-on:click="logout()">
+                                Logout
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -44,13 +50,21 @@
         },
         computed:{
             ...mapGetters([
-                'stateSidebar'
+                'stateSidebar',
+                'loggedIn',
+                'username'
             ])
         },
         methods: {
             ...mapActions([
                 'changeStateSidebar'
-            ])
+            ]),
+            logout(){
+                this.$store.dispatch('destroyToken')
+                    .then(response => {
+                        this.$router.push({name:'login'});
+                    })
+            }
         }
         // mounted() {
         //     var app = this;

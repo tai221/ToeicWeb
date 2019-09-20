@@ -17,6 +17,7 @@ class AccountController extends Controller
      */
     public function index()
     {
+        Log::info('vao index');
         return Account::all();
     }
 
@@ -38,7 +39,6 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-        Log::info($request);
         $username = $request["username"];
         $email = $request["email"];
         $password = $request["password"];

@@ -5,12 +5,13 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 
 class Account extends Authenticatable
 {
     //
-    protected $primaryKey = 'id';
-    protected $table='accounts';
+    use HasApiTokens, Notifiable;
 
     protected $fillable=['username','password','email','hasRole','active'];
 
@@ -41,4 +42,17 @@ class Account extends Authenticatable
     public function getAuthPassword(){
         return $this->password;
     }
+
+    //---------------
+    //custom check username and password in Password Grant
+    public function findForPassport($username)
+    {
+        return $this->where('username', $username)->first();
+    }
+    public function validateForPassportPasswordGrant($password)
+    {
+        return $this->where('password', $password)->first();
+    }
+    //----------------
+
 }

@@ -16,25 +16,27 @@
 //});
 
 //Auth::routes();
-//
+
 //Route::get('/home', 'HomeController@index')->name('home');
-//
-//Route::get('admin', 'AdminController@index')->name('admin.index');
 //
 //Route::namespace('Auth')->group(function () {
 //    Route::get('login', 'LoginController@index')->name('login');
 //});
 
-use App\DemoFacade;
-use Illuminate\Support\Facades\Route;
+
+
+
+
+//use App\DemoFacade;
+//use Illuminate\Support\Facades\Route;
 
 //Route::get('{all}', function () {
 //    return view('layouts.app');
 //})->where(['all' => '.*']);
 
 
-Route::get('/',function(){
-   DemoFacade::hello('dung');
-});
-Route::get('/pay','HomeController@pay');
+//Route::get('/',function(){
+//   DemoFacade::hello('dung');
+//});
+//Route::get('/pay','HomeController@pay');
 

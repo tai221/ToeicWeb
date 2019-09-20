@@ -51,6 +51,8 @@
 </template>
 
 <script>
+    import {getAccount, createAccount, updateAccount} from "../../../api/managAccount";
+
     export default {
         name: "CreateAccount.vue",
         data(){
@@ -82,11 +84,13 @@
           let app = this;
 
           let id = app.$route.params.id;
+          console.log(id)
           if(id){
               app.isEdit = true;
               app.accountId = id;
-              axios.get('/api/v1/account/' + id)
+              getAccount(id)
                   .then(function (resp) {
+                      console.log(resp.data)
                       app.account.username = resp.data["username"];
                       app.account.email = resp.data["email"];
                       app.account.hasRole = resp.data["hasRole"];
@@ -137,7 +141,7 @@
         methods: {
             saveForm(){
                 event.preventDefault();
-                var app = this;
+                let app = this;
                 if(app.isEdit){
                     app.updateAccount();
                 }else {
@@ -146,9 +150,9 @@
 
             },
             createAccount(){
-                var app = this;
-                var account = app.account;
-                axios.post('/api/v1/account', account)
+                let app = this;
+                let account = app.account;
+                createAccount(account)
                     .then(function (resp) {
                         if(resp.data.checkUsername && resp.data.checkEmail) {
                             app.error.username = 'Username exists!';
@@ -170,9 +174,9 @@
                     });
             },
             updateAccount(){
-                var app = this;
-                var account = app.account;
-                axios.patch('/api/v1/account/' + app.accountId, account)
+                let app = this;
+                let account = app.account;
+                updateAccount(app.accountId, account)
                     .then(function (resp) {
                         if(resp.data.checkUsername && resp.data.checkEmail) {
                             app.error.username = 'Username exists!';
@@ -194,11 +198,11 @@
                     });
             },
             validEmail(email) {
-                var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 return re.test(email);
             },
             validPassword(password) {
-                var re = /^(?=.{8,})/;
+                let re = /^(?=.{8,})/;
                 return re.test(password);
             }
 
