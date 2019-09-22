@@ -1,11 +1,12 @@
 <template>
     <div class="container">
         <label for="uname"><b>Username</b></label>
-        <input type="text" placeholder="Enter Username" name="uname" v-model="account.username" >
+        <input type="text" placeholder="Enter Username" name="uname" v-model="account.username" ><br>
 
         <label for="psw"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="psw" v-model="account.password">
+        <input type="password" placeholder="Enter Password" name="psw" v-model="account.password"><br>
 
+        <input type="checkbox" v-model="remember" > Remember me<br>
         <button type="submit" v-on:click="login()">Login</button>
     </div>
 </template>
@@ -18,21 +19,17 @@
                 account: {
                     username:'',
                     password:''
-                }
+                },
+                remember: false
             }
         },
         methods:{
             login(){
-                // let app = this;
-                // let account = app.account;
-                // axios.post('/api/v1/login', account)
-                //     .then(function (resp) {
-                //         console.log(resp.data);
-                //     })
-                //     .catch(function (resp) {
-                //         alert("Could not login");
-                //     });
-                this.$store.dispatch('retrieveToken',this.account)
+                let data = {
+                    account: this.account,
+                    remember: this.remember
+                };
+                this.$store.dispatch('retrieveToken',data)
                 .then(response => {
                     this.$router.push({name:'userIndex'})
                 })

@@ -36,7 +36,7 @@ import {store} from "./store/store";
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 const router = new VueRouter({
-    // mode: 'history',
+    mode: 'history',
     routes
 });
 

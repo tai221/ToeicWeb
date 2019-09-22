@@ -1889,7 +1889,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     appFooter: _Footer_Footer__WEBPACK_IMPORTED_MODULE_1__["default"],
     appSidebar: _Sidebar_Sidebar__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapGetters"])(['stateSidebar']))
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapGetters"])(['stateSidebar'])),
+  watched: {
+    '$route': function $route(to, from) {}
+  }
 });
 
 /***/ }),
@@ -1987,7 +1990,6 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var app = this;
     var id = app.$route.params.id;
-    console.log(id);
 
     if (id) {
       app.isEdit = true;
@@ -2122,6 +2124,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Pagination_Pagination__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Pagination/Pagination */ "./resources/js/components/backend/Pagination/Pagination.vue");
+/* harmony import */ var _api_managAccount__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../api/managAccount */ "./resources/js/api/managAccount.js");
 //
 //
 //
@@ -2205,6 +2208,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ManageAccount",
@@ -2220,7 +2224,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     var app = this;
-    axios.get('/api/v1/account').then(function (resp) {
+    Object(_api_managAccount__WEBPACK_IMPORTED_MODULE_1__["getAllAccount"])().then(function (resp) {
       app.userAccounts = resp.data;
 
       if (app.userAccounts.length > 10) {
@@ -2236,7 +2240,8 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     deleteAccount: function deleteAccount(id, index) {
       var app = this;
-      axios["delete"]('/api/v1/account/' + id).then(function (resp) {
+
+      Object(_api_managAccount__WEBPACK_IMPORTED_MODULE_1__["deleteAccount"])(id).then(function (resp) {
         app.userAccounts.splice(index, 1);
       })["catch"](function (resp) {
         alert('could not delete account');
@@ -2244,7 +2249,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     banAccount: function banAccount(id, index) {
       var app = this;
-      axios.get('/api/v1/account/' + id + '/edit').then(function (resp) {
+
+      Object(_api_managAccount__WEBPACK_IMPORTED_MODULE_1__["banAccount"])(id).then(function (resp) {
         app.userAccounts[index].active = 0;
       })["catch"](function (resp) {
         alert('could not ban account');
@@ -2252,7 +2258,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     unbanAccount: function unbanAccount(id, index) {
       var app = this;
-      axios.get('api/v1/account/' + id + '/edit').then(function (resp) {
+
+      Object(_api_managAccount__WEBPACK_IMPORTED_MODULE_1__["unbanAccount"])(id).then(function (resp) {
         app.userAccounts[index].active = 1;
       })["catch"](function (resp) {
         alert('could not unban account');
@@ -2262,10 +2269,10 @@ __webpack_require__.r(__webpack_exports__);
       event.preventDefault();
       var app = this;
       var inputSearch = app.inputSearch;
-      var array = {
+      var data = {
         'inputSearch': inputSearch
       };
-      axios.post('/api/v1/search/account', array).then(function (resp) {
+      Object(_api_managAccount__WEBPACK_IMPORTED_MODULE_1__["searchAccount"])(data).then(function (resp) {
         app.$store.dispatch('setResultAccounts', resp.data);
         app.$router.push({
           name: 'resultSearch'
@@ -2555,6 +2562,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Login",
   data: function data() {
@@ -2562,23 +2570,19 @@ __webpack_require__.r(__webpack_exports__);
       account: {
         username: '',
         password: ''
-      }
+      },
+      remember: false
     };
   },
   methods: {
     login: function login() {
       var _this = this;
 
-      // let app = this;
-      // let account = app.account;
-      // axios.post('/api/v1/login', account)
-      //     .then(function (resp) {
-      //         console.log(resp.data);
-      //     })
-      //     .catch(function (resp) {
-      //         alert("Could not login");
-      //     });
-      this.$store.dispatch('retrieveToken', this.account).then(function (response) {
+      var data = {
+        account: this.account,
+        remember: this.remember
+      };
+      this.$store.dispatch('retrieveToken', data).then(function (response) {
         _this.$router.push({
           name: 'userIndex'
         });
@@ -17922,6 +17926,184 @@ if ( !noGlobal ) {
 
 return jQuery;
 } );
+
+
+/***/ }),
+
+/***/ "./node_modules/js-cookie/src/js.cookie.js":
+/*!*************************************************!*\
+  !*** ./node_modules/js-cookie/src/js.cookie.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+ * JavaScript Cookie v2.2.1
+ * https://github.com/js-cookie/js-cookie
+ *
+ * Copyright 2006, 2015 Klaus Hartl & Fagner Brack
+ * Released under the MIT license
+ */
+;(function (factory) {
+	var registeredInModuleLoader;
+	if (true) {
+		!(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
+				__WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		registeredInModuleLoader = true;
+	}
+	if (true) {
+		module.exports = factory();
+		registeredInModuleLoader = true;
+	}
+	if (!registeredInModuleLoader) {
+		var OldCookies = window.Cookies;
+		var api = window.Cookies = factory();
+		api.noConflict = function () {
+			window.Cookies = OldCookies;
+			return api;
+		};
+	}
+}(function () {
+	function extend () {
+		var i = 0;
+		var result = {};
+		for (; i < arguments.length; i++) {
+			var attributes = arguments[ i ];
+			for (var key in attributes) {
+				result[key] = attributes[key];
+			}
+		}
+		return result;
+	}
+
+	function decode (s) {
+		return s.replace(/(%[0-9A-Z]{2})+/g, decodeURIComponent);
+	}
+
+	function init (converter) {
+		function api() {}
+
+		function set (key, value, attributes) {
+			if (typeof document === 'undefined') {
+				return;
+			}
+
+			attributes = extend({
+				path: '/'
+			}, api.defaults, attributes);
+
+			if (typeof attributes.expires === 'number') {
+				attributes.expires = new Date(new Date() * 1 + attributes.expires * 864e+5);
+			}
+
+			// We're using "expires" because "max-age" is not supported by IE
+			attributes.expires = attributes.expires ? attributes.expires.toUTCString() : '';
+
+			try {
+				var result = JSON.stringify(value);
+				if (/^[\{\[]/.test(result)) {
+					value = result;
+				}
+			} catch (e) {}
+
+			value = converter.write ?
+				converter.write(value, key) :
+				encodeURIComponent(String(value))
+					.replace(/%(23|24|26|2B|3A|3C|3E|3D|2F|3F|40|5B|5D|5E|60|7B|7D|7C)/g, decodeURIComponent);
+
+			key = encodeURIComponent(String(key))
+				.replace(/%(23|24|26|2B|5E|60|7C)/g, decodeURIComponent)
+				.replace(/[\(\)]/g, escape);
+
+			var stringifiedAttributes = '';
+			for (var attributeName in attributes) {
+				if (!attributes[attributeName]) {
+					continue;
+				}
+				stringifiedAttributes += '; ' + attributeName;
+				if (attributes[attributeName] === true) {
+					continue;
+				}
+
+				// Considers RFC 6265 section 5.2:
+				// ...
+				// 3.  If the remaining unparsed-attributes contains a %x3B (";")
+				//     character:
+				// Consume the characters of the unparsed-attributes up to,
+				// not including, the first %x3B (";") character.
+				// ...
+				stringifiedAttributes += '=' + attributes[attributeName].split(';')[0];
+			}
+
+			return (document.cookie = key + '=' + value + stringifiedAttributes);
+		}
+
+		function get (key, json) {
+			if (typeof document === 'undefined') {
+				return;
+			}
+
+			var jar = {};
+			// To prevent the for loop in the first place assign an empty array
+			// in case there are no cookies at all.
+			var cookies = document.cookie ? document.cookie.split('; ') : [];
+			var i = 0;
+
+			for (; i < cookies.length; i++) {
+				var parts = cookies[i].split('=');
+				var cookie = parts.slice(1).join('=');
+
+				if (!json && cookie.charAt(0) === '"') {
+					cookie = cookie.slice(1, -1);
+				}
+
+				try {
+					var name = decode(parts[0]);
+					cookie = (converter.read || converter)(cookie, name) ||
+						decode(cookie);
+
+					if (json) {
+						try {
+							cookie = JSON.parse(cookie);
+						} catch (e) {}
+					}
+
+					jar[name] = cookie;
+
+					if (key === name) {
+						break;
+					}
+				} catch (e) {}
+			}
+
+			return key ? jar[key] : jar;
+		}
+
+		api.set = set;
+		api.get = function (key) {
+			return get(key, false /* read as raw */);
+		};
+		api.getJSON = function (key) {
+			return get(key, true /* read as json */);
+		};
+		api.remove = function (key, attributes) {
+			set(key, '', extend(attributes, {
+				expires: -1
+			}));
+		};
+
+		api.defaults = {};
+
+		api.withConverter = init;
+
+		return api;
+	}
+
+	return init(function () {});
+}));
 
 
 /***/ }),
@@ -40023,6 +40205,7 @@ var render = function() {
         }
       }
     }),
+    _c("br"),
     _vm._v(" "),
     _vm._m(1),
     _vm._v(" "),
@@ -40046,6 +40229,45 @@ var render = function() {
         }
       }
     }),
+    _c("br"),
+    _vm._v(" "),
+    _c("input", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.remember,
+          expression: "remember"
+        }
+      ],
+      attrs: { type: "checkbox" },
+      domProps: {
+        checked: Array.isArray(_vm.remember)
+          ? _vm._i(_vm.remember, null) > -1
+          : _vm.remember
+      },
+      on: {
+        change: function($event) {
+          var $$a = _vm.remember,
+            $$el = $event.target,
+            $$c = $$el.checked ? true : false
+          if (Array.isArray($$a)) {
+            var $$v = null,
+              $$i = _vm._i($$a, $$v)
+            if ($$el.checked) {
+              $$i < 0 && (_vm.remember = $$a.concat([$$v]))
+            } else {
+              $$i > -1 &&
+                (_vm.remember = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+            }
+          } else {
+            _vm.remember = $$c
+          }
+        }
+      }
+    }),
+    _vm._v(" Remember me"),
+    _c("br"),
     _vm._v(" "),
     _c(
       "button",
@@ -40100,7 +40322,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("h1", [_vm._v("\n   hello\n")])
+  return _c("h1", [_vm._v("\n   Hello\n")])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -56207,16 +56429,16 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logout", function() { return logout; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "login", function() { return login; });
-/* harmony import */ var _request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./request */ "./resources/js/api/request.js");
+/* harmony import */ var _utils_request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/request */ "./resources/js/utils/request.js");
 
 function logout() {
-  return Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
     url: '/api/logout',
     method: 'post'
   });
 }
 function login(data) {
-  return Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
     url: '/api/login',
     method: 'post',
     data: data
@@ -56229,7 +56451,7 @@ function login(data) {
 /*!******************************************!*\
   !*** ./resources/js/api/managAccount.js ***!
   \******************************************/
-/*! exports provided: getAccount, createAccount, updateAccount */
+/*! exports provided: getAccount, createAccount, updateAccount, getAllAccount, deleteAccount, banAccount, unbanAccount, searchAccount */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -56237,82 +56459,64 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAccount", function() { return getAccount; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createAccount", function() { return createAccount; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateAccount", function() { return updateAccount; });
-/* harmony import */ var _request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./request */ "./resources/js/api/request.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAllAccount", function() { return getAllAccount; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteAccount", function() { return deleteAccount; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "banAccount", function() { return banAccount; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unbanAccount", function() { return unbanAccount; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "searchAccount", function() { return searchAccount; });
+/* harmony import */ var _utils_request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/request */ "./resources/js/utils/request.js");
 
 function getAccount(id) {
-  return Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
     url: '/api/v1/account/' + id,
     method: 'get'
   });
 }
 function createAccount(data) {
-  return Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
     url: '/api/v1/account/',
     method: 'post',
     data: data
   });
 }
 function updateAccount(id, data) {
-  return Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    url: '/api/v1/account/',
+  return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    url: '/api/v1/account/' + id,
     method: 'patch',
-    id: id,
     data: data
   });
 }
-
-/***/ }),
-
-/***/ "./resources/js/api/request.js":
-/*!*************************************!*\
-  !*** ./resources/js/api/request.js ***!
-  \*************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _store_modules_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../store/modules/auth */ "./resources/js/store/modules/auth.js");
- // import { Message } from 'element-ui'
-
- // import { getToken } from '@backend/utils/auth'
-// create an axios instance
-
-var service = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
-  baseURL: 'http://127.0.0.1:8000',
-  timeout: 30000 // request timeout
-
-}); // request interceptor
-
-service.interceptors.request.use(function (config) {
-  // Do something before request is sent
-  if (_store_modules_auth__WEBPACK_IMPORTED_MODULE_1__["default"].state.token) {
-    config.headers['Authorization'] = 'Bearer ' + _store_modules_auth__WEBPACK_IMPORTED_MODULE_1__["default"].state.token;
-  }
-
-  return config;
-}, function (error) {
-  // Do something with request error
-  console.log(error); // for debug
-
-  Promise.reject(error);
-}); // response interceptor
-
-service.interceptors.response.use(function (response) {
-  return response;
-}, function (error) {
-  console.log('err' + error); // for debug
-
-  Message({
-    message: error.message,
-    type: 'error',
-    duration: 5 * 1000
+function getAllAccount() {
+  return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    url: '/api/v1/account/',
+    method: 'get'
   });
-  return Promise.reject(error);
-});
-/* harmony default export */ __webpack_exports__["default"] = (service);
+}
+function deleteAccount(id) {
+  return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    url: '/api/v1/account/' + id,
+    method: 'delete'
+  });
+}
+function banAccount(id) {
+  return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    url: '/api/v1/account/' + id + '/edit',
+    method: 'get'
+  });
+}
+function unbanAccount(id) {
+  return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    url: '/api/v1/account/' + id + '/edit',
+    method: 'get'
+  });
+}
+function searchAccount(data) {
+  return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    url: '/api/v1/search/account',
+    method: 'post',
+    data: data
+  });
+}
 
 /***/ }),
 
@@ -56361,7 +56565,7 @@ window.Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]);
  */
 
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
-  // mode: 'history',
+  mode: 'history',
   routes: _routes__WEBPACK_IMPORTED_MODULE_2__["routes"]
 });
 router.beforeEach(function (to, from, next) {
@@ -57374,7 +57578,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var routes = [{
-  path: '/account',
+  path: '/admin',
   component: _components_backend_Layout__WEBPACK_IMPORTED_MODULE_2__["default"],
   children: [{
     path: '',
@@ -57461,9 +57665,11 @@ var routes = [{
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _api_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../api/auth */ "./resources/js/api/auth.js");
+/* harmony import */ var _utils_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/auth */ "./resources/js/utils/auth.js");
+
 
 var state = {
-  token: localStorage.getItem('access_token') || null,
+  token: Object(_utils_auth__WEBPACK_IMPORTED_MODULE_1__["getToken"])() || null,
   username: localStorage.getItem('username') || null
 };
 var mutations = {
@@ -57481,16 +57687,21 @@ var mutations = {
   }
 };
 var actions = {
-  retrieveToken: function retrieveToken(context, account) {
+  retrieveToken: function retrieveToken(context, data) {
+    console.log(data);
     return new Promise(function (resolve, reject) {
-      console.log(account);
-      Object(_api_auth__WEBPACK_IMPORTED_MODULE_0__["login"])(account).then(function (response) {
+      Object(_api_auth__WEBPACK_IMPORTED_MODULE_0__["login"])(data.account).then(function (response) {
         var token = response.data.access_token;
-        localStorage.setItem('access_token', token);
-        localStorage.setItem('username', account.username); // document.cookie= username + "=" + account.username() + ";"
 
+        if (data.remember) {
+          Object(_utils_auth__WEBPACK_IMPORTED_MODULE_1__["setTokenRemember"])(token);
+        } else {
+          Object(_utils_auth__WEBPACK_IMPORTED_MODULE_1__["setToken"])(token);
+        }
+
+        localStorage.setItem('username', data.account.username);
         context.commit('retrieveToken', token);
-        context.commit('setUsername', account.username);
+        context.commit('setUsername', data.account.username);
         resolve(response);
       })["catch"](function (error) {
         console.log(error);
@@ -57499,16 +57710,15 @@ var actions = {
     });
   },
   destroyToken: function destroyToken(context) {
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token;
     return new Promise(function (resolve, reject) {
       Object(_api_auth__WEBPACK_IMPORTED_MODULE_0__["logout"])().then(function (response) {
-        localStorage.removeItem('access_token');
+        Object(_utils_auth__WEBPACK_IMPORTED_MODULE_1__["removeToken"])();
         localStorage.removeItem('username');
         context.commit('destroyToken');
         context.commit('deleteUsername');
         resolve(response);
       })["catch"](function (error) {
-        localStorage.removeItem('access_token');
+        Object(_utils_auth__WEBPACK_IMPORTED_MODULE_1__["removeToken"])();
         context.commit('destroyToken');
         context.commit('deleteUsername');
         reject(error);
@@ -57636,6 +57846,93 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     auth: _modules_auth__WEBPACK_IMPORTED_MODULE_4__["default"]
   }
 });
+
+/***/ }),
+
+/***/ "./resources/js/utils/auth.js":
+/*!************************************!*\
+  !*** ./resources/js/utils/auth.js ***!
+  \************************************/
+/*! exports provided: getToken, setTokenRemember, setToken, removeToken */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getToken", function() { return getToken; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setTokenRemember", function() { return setTokenRemember; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setToken", function() { return setToken; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeToken", function() { return removeToken; });
+/* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! js-cookie */ "./node_modules/js-cookie/src/js.cookie.js");
+/* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(js_cookie__WEBPACK_IMPORTED_MODULE_0__);
+
+var TokenKey = 'access_token';
+function getToken() {
+  return js_cookie__WEBPACK_IMPORTED_MODULE_0___default.a.get(TokenKey);
+}
+function setTokenRemember(token) {
+  return js_cookie__WEBPACK_IMPORTED_MODULE_0___default.a.set(TokenKey, token, {
+    expires: 365
+  });
+}
+function setToken(token) {
+  return js_cookie__WEBPACK_IMPORTED_MODULE_0___default.a.set(TokenKey, token);
+}
+function removeToken() {
+  return js_cookie__WEBPACK_IMPORTED_MODULE_0___default.a.remove(TokenKey);
+}
+
+/***/ }),
+
+/***/ "./resources/js/utils/request.js":
+/*!***************************************!*\
+  !*** ./resources/js/utils/request.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _store_modules_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../store/modules/auth */ "./resources/js/store/modules/auth.js");
+ // import { Message } from 'element-ui'
+
+ // import { getToken } from '@backend/utils/auth'
+// create an axios instance
+
+var service = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
+  baseURL: 'http://127.0.0.1:8000',
+  timeout: 30000 // request timeout
+
+}); // request interceptor
+
+service.interceptors.request.use(function (config) {
+  // Do something before request is sent
+  if (_store_modules_auth__WEBPACK_IMPORTED_MODULE_1__["default"].state.token) {
+    config.headers['Authorization'] = 'Bearer ' + _store_modules_auth__WEBPACK_IMPORTED_MODULE_1__["default"].state.token;
+  }
+
+  return config;
+}, function (error) {
+  // Do something with request error
+  console.log(error); // for debug
+
+  Promise.reject(error);
+}); // response interceptor
+
+service.interceptors.response.use(function (response) {
+  return response;
+}, function (error) {
+  console.log('err' + error); // for debug
+
+  Message({
+    message: error.message,
+    type: 'error',
+    duration: 5 * 1000
+  });
+  return Promise.reject(error);
+});
+/* harmony default export */ __webpack_exports__["default"] = (service);
 
 /***/ }),
 

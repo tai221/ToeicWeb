@@ -9,7 +9,7 @@ import Login from "./views/Login/Login";
 
 export const routes = [
     {
-        path: '/account',
+        path: '/admin',
         component: Layout,
         children:[
             {

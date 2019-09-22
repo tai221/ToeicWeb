@@ -11,23 +11,19 @@ use Illuminate\Support\Facades\Route;
 class AuthController extends Controller
 {
     public function login(Request $request){
-        Log::info($request);
         $username = $request['username'];
         $password = $request['password'];
-//        $account = Account::where('username',$username)->first();
-//        $token = $account->createToken('Access Token')->accessToken;
-//        return $token;
         try {
             $request->request->add([
                 'grant_type' => 'password',
-                'client_id' => 7,
-                'client_secret' => 'NaokSGVxTXpokoeURvhUUpgLTnYGEYzq9UHGtOE7',
+                'client_id' => config('services.passport.client_id'),
+                'client_secret' => config('services.passport.client_secret'),
                 'username' => $username,
                 'password' => $password,
                 'scope' => '*'
             ]);
             $tokenRequest = Request::create(
-                'http://127.0.0.1:8000/oauth/token',
+                config('services.passport.login_endpoint'),
                 'post'
             );
             $response = Route::dispatch($tokenRequest);

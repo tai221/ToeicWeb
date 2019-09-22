@@ -84,7 +84,6 @@
           let app = this;
 
           let id = app.$route.params.id;
-          console.log(id)
           if(id){
               app.isEdit = true;
               app.accountId = id;

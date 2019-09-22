@@ -31,6 +31,11 @@ export default {
         ...mapGetters([
             'stateSidebar'
         ])
+    },
+    watched: {
+        '$route'(to, from){
+
+        }
     }
 
 }

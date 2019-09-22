@@ -1,7 +1,8 @@
 import {login, logout} from "../../api/auth";
+import {setToken, setTokenRemember, getToken, removeToken} from "../../utils/auth";
 
 const state = {
-    token: localStorage.getItem('access_token')||null,
+    token: getToken()||null,
     username: localStorage.getItem('username')|| null,
 
 }
@@ -22,19 +23,21 @@ const mutations = {
 }
 
 const actions = {
-    retrieveToken(context, account) {
+    retrieveToken(context, data) {
+        console.log(data)
         return new Promise((resolve, reject) => {
-            console.log(account)
-            login(account)
+            login(data.account)
                 .then(response => {
                     let token = response.data.access_token;
-                    localStorage.setItem('access_token', token);
-                    localStorage.setItem('username', account.username);
-                    // document.cookie= username + "=" + account.username() + ";"
+                    if(data.remember){
+                        setTokenRemember(token);
+                    }else{
+                        setToken(token);
+                    }
+                    localStorage.setItem('username', data.account.username);
                     context.commit('retrieveToken',token);
-                    context.commit('setUsername',account.username);
+                    context.commit('setUsername',data.account.username);
                     resolve(response)
-
                 })
                 .catch(error => {
                     console.log(error);
@@ -44,18 +47,17 @@ const actions = {
 
     },
     destroyToken(context) {
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
         return new Promise((resolve, reject) => {
             logout()
                 .then(response => {
-                    localStorage.removeItem('access_token');
+                    removeToken();
                     localStorage.removeItem('username');
                     context.commit('destroyToken');
                     context.commit('deleteUsername');
                     resolve(response);
                 })
                 .catch(error => {
-                    localStorage.removeItem('access_token');
+                    removeToken();
                     context.commit('destroyToken');
                     context.commit('deleteUsername');
                     reject(error);

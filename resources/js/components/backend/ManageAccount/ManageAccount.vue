@@ -83,6 +83,8 @@
 
 <script>
     import Pagination from "../Pagination/Pagination";
+    import {getAllAccount, deleteAccount, banAccount, unbanAccount, searchAccount} from "../../../api/managAccount";
+
     export default {
         name: "ManageAccount",
         data() {
@@ -97,7 +99,7 @@
         },
         created() {
             var app = this;
-            axios.get('/api/v1/account')
+            getAllAccount()
                 .then(function (resp) {
                     app.userAccounts = resp.data;
                     if(app.userAccounts.length > 10){
@@ -116,7 +118,7 @@
         methods: {
             deleteAccount(id, index) {
                 var app = this;
-                axios.delete('/api/v1/account/' + id)
+                deleteAccount(id)
                     .then(function (resp) {
                         app.userAccounts.splice(index, 1);
                     })
@@ -126,7 +128,7 @@
             },
             banAccount(id, index){
                 var app = this;
-                axios.get('/api/v1/account/' + id + '/edit')
+                banAccount(id)
                     .then(function (resp) {
                         app.userAccounts[index].active = 0;
                     })
@@ -136,7 +138,7 @@
             },
             unbanAccount(id, index){
                 var app = this;
-                axios.get('api/v1/account/' + id + '/edit')
+                unbanAccount(id)
                     .then(function (resp) {
                         app.userAccounts[index].active = 1;
                     })
@@ -148,8 +150,8 @@
                 event.preventDefault();
                 var app = this;
                 var inputSearch = app.inputSearch;
-                var array = {'inputSearch': inputSearch};
-                axios.post('/api/v1/search/account', array)
+                var data = {'inputSearch': inputSearch};
+                searchAccount(data)
                     .then(function (resp) {
                         app.$store.dispatch('setResultAccounts', resp.data);
                         app.$router.push({name:'resultSearch'});

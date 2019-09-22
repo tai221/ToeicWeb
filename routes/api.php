@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 //    return $request->user();
 //});
 
-Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.'], function () {
+Route::group(['middleware' => 'auth:api', 'prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.'], function () {
     Route::resource('account', 'AccountController', ['except' => ['create']]);
     Route::resource('search/account', 'SearchAccountController');
 });
