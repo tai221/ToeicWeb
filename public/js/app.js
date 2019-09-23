@@ -2296,6 +2296,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _api_managAccount__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../api/managAccount */ "./resources/js/api/managAccount.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2376,6 +2377,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ResultSearch",
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
@@ -2383,7 +2385,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   })),
   methods: {
     deleteAccount: function deleteAccount(id, index) {
-      axios["delete"]('/api/v1/account/' + id).then(function (resp) {
+      Object(_api_managAccount__WEBPACK_IMPORTED_MODULE_1__["deleteAccount"])(id).then(function (resp) {
         app.resultAccounts.splice(index, 1);
       })["catch"](function (resp) {
         alert('could not delete account');
@@ -2391,7 +2393,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     banAccount: function banAccount(id, index) {
       var app = this;
-      axios.get('/api/v1/account/' + id + '/edit').then(function (resp) {
+
+      Object(_api_managAccount__WEBPACK_IMPORTED_MODULE_1__["banAccount"])(id).then(function (resp) {
         app.resultAccounts[index].active = 0;
       })["catch"](function (resp) {
         alert('could not ban account');
@@ -2399,7 +2402,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     unbanAccount: function unbanAccount(id, index) {
       var app = this;
-      axios.get('api/v1/account/' + id + '/edit').then(function (resp) {
+
+      Object(_api_managAccount__WEBPACK_IMPORTED_MODULE_1__["unbanAccount"])(id).then(function (resp) {
         app.resultAccounts[index].active = 1;
       })["catch"](function (resp) {
         alert('could not unban account');
@@ -56422,13 +56426,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!**********************************!*\
   !*** ./resources/js/api/auth.js ***!
   \**********************************/
-/*! exports provided: logout, login */
+/*! exports provided: logout, login, getUserInfo */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logout", function() { return logout; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "login", function() { return login; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUserInfo", function() { return getUserInfo; });
 /* harmony import */ var _utils_request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/request */ "./resources/js/utils/request.js");
 
 function logout() {
@@ -56442,6 +56447,12 @@ function login(data) {
     url: '/api/login',
     method: 'post',
     data: data
+  });
+}
+function getUserInfo() {
+  return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    url: '/api/getUserInfo',
+    method: 'get'
   });
 }
 
@@ -56529,20 +56540,23 @@ function searchAccount(data) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./App */ "./resources/js/App.vue");
-/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
-/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./store/store */ "./resources/js/store/store.js");
+/* harmony import */ var _utils_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/auth */ "./resources/js/utils/auth.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./App */ "./resources/js/App.vue");
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
+/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./store/store */ "./resources/js/store/store.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 
-window.Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]);
+window.Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
 
  // import './permission'
@@ -56564,41 +56578,64 @@ window.Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',
-  routes: _routes__WEBPACK_IMPORTED_MODULE_2__["routes"]
+  routes: _routes__WEBPACK_IMPORTED_MODULE_3__["routes"]
 });
 router.beforeEach(function (to, from, next) {
-  if (to.matched.some(function (record) {
-    return record.meta.requiresAuth;
-  })) {
-    if (!_store_store__WEBPACK_IMPORTED_MODULE_3__["store"].getters.loggedIn) {
+  if (Object(_utils_auth__WEBPACK_IMPORTED_MODULE_0__["getToken"])()) {
+    _store_store__WEBPACK_IMPORTED_MODULE_4__["store"].dispatch('getUserInfo').then(function (response) {
+      if (to.path === '/login') {
+        next({
+          name: 'userIndex'
+        });
+      } else {
+        next();
+      }
+    })["catch"](function (error) {
+      if (to.path === '/login') {
+        next();
+      } else {
+        next({
+          name: 'login'
+        });
+      }
+    });
+  } else {
+    if (to.path === '/login') {
+      next();
+    } else {
       next({
         name: 'login'
       });
-    } else {
-      next();
     }
-  } else if (to.matched.some(function (record) {
-    return record.meta.requiresVisitor;
-  })) {
-    if (_store_store__WEBPACK_IMPORTED_MODULE_3__["store"].getters.loggedIn) {
-      next({
-        name: 'userIndex'
-      });
-    } else {
-      next();
-    }
-  } else {
-    next();
-  }
+  } // if (to.matched.some(record => record.meta.requiresAuth)) {
+  //     if (!store.getters.loggedIn) {
+  //         next({
+  //             name: 'login',
+  //         })
+  //     } else {
+  //         next()
+  //     }
+  // } else if (to.matched.some(record => record.meta.requiresVisitor)) {
+  //     if (store.getters.loggedIn) {
+  //         next({
+  //             name:'userIndex'
+  //         })
+  //     } else {
+  //         next()
+  //     }
+  // } else {
+  //     next()
+  // }
+
 });
 var app = new Vue({
   el: '#app',
   router: router,
-  store: _store_store__WEBPACK_IMPORTED_MODULE_3__["store"],
+  store: _store_store__WEBPACK_IMPORTED_MODULE_4__["store"],
   render: function render(h) {
-    return h(_App__WEBPACK_IMPORTED_MODULE_1__["default"]);
+    return h(_App__WEBPACK_IMPORTED_MODULE_2__["default"]);
   }
 });
 
@@ -57688,7 +57725,6 @@ var mutations = {
 };
 var actions = {
   retrieveToken: function retrieveToken(context, data) {
-    console.log(data);
     return new Promise(function (resolve, reject) {
       Object(_api_auth__WEBPACK_IMPORTED_MODULE_0__["login"])(data.account).then(function (response) {
         var token = response.data.access_token;
@@ -57721,6 +57757,15 @@ var actions = {
         Object(_utils_auth__WEBPACK_IMPORTED_MODULE_1__["removeToken"])();
         context.commit('destroyToken');
         context.commit('deleteUsername');
+        reject(error);
+      });
+    });
+  },
+  getUserInfo: function getUserInfo(context) {
+    return new Promise(function (resolve, reject) {
+      Object(_api_auth__WEBPACK_IMPORTED_MODULE_0__["getUserInfo"])().then(function (response) {
+        resolve(response);
+      })["catch"](function (error) {
         reject(error);
       });
     });

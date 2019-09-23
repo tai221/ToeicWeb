@@ -14,3 +14,10 @@ export function login(data) {
         data
     })
 }
+
+export function getUserInfo() {
+    return request({
+        url: '/api/getUserInfo',
+        method: 'get'
+    })
+}

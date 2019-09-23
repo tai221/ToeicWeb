@@ -40,10 +40,15 @@ class AuthController extends Controller
 
     public function logout(){
         if (Auth::check()) {
+            Log::info('auth check');
             auth()->user()->tokens->each(function ($token, $key) {
                 $token->delete();
             });
         }
         return response()->json('logout success!', 200);
+    }
+
+    public function getUserInfo() {
+        return auth()->user()->username;
     }
 }

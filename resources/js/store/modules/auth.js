@@ -1,4 +1,4 @@
-import {login, logout} from "../../api/auth";
+import {getUserInfo, login, logout} from "../../api/auth";
 import {setToken, setTokenRemember, getToken, removeToken} from "../../utils/auth";
 
 const state = {
@@ -24,7 +24,6 @@ const mutations = {
 
 const actions = {
     retrieveToken(context, data) {
-        console.log(data)
         return new Promise((resolve, reject) => {
             login(data.account)
                 .then(response => {
@@ -61,6 +60,17 @@ const actions = {
                     context.commit('destroyToken');
                     context.commit('deleteUsername');
                     reject(error);
+                })
+        })
+    },
+    getUserInfo(context) {
+        return new Promise((resolve, reject) => {
+            getUserInfo()
+                .then(response => {
+                    resolve(response)
+                })
+                .catch(error => {
+                    reject(error)
                 })
         })
     }

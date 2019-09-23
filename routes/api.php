@@ -24,5 +24,6 @@ Route::group(['middleware' => 'auth:api', 'prefix' => '/v1', 'namespace' => 'Api
 
 Route::post('/login', 'AuthController@login');
 Route::middleware('auth:api')->post('/logout', 'AuthController@logout');
+Route::middleware('auth:api')->get('/getUserInfo', 'AuthController@getUserInfo');
 
 

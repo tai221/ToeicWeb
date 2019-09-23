@@ -3,6 +3,7 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+import {getToken} from "./utils/auth";
 
 require('./bootstrap');
 
@@ -41,25 +42,55 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (!store.getters.loggedIn) {
-            next({
-                name: 'login',
+    if(getToken()){
+        store.dispatch('getUserInfo')
+            .then(response => {
+                if(to.path === '/login'){
+                    next({
+                        name: 'userIndex'
+                    })
+                }else{
+                    next()
+                }
             })
-        } else {
-            next()
-        }
-    } else if (to.matched.some(record => record.meta.requiresVisitor)) {
-        if (store.getters.loggedIn) {
-            next({
-                name:'userIndex'
+            .catch(error =>{
+                if(to.path ==='/login'){
+                    next()
+                }else {
+                    next({
+                        name: 'login'
+                    })
+                }
             })
-        } else {
+    }else {
+        if(to.path ==='/login'){
             next()
+        }else {
+            next({
+                name: 'login'
+            })
         }
-    } else {
-        next()
     }
+
+    // if (to.matched.some(record => record.meta.requiresAuth)) {
+    //     if (!store.getters.loggedIn) {
+    //         next({
+    //             name: 'login',
+    //         })
+    //     } else {
+    //         next()
+    //     }
+    // } else if (to.matched.some(record => record.meta.requiresVisitor)) {
+    //     if (store.getters.loggedIn) {
+    //         next({
+    //             name:'userIndex'
+    //         })
+    //     } else {
+    //         next()
+    //     }
+    // } else {
+    //     next()
+    // }
 })
 const app = new Vue({
     el: '#app',

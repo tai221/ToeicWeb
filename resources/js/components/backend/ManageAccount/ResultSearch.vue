@@ -73,6 +73,8 @@
 
 <script>
     import {mapGetters}  from 'vuex'
+    import {deleteAccount, banAccount, unbanAccount} from "../../../api/managAccount";
+
     export default {
         name: "ResultSearch",
         computed: {
@@ -82,7 +84,7 @@
         },
         methods: {
             deleteAccount(id, index) {
-                axios.delete('/api/v1/account/' + id)
+                deleteAccount(id)
                     .then(function (resp) {
                         app.resultAccounts.splice(index, 1);
                     })
@@ -92,7 +94,7 @@
             },
             banAccount(id, index){
                 var app = this;
-                axios.get('/api/v1/account/' + id + '/edit')
+                banAccount(id)
                     .then(function (resp) {
                         app.resultAccounts[index].active = 0;
                     })
@@ -102,7 +104,7 @@
             },
             unbanAccount(id, index){
                 var app = this;
-                axios.get('api/v1/account/' + id + '/edit')
+                unbanAccount(id)
                     .then(function (resp) {
                         app.resultAccounts[index].active = 1;
                     })
