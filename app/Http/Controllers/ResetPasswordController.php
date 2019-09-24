@@ -67,7 +67,9 @@ class ResetPasswordController extends Controller
                 'message' => 'This password reset token is invalid.'
             ], 404);
         }
-        return response()->json($passwordReset);
+        $email = $passwordReset->email;
+        $token = $passwordReset->token;
+        return view('auth.passwords.reset')->with('email',$email)->with('token',$token);
     }
 
     /**
@@ -104,6 +106,8 @@ class ResetPasswordController extends Controller
         $user->save();
         $passwordReset->delete();
         $user->notify(new PasswordResetSuccess($passwordReset));
-        return response()->json($user);
+        return response()->json([
+            'message' => 'Successfully!'
+        ], 200);
     }
 }

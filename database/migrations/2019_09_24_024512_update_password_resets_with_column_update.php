@@ -14,7 +14,7 @@ class UpdatePasswordResetsWithColumnUpdate extends Migration
     public function up()
     {
         Schema::table('password_resets', function ($table){
-            $table->timestamp('update_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
         });
     }
 
