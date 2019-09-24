@@ -7,7 +7,9 @@
         <input type="password" placeholder="Enter Password" name="psw" v-model="account.password"><br>
 
         <input type="checkbox" v-model="remember" > Remember me<br>
-        <button type="submit" v-on:click="login()">Login</button>
+        <button type="submit" v-on:click="login()">Login</button><br>
+        <router-link :to="{name:'resetPassword'}">or Do you forgot password?</router-link>
+
     </div>
 </template>
 

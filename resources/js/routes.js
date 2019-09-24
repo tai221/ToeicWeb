@@ -1,3 +1,7 @@
+import Vue from 'vue'
+import Router from 'vue-router'
+
+Vue.use(Router)
 import Report from "./components/backend/Report/Report";
 import InfoAdmin from "./components/backend/InfoAdmin/InfoAdmin";
 import Layout from "./components/backend/Layout";
@@ -6,6 +10,8 @@ import CreateAccount from "./components/backend/ManageAccount/CreateAccount";
 import ResultSearch from "./components/backend/ManageAccount/ResultSearch";
 import UserIndex from "./views/users/index";
 import Login from "./views/Login/Login";
+import InputEmail from "./views/ResetPassword/InputEmail";
+
 
 export const routes = [
     {
@@ -16,17 +22,11 @@ export const routes = [
                 path: '',
                 component: UserIndex,
                 name: 'userIndex',
-                meta: {
-                    requiresAuth: true
-                }
             },
             {
                 path: 'manage-account',
                 component: ManageAccount,
                 name:'manageaccount',
-                meta:{
-                    requiresAuth: true
-                }
             },
             {
                 path: 'manage-account/create',
@@ -40,17 +40,11 @@ export const routes = [
                 path: 'manage-account/edit/:id',
                 component: CreateAccount,
                 name:'editaccount',
-                meta: {
-                    requiresAuth: true
-                }
             },
             {
                 path: 'manage-account/result',
                 component: ResultSearch,
                 name:'resultSearch',
-                meta: {
-                    requiresAuth: true
-                }
             }
 
          ]
@@ -58,10 +52,11 @@ export const routes = [
         path:'/login',
         component: Login,
         name: 'login',
-        meta: {
-            requiresVisitor: true
-        }
-     }
+     },{
+        path:'/reset-password',
+        component: InputEmail,
+        name:'resetPassword'
+    }
     // ,{
     //     path:'/account',
     //     component: Layout,
@@ -92,3 +87,7 @@ export const routes = [
     // { path: '/info-account', component: InfoAdmin }
 
 ];
+export default new Router({
+    mode: 'history',
+    routes: routes
+})

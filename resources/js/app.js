@@ -3,7 +3,6 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
-import {getToken} from "./utils/auth";
 
 require('./bootstrap');
 
@@ -14,9 +13,9 @@ import VueRouter from 'vue-router';
 window.Vue.use(VueRouter);
 
 import App from './App';
-import { routes } from './routes';
+import router from './routes';
 import {store} from "./store/store";
-// import './permission'
+import './permission'
 
 /**
  * The following block of code may be used to automatically register your
@@ -36,62 +35,8 @@ import {store} from "./store/store";
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-const router = new VueRouter({
-    mode: 'history',
-    routes
-});
 
-router.beforeEach((to, from, next) => {
-    if(getToken()){
-        store.dispatch('getUserInfo')
-            .then(response => {
-                if(to.path === '/login'){
-                    next({
-                        name: 'userIndex'
-                    })
-                }else{
-                    next()
-                }
-            })
-            .catch(error =>{
-                if(to.path ==='/login'){
-                    next()
-                }else {
-                    next({
-                        name: 'login'
-                    })
-                }
-            })
-    }else {
-        if(to.path ==='/login'){
-            next()
-        }else {
-            next({
-                name: 'login'
-            })
-        }
-    }
 
-    // if (to.matched.some(record => record.meta.requiresAuth)) {
-    //     if (!store.getters.loggedIn) {
-    //         next({
-    //             name: 'login',
-    //         })
-    //     } else {
-    //         next()
-    //     }
-    // } else if (to.matched.some(record => record.meta.requiresVisitor)) {
-    //     if (store.getters.loggedIn) {
-    //         next({
-    //             name:'userIndex'
-    //         })
-    //     } else {
-    //         next()
-    //     }
-    // } else {
-    //     next()
-    // }
-})
 const app = new Vue({
     el: '#app',
     router,

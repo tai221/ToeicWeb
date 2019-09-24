@@ -24,9 +24,6 @@
 //});
 
 
-
-
-
 //use App\DemoFacade;
 //use Illuminate\Support\Facades\Route;
 

@@ -26,4 +26,11 @@ Route::post('/login', 'AuthController@login');
 Route::middleware('auth:api')->post('/logout', 'AuthController@logout');
 Route::middleware('auth:api')->get('/getUserInfo', 'AuthController@getUserInfo');
 
+Route::group([
+    'prefix' => 'password'
+], function () {
+    Route::post('create', 'ResetPasswordController@create');
+    Route::get('find/{token}', 'ResetPasswordController@find');
+    Route::post('reset', 'ResetPasswordController@reset')->name('password.update');
+});
 

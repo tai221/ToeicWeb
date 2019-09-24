@@ -21,3 +21,11 @@ export function getUserInfo() {
         method: 'get'
     })
 }
+
+export function sendMail(data) {
+    return request({
+        url: '/api/password/create',
+        method: 'post',
+        data
+    })
+}
