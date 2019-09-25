@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\SendTodoMail;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class SendMailCommand extends Command
 {
@@ -11,7 +13,7 @@ class SendMailCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'sendmail:send';
+    protected $signature = 'command:sendmail';
 
     /**
      * The console command description.
@@ -37,7 +39,7 @@ class SendMailCommand extends Command
      */
     public function handle()
     {
-        //
-        echo 'helo';
+        $account = DB::table('accounts')->where('username','afsfds')->first();
+        dispatch(new SendTodoMail($account))->onConnection('database');;
     }
 }
