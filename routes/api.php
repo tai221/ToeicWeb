@@ -26,6 +26,11 @@ Route::post('/login', 'AuthController@login');
 Route::middleware('auth:api')->post('/logout', 'AuthController@logout');
 Route::middleware('auth:api')->get('/getUserInfo', 'AuthController@getUserInfo');
 
+Route::group(['middleware' => 'auth:api', 'prefix' => '/notification'], function () {
+    Route::get('getNoti', 'NotiController@getNoti');
+    Route::post('markAsRead', 'NotiController@markAsRead');
+});
+
 Route::group([
     'prefix' => 'password'
 ], function () {
@@ -33,4 +38,5 @@ Route::group([
     Route::get('find/{token}', 'ResetPasswordController@find');
     Route::post('reset', 'ResetPasswordController@reset')->name('password.update');
 });
+
 

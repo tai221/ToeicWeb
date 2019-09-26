@@ -14,11 +14,15 @@
                 <div class=" navbar-collapse justify-content-end"
                     id="collapsibleNavbar">
                     <ul class="navbar-nav ">
-                        <li class="nav-item" id="recv-rp">
-                            <router-link to="/admin/companies/list-report" class="nav-link mr-100" >
-                                <img class="ico-header" src="../../../images/email-icon.png">
-                            </router-link>
-                            <div class="sum-notice">{{countReport}}</div>
+                        <li class="nav-item dropdown" id="recv-rp">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                                <i class="fa fa-bell"></i>
+                                <span class="badge badge-light">{{notifications.length}}</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li v-if="notifications.length > 0" v-on:click="markAsRead() ">Mark all as read</li>
+                                <li v-for="noti in notifications">{{noti.data.data}}</li>
+                            </ul>
                         </li>
 
                         <li class="nav-item">
@@ -41,42 +45,61 @@
 <script>
     import {mapGetters} from 'vuex';
     import {mapActions} from 'vuex'
+    import {getNoti, markAsRead} from "../../../api/notification";
+
     export default {
         name: "Header",
-        data() {
-            return {
-                countReport: 0
-            }
-        },
+
         computed:{
             ...mapGetters([
                 'stateSidebar',
                 'loggedIn',
-                'username'
+                'username',
+                'notifications'
             ])
+        },
+        created(){
+            getNoti()
+              .then(response => {
+                  let notifications = response.data;
+                  this.$store.dispatch('updateNotifications',notifications)
+              })
+              .catch(error => {
+                  console.log(error)
+              })
+
+
+        },
+        mounted(){
+            var pusher = new Pusher('e6b2660952105b0dc309', {
+                cluster: 'ap1',
+                forceTLS: true
+            });
+            var channel = pusher.subscribe('send-noti');
+            var app = this;
+            channel.bind('NotificationEvent', function(data) {
+                let notifications =data;
+                app.$store.dispatch('updateNotifications',notifications)
+            });
         },
         methods: {
             ...mapActions([
-                'changeStateSidebar'
+                'changeStateSidebar',
+
             ]),
             logout(){
                 this.$store.dispatch('destroyToken')
                     .then(response => {
                         this.$router.push({name:'login'});
                     })
+            },
+            markAsRead(){
+                markAsRead()
+                    .then(response =>{
+                        this.$store.dispatch('deleteNotifications')
+                    })
             }
         }
-        // mounted() {
-        //     var app = this;
-        //     axios.get('/api/v1/companies')
-        //         .then(function (resp) {
-        //             app.countReport = resp.data;
-        //         })
-        //         .catch(function (resp) {
-        //             console.log(resp);
-        //             alert("Could not load count report");
-        //         });
-        // },
     }
 </script>
 
