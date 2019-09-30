@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Repositories\Eloquents\AccountRepository;
 use App\Account;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -10,6 +11,13 @@ use Illuminate\Support\Facades\Hash;
 
 class AccountController extends Controller
 {
+    protected $accountRepository;
+
+    public function __construct(AccountRepository $accountRepository)
+    {
+        $this->accountRepository = $accountRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,8 +25,7 @@ class AccountController extends Controller
      */
     public function index()
     {
-        Log::info('vao index');
-        return Account::all();
+        return $this->accountRepository->all();
     }
 
     /**
