@@ -24,10 +24,13 @@
 import {getToken} from "./utils/auth";
 import {store} from "./store/store";
 import router from './routes'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 const whiteList = ['/login', '/reset-password'];
 
 router.beforeEach((to, from, next) => {
+    NProgress.start()
     if (getToken()) {
         store.dispatch('getUserInfo')
             .then(response => {
@@ -57,4 +60,8 @@ router.beforeEach((to, from, next) => {
             })
         }
     }
+})
+
+router.afterEach(() => {
+    NProgress.done()
 })

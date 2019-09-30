@@ -2,8 +2,7 @@
     <div id="sidebar-wrapper" v-bind:class="{hide: !stateSidebar }" >
         <ul class="sidebar-nav ">
             <li><router-link  :to="{name: 'manageaccount'}" ><img class="ico-manag"
-                                                                                src="../../../images/account-manager.png">Quản
-                lý tài khoản</router-link>
+                                                                                src="../../../images/account-manager.png">Manage account</router-link>
             </li>
 
 <!--            <li>< id="link-listen" href="{{Route("listeningpartcontroller.get")}}"><img class="ico-manag"-->

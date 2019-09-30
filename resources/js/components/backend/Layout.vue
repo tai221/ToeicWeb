@@ -2,15 +2,13 @@
     <div style="overflow-x: hidden;" id="app" >
         <app-header></app-header>
         <app-sidebar></app-sidebar>
-
-<!--    <transition name="slide" mode="out-in">-->
-            <div class="container">
-                <div v-bind:class="{ container1: stateSidebar, container2: !stateSidebar }">
-                    <router-view></router-view>
-                </div>
+        <div class="container">
+            <div v-bind:class="{ container1: stateSidebar, container2: !stateSidebar }">
+                <transition name="fade-transform" mode="out-in">
+                <router-view></router-view>
+                </transition>
             </div>
-<!--    </transition>-->
-
+        </div>
         <app-footer></app-footer>
     </div>
 </template>
@@ -52,5 +50,4 @@ export default {
     .container2{
         padding-top: 55px;
     }
-
 </style>

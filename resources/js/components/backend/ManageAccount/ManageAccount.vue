@@ -1,7 +1,7 @@
 <template>
 <div>
         <div>
-            <span class="qltk">Quản lý tài khoản</span>
+            <span class="qltk">Manage account</span>
             <div class="row ">
                 <div class="form-group col-1">
                     <router-link :to="{name: 'createaccount'}" class="btn btn-primary">Create</router-link>
@@ -99,6 +99,7 @@
         },
         created() {
             var app = this;
+            console.log('created manage account')
             getAllAccount()
                 .then(function (resp) {
                     app.userAccounts = resp.data;

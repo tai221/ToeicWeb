@@ -16,6 +16,7 @@ import App from './App';
 import router from './routes';
 import {store} from "./store/store";
 import './permission'
+import './styles/transition.scss'
 
 /**
  * The following block of code may be used to automatically register your
