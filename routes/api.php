@@ -19,7 +19,7 @@ use Illuminate\Http\Request;
 
 Route::group(['middleware' => 'auth:api', 'prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.'], function () {
     Route::resource('account', 'AccountController', ['except' => ['create']]);
-    Route::resource('search/account', 'SearchAccountController');
+    Route::post('search/account', 'AccountController@searchByField');
 });
 
 Route::post('/login', 'AuthController@login');

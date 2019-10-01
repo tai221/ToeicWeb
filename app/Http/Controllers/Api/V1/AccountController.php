@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Requests\AccountStoreRequest;
 use App\Repositories\Eloquents\AccountRepository;
 use App\Account;
 use Illuminate\Http\Request;
@@ -33,9 +34,10 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function searchByField(Request $request)
     {
-        //
+        $value = $request['inputSearch'];
+        return $this->accountRepository->searchAccounByField('username', $value);
     }
 
     /**
@@ -44,23 +46,13 @@ class AccountController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AccountStoreRequest $request)
     {
         $username = $request["username"];
         $email = $request["email"];
-        $password = $request["password"];
-        $hasRole = $request["hasRole"];
-
-        $account = new Account();
-        $account->username = $username;
-        $account->email = $email;
-        $account->password = Hash::make($password);
-        $account->hasRole = $hasRole;
-        $account->active = 1;
-
         $res = array();
-        $checkUserName = Account::where('username', $username)->get();
-        $checkEmail = Account::where('email', $email)->get();
+        $checkUserName = $this->accountRepository->getAccountByField('username', $username);
+        $checkEmail = $this->accountRepository->getAccountByField('email', $email);
 
         //codecu------
 //        if(sizeof($checkUserName) > 0 && sizeof($checkEmail) > 0 ) {
@@ -79,22 +71,21 @@ class AccountController extends Controller
 //        }
         //-------------
 
-        if(sizeof($checkUserName) > 0) {
+        if($checkUserName) {
             $res["checkUsername"] = true;
         } else {
             $res["checkUsername"] = false;
         }
 
-        if(sizeof($checkEmail) > 0){
+        if($checkEmail){
             $res["checkEmail"] = true;
         } else {
             $res["checkEmail"] = false;
         }
 
         if($res["checkUsername"] == false && $res["checkEmail"] ==false) {
-            $account->save();
+            $this->accountRepository->storeAccount($request);
         }
-//        $account = Account::create($request->all());
 
         return $res;
     }
@@ -107,8 +98,7 @@ class AccountController extends Controller
      */
     public function show($id)
     {
-        $account = Account::where('id', $id)->first();
-        return $account;
+        return $this->accountRepository->getAccountByField('id', $id);
     }
 
     /**
@@ -119,13 +109,7 @@ class AccountController extends Controller
      */
     public function edit($id)
     {
-        $account = Account::where('id', $id)->first();
-        $active = $account->active;
-        if($active == 1) {
-            $account->update(['active' => 0]);
-        } else {
-            $account->update(['active' => 1]);
-        }
+        return $this->accountRepository->banOrUnbanAccount($id);
     }
 
     /**
@@ -135,23 +119,13 @@ class AccountController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id, AccountStoreRequest $request)
     {
         $username = $request["username"];
         $email = $request["email"];
-        $password = $request["password"];
-        $hasRole = $request["hasRole"];
-
-        $account = Account::find($id);
-        $account->username = $username;
-        $account->email = $email;
-        $account->password = Hash::make($password);
-        $account->hasRole = $hasRole;
-
         $res = array();
-        $checkUserName = Account::where('username', $username)->first();
-        Log::info($checkUserName);
-        $checkEmail = Account::where('email', $email)->first();
+        $checkUserName = $this->accountRepository->getAccountByField('username', $username);
+        $checkEmail = $this->accountRepository->getAccountByField('email', $email);
 
         if($checkUserName["id"] == '' || $checkUserName["id"] == $id){
             $res["checkUsername"] = false;
@@ -166,7 +140,7 @@ class AccountController extends Controller
         }
 
         if(!$res["checkUsername"] && !$res["checkEmail"]){
-            $account->save();
+            $this->accountRepository->updateAccount($id, $request);
         }
 
         return $res;
@@ -180,7 +154,6 @@ class AccountController extends Controller
      */
     public function destroy($id)
     {
-        $deleteAccount = Account::where('id', $id)->delete();
-        return '';
+        return $this->accountRepository->deleteAccount($id);
     }
 }

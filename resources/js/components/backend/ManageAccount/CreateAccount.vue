@@ -89,7 +89,6 @@
               app.accountId = id;
               getAccount(id)
                   .then(function (resp) {
-                      console.log(resp.data)
                       app.account.username = resp.data["username"];
                       app.account.email = resp.data["email"];
                       app.account.hasRole = resp.data["hasRole"];

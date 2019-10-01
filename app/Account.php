@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\HasApiTokens;
 
 class Account extends Authenticatable
@@ -13,7 +14,7 @@ class Account extends Authenticatable
     //
     use HasApiTokens, Notifiable;
 
-    protected $fillable=['username','password','email','hasRole','active'];
+    protected $fillable=['id','username','password','email','hasRole','active'];
 
     protected $rememberTokenName = false;
 
@@ -43,6 +44,10 @@ class Account extends Authenticatable
         return $this->password;
     }
 
+    public function setPasswordAttribute($password){
+        $this->attributes['password'] = Hash::make($password);
+    }
+
     //---------------
     //custom check username and password in Password Grant
     public function findForPassport($username)
@@ -51,7 +56,7 @@ class Account extends Authenticatable
     }
     public function validateForPassportPasswordGrant($password)
     {
-        return $this->where('password', $password)->first();
+        return Hash::check($password, $this->password);
     }
     //----------------
 

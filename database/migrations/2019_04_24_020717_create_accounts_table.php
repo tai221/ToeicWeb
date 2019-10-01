@@ -22,7 +22,7 @@ class CreateAccountsTable extends Migration
             $table -> string('email') -> unique();
 //            $table -> string('gioiTinh', 10);
             $table ->string('hasRole', 32);
-            $table -> boolean('active');
+            $table -> tinyInteger('active')->default(1);
             $table->timestamps();
         });
     }
