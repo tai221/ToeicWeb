@@ -8,6 +8,7 @@ use App\Notifications\ResetPasswordRequest;
 use App\PasswordReset;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class ResetPasswordController extends Controller
@@ -100,7 +101,7 @@ class ResetPasswordController extends Controller
             return response()->json([
                 'message' => 'We can\'t find a user with that e-mail address.'
             ], 404);
-        $user->password = bcrypt($request->password);
+        $user->password = $request->password;
         $user->save();
         $passwordReset->delete();
         $user->notify(new PasswordResetSuccess($passwordReset));

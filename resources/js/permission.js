@@ -35,7 +35,7 @@ router.beforeEach((to, from, next) => {
       .then((response) => {
         if (to.path === '/login') {
           next({
-            name: 'userIndex'
+            name: 'manageaccount'
           })
         } else {
           next()
