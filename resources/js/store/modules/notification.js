@@ -1,34 +1,32 @@
 const state = {
-    notifications: []
+  notifications: []
 }
 
 const mutations = {
-    'SET_NOTIFICATIONS' (state, notifications) {
-        state.notifications = notifications;
-    },
-    DELETE_NOTIFICATIONS(state){
-        state.notifications = [];
-    }
+  SET_NOTIFICATIONS(state, notifications) {
+    state.notifications = notifications
+  },
+  DELETE_NOTIFICATIONS(state) {
+    state.notifications = []
+  }
 }
 
 const actions = {
-    updateNotifications: ({commit}, notifications) => {
-        commit('SET_NOTIFICATIONS', notifications);
-    },
-    deleteNotifications:({commit}) =>{
-        commit('DELETE_NOTIFICATIONS');
-    }
+  updateNotifications: ({ commit }, notifications) => {
+    commit('SET_NOTIFICATIONS', notifications)
+  },
+  deleteNotifications: ({ commit }) => {
+    commit('DELETE_NOTIFICATIONS')
+  }
 }
 
 const getters = {
-    notifications: state => {
-        return state.notifications;
-    }
+  notifications: (state) => state.notifications
 }
 
 export default {
-    state,
-    mutations,
-    actions,
-    getters
+  state,
+  mutations,
+  actions,
+  getters
 }

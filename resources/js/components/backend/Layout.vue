@@ -14,27 +14,28 @@
 </template>
 
 <script>
-import Header from './Header/Header';
-import Footer from "./Footer/Footer";
-import Sidebar from "./Sidebar/Sidebar";
-import {mapGetters} from 'vuex';
-export default {
-    name: "Layout",
-    components:{
-        appHeader: Header,
-        appFooter: Footer,
-        appSidebar: Sidebar
-    },
-    computed:{
-        ...mapGetters([
-            'stateSidebar'
-        ])
-    },
-    watched: {
-        '$route'(to, from){
+import { mapGetters } from 'vuex'
+import Header from './Header/Header'
+import Footer from './Footer/Footer'
+import Sidebar from './Sidebar/Sidebar'
 
-        }
+export default {
+  name: 'Layout',
+  components: {
+    appHeader: Header,
+    appFooter: Footer,
+    appSidebar: Sidebar
+  },
+  computed: {
+    ...mapGetters([
+      'stateSidebar'
+    ])
+  },
+  watched: {
+    $route(to, from) {
+
     }
+  }
 
 }
 </script>

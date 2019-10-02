@@ -1871,10 +1871,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Header_Header__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Header/Header */ "./resources/js/components/backend/Header/Header.vue");
-/* harmony import */ var _Footer_Footer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Footer/Footer */ "./resources/js/components/backend/Footer/Footer.vue");
-/* harmony import */ var _Sidebar_Sidebar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Sidebar/Sidebar */ "./resources/js/components/backend/Sidebar/Sidebar.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _Header_Header__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Header/Header */ "./resources/js/components/backend/Header/Header.vue");
+/* harmony import */ var _Footer_Footer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Footer/Footer */ "./resources/js/components/backend/Footer/Footer.vue");
+/* harmony import */ var _Sidebar_Sidebar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Sidebar/Sidebar */ "./resources/js/components/backend/Sidebar/Sidebar.vue");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -1901,15 +1901,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "Layout",
+  name: 'Layout',
   components: {
-    appHeader: _Header_Header__WEBPACK_IMPORTED_MODULE_0__["default"],
-    appFooter: _Footer_Footer__WEBPACK_IMPORTED_MODULE_1__["default"],
-    appSidebar: _Sidebar_Sidebar__WEBPACK_IMPORTED_MODULE_2__["default"]
+    appHeader: _Header_Header__WEBPACK_IMPORTED_MODULE_1__["default"],
+    appFooter: _Footer_Footer__WEBPACK_IMPORTED_MODULE_2__["default"],
+    appSidebar: _Sidebar_Sidebar__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapGetters"])(['stateSidebar'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['stateSidebar'])),
   watched: {
-    '$route': function $route(to, from) {}
+    $route: function $route(to, from) {}
   }
 });
 
@@ -67053,7 +67053,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function getAccount(id) {
   return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    url: '/api/v1/account/' + id,
+    url: "/api/v1/account/".concat(id),
     method: 'get'
   });
 }
@@ -67066,7 +67066,7 @@ function createAccount(data) {
 }
 function updateAccount(id, data) {
   return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    url: '/api/v1/account/' + id,
+    url: "/api/v1/account/".concat(id),
     method: 'patch',
     data: data
   });
@@ -67079,19 +67079,19 @@ function getAllAccount() {
 }
 function deleteAccount(id) {
   return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    url: '/api/v1/account/' + id,
+    url: "/api/v1/account/".concat(id),
     method: 'delete'
   });
 }
 function banAccount(id) {
   return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    url: '/api/v1/account/' + id + '/edit',
+    url: "/api/v1/account/".concat(id, "/edit"),
     method: 'get'
   });
 }
 function unbanAccount(id) {
   return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    url: '/api/v1/account/' + id + '/edit',
+    url: "/api/v1/account/".concat(id, "/edit"),
     method: 'get'
   });
 }
@@ -67154,16 +67154,17 @@ __webpack_require__.r(__webpack_exports__);
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+
+
+
+
+
+
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-
 window.Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]);
-
-
-
-
-
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -67202,6 +67203,12 @@ var app = new Vue({
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
+/**
+ * Echo exposes an expressive API for subscribing to channels and listening
+ * for events that are broadcast by Laravel. Echo and event broadcasting
+ * allows your team to easily build robust real-time web applications.
+ */
+
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -67237,13 +67244,6 @@ if (token) {
 } else {
   console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
-/**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
- */
-
-
 
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
@@ -68142,11 +68142,11 @@ module.exports = "/images/list.png?42ab2c5bd3f49b7ba403e61cef3e2edd";
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _utils_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/auth */ "./resources/js/utils/auth.js");
-/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store/store */ "./resources/js/store/store.js");
-/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
-/* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! nprogress */ "./node_modules/nprogress/nprogress.js");
-/* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(nprogress__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! nprogress */ "./node_modules/nprogress/nprogress.js");
+/* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(nprogress__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utils_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/auth */ "./resources/js/utils/auth.js");
+/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store/store */ "./resources/js/store/store.js");
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
 /* harmony import */ var nprogress_nprogress_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! nprogress/nprogress.css */ "./node_modules/nprogress/nprogress.css");
 /* harmony import */ var nprogress_nprogress_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(nprogress_nprogress_css__WEBPACK_IMPORTED_MODULE_4__);
 // router.beforeEach((to, from, next) => {
@@ -68176,11 +68176,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var whiteList = ['/login', '/reset-password'];
-_routes__WEBPACK_IMPORTED_MODULE_2__["default"].beforeEach(function (to, from, next) {
-  nprogress__WEBPACK_IMPORTED_MODULE_3___default.a.start();
+_routes__WEBPACK_IMPORTED_MODULE_3__["default"].beforeEach(function (to, from, next) {
+  nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.start();
 
-  if (Object(_utils_auth__WEBPACK_IMPORTED_MODULE_0__["getToken"])()) {
-    _store_store__WEBPACK_IMPORTED_MODULE_1__["store"].dispatch('getUserInfo').then(function (response) {
+  if (Object(_utils_auth__WEBPACK_IMPORTED_MODULE_1__["getToken"])()) {
+    _store_store__WEBPACK_IMPORTED_MODULE_2__["store"].dispatch('getUserInfo').then(function (response) {
       if (to.path === '/login') {
         next({
           name: 'userIndex'
@@ -68197,18 +68197,16 @@ _routes__WEBPACK_IMPORTED_MODULE_2__["default"].beforeEach(function (to, from, n
         });
       }
     });
+  } else if (whiteList.indexOf(to.path) !== -1) {
+    next();
   } else {
-    if (whiteList.indexOf(to.path) !== -1) {
-      next();
-    } else {
-      next({
-        name: 'login'
-      });
-    }
+    next({
+      name: 'login'
+    });
   }
 });
-_routes__WEBPACK_IMPORTED_MODULE_2__["default"].afterEach(function () {
-  nprogress__WEBPACK_IMPORTED_MODULE_3___default.a.done();
+_routes__WEBPACK_IMPORTED_MODULE_3__["default"].afterEach(function () {
+  nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.done();
 });
 
 /***/ }),
@@ -68237,16 +68235,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_ResetPassword_InputEmail__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./views/ResetPassword/InputEmail */ "./resources/js/views/ResetPassword/InputEmail.vue");
 
 
+
+
+
+
+
+
+
+
+
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
-
-
-
-
-
-
-
-
-
 var routes = [{
   path: '/admin',
   component: _components_backend_Layout__WEBPACK_IMPORTED_MODULE_4__["default"],
@@ -68427,7 +68425,7 @@ var state = {
   notifications: []
 };
 var mutations = {
-  'SET_NOTIFICATIONS': function SET_NOTIFICATIONS(state, notifications) {
+  SET_NOTIFICATIONS: function SET_NOTIFICATIONS(state, notifications) {
     state.notifications = notifications;
   },
   DELETE_NOTIFICATIONS: function DELETE_NOTIFICATIONS(state) {
@@ -68471,7 +68469,7 @@ var state = {
   resultAccounts: []
 };
 var mutations = {
-  'SET_RESULT_ACCOUNTS': function SET_RESULT_ACCOUNTS(state, resultAccounts) {
+  SET_RESULT_ACCOUNTS: function SET_RESULT_ACCOUNTS(state, resultAccounts) {
     state.resultAccounts = resultAccounts;
   }
 };
@@ -68657,7 +68655,7 @@ var service = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
 service.interceptors.request.use(function (config) {
   // Do something before request is sent
   if (_store_modules_auth__WEBPACK_IMPORTED_MODULE_1__["default"].state.token) {
-    config.headers['Authorization'] = 'Bearer ' + _store_modules_auth__WEBPACK_IMPORTED_MODULE_1__["default"].state.token;
+    config.headers.Authorization = "Bearer ".concat(_store_modules_auth__WEBPACK_IMPORTED_MODULE_1__["default"].state.token);
   }
 
   return config;
@@ -68671,7 +68669,7 @@ service.interceptors.request.use(function (config) {
 service.interceptors.response.use(function (response) {
   return response;
 }, function (error) {
-  console.log('err' + error); // for debug
+  console.log("err".concat(error)); // for debug
 
   Message({
     message: error.message,

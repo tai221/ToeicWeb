@@ -83,7 +83,7 @@ class AccountController extends Controller
             $res["checkEmail"] = false;
         }
 
-        if($res["checkUsername"] == false && $res["checkEmail"] ==false) {
+        if($res["checkUsername"] == false && $res["checkEmail"] == false) {
             $this->accountRepository->storeAccount($request);
         }
 

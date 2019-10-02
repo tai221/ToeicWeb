@@ -4,19 +4,19 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+import VueRouter from 'vue-router'
 
-window.Vue = require('vue');
-
-import VueRouter from 'vue-router';
-
-window.Vue.use(VueRouter);
-
-import App from './App';
-import router from './routes';
-import {store} from "./store/store";
+import App from './App'
+import router from './routes'
+import { store } from './store/store'
 import './permission'
 import './styles/transition.scss'
+
+require('./bootstrap')
+
+window.Vue = require('vue')
+
+window.Vue.use(VueRouter)
 
 /**
  * The following block of code may be used to automatically register your
@@ -37,10 +37,9 @@ import './styles/transition.scss'
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-
 const app = new Vue({
-    el: '#app',
-    router,
-    store,
-    render: h => h(App)
-});
+  el: '#app',
+  router,
+  store,
+  render: (h) => h(App)
+})

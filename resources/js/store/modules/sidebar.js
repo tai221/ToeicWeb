@@ -1,28 +1,24 @@
 const state = {
-    sidebar: true
+  sidebar: true
 }
 
 const mutations = {
-    changeStateSidebar: state => {
-        return state.sidebar = !state.sidebar;
-    }
+  changeStateSidebar: (state) => state.sidebar = !state.sidebar
 }
 
 const actions = {
-    changeStateSidebar: ({commit}) => {
-        commit('changeStateSidebar');
-    }
+  changeStateSidebar: ({ commit }) => {
+    commit('changeStateSidebar')
+  }
 }
 
 const getters = {
-    stateSidebar: state => {
-        return state.sidebar;
-    }
+  stateSidebar: (state) => state.sidebar
 }
 
 export default {
-    state,
-    mutations,
-    actions,
-    getters
+  state,
+  mutations,
+  actions,
+  getters
 }

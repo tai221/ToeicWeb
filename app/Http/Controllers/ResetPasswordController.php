@@ -20,8 +20,6 @@ class ResetPasswordController extends Controller
      */
     public function create(Request $request)
     {
-        $email = $request['email'];
-        Log::info($email);
         $request->validate([
             'email' => 'required|string|email',
         ]);

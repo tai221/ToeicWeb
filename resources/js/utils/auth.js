@@ -3,17 +3,17 @@ import Cookies from 'js-cookie'
 const TokenKey = 'access_token'
 
 export function getToken() {
-    return Cookies.get(TokenKey)
+  return Cookies.get(TokenKey)
 }
 
 export function setTokenRemember(token) {
-    return Cookies.set(TokenKey, token, { expires: 365 })
+  return Cookies.set(TokenKey, token, { expires: 365 })
 }
 
 export function setToken(token) {
-    return Cookies.set(TokenKey, token)
+  return Cookies.set(TokenKey, token)
 }
 
 export function removeToken() {
-    return Cookies.remove(TokenKey)
+  return Cookies.remove(TokenKey)
 }

@@ -1,28 +1,26 @@
 const state = {
-    resultAccounts: []
+  resultAccounts: []
 }
 
 const mutations = {
-    'SET_RESULT_ACCOUNTS' (state, resultAccounts) {
-        state.resultAccounts = resultAccounts;
-    }
+  SET_RESULT_ACCOUNTS(state, resultAccounts) {
+    state.resultAccounts = resultAccounts
+  }
 }
 
 const actions = {
-    setResultAccounts: ({commit}, resultAccounts) => {
-        commit('SET_RESULT_ACCOUNTS', resultAccounts);
-    }
+  setResultAccounts: ({ commit }, resultAccounts) => {
+    commit('SET_RESULT_ACCOUNTS', resultAccounts)
+  }
 }
 
 const getters = {
-    resultAccounts: state => {
-        return state.resultAccounts;
-    }
+  resultAccounts: (state) => state.resultAccounts
 }
 
 export default {
-    state,
-    mutations,
-    actions,
-    getters
+  state,
+  mutations,
+  actions,
+  getters
 }
