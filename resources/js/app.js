@@ -10,6 +10,7 @@ import App from './App'
 import router from './routes'
 import { store } from './store/store'
 import './permission'
+import i18n from './lang'
 import './styles/transition.scss'
 
 require('./bootstrap')
@@ -41,5 +42,6 @@ const app = new Vue({
   el: '#app',
   router,
   store,
+  i18n,
   render: (h) => h(App)
 })

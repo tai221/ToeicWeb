@@ -5,6 +5,7 @@ import sidebar from './modules/sidebar'
 import resultSearch from './modules/resultSearch'
 import auth from './modules/auth'
 import notification from './modules/notification'
+import app from './modules/app'
 
 Vue.use(Vuex)
 
@@ -13,6 +14,7 @@ export const store = new Vuex.Store({
     sidebar,
     resultSearch,
     auth,
-    notification
+    notification,
+    app
   }
 })

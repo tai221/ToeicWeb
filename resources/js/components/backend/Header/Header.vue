@@ -4,37 +4,52 @@
             <div class="container-fluid">
                 <!-- Brand -->
 
-        		<img class="btn-expand" id="list-ico" alt="expand" @click="changeStateSidebar" v-bind:class="{hide: stateSidebar}"
+        		<img
+class="btn-expand"
+id="list-ico"
+alt="expand"
+@click="changeStateSidebar"
+v-bind:class="{hide: stateSidebar}"
         			src="../../../images/list.png">
-        		<img class="btn-expand " id="hide-ico" alt="expand" v-bind:class="{hide: !stateSidebar}" @click="changeStateSidebar"
+        		<img
+class="btn-expand "
+id="hide-ico"
+alt="expand"
+v-bind:class="{hide: !stateSidebar}"
+@click="changeStateSidebar"
         			src="../../../images/hide.png">
 <!--                <router-link :to="xxx" class="navbar-brand">BKTOEIC ADMIN</router-link>-->
 
                 <!-- Navbar links -->
-                <div class=" navbar-collapse justify-content-end"
+                <div
+class=" navbar-collapse justify-content-end"
                     id="collapsibleNavbar">
                     <ul class="navbar-nav ">
+                        <select class="selectpicker" data-width="fit" v-model="locale">
+                            <option data-content='<span class="flag-icon flag-icon-us"></span> English'>en</option>
+                            <option  data-content='<span class="flag-icon flag-icon-mx"></span> Español'>vn</option>
+                        </select>
                         <li class="nav-item dropdown" id="recv-rp">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
                                 <i class="fa fa-bell"></i>
                                 <span class="badge badge-light">{{notifications.length}}</span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li v-if="notifications.length > 0" v-on:click="markAsRead() ">Mark all as read</li>
+                                <li v-if="notifications.length > 0" v-on:click="markAsRead() ">{{ $t('header.markAsRead') }}</li>
                                 <li v-for="noti in notifications">{{noti.data.data}}</li>
                             </ul>
                         </li>
 
-                        <li class="nav-item">
-                            <router-link to="/admin/companies/info-account" class="nav-link" >
-                                <img class="ico-header" src="../../../images/account-icon.png">
-                            </router-link>
-                        </li>
-                        <li style="size: 20px; color: #ae1c17">
+<!--                        <li class="nav-item">-->
+<!--                            <router-link to="/admin/companies/info-account" class="nav-link" >-->
+<!--                                <img class="ico-header" src="../../../images/account-icon.png">-->
+<!--                            </router-link>-->
+<!--                        </li>-->
+                        <li style="size: 20px; color: #ae1c17; margin-left: 5px">
                             {{username}}
                         </li>
-                        <li class="nav-item" style="color: #3f9ae5; size: 20px" v-if="loggedIn" v-on:click="logout()">
-                                Logout
+                        <li class="nav-item logout" style="color: #3f9ae5; margin-left: 5px;" v-if="loggedIn" v-on:click="logout()">
+                            <i class="fa fa-sign-out" :title="$t('header.logout')" aria-hidden="true"></i>
                         </li>
                     </ul>
                 </div>
@@ -43,64 +58,73 @@
     </div>
 </template>
 <script>
-    import {mapGetters} from 'vuex';
-    import {mapActions} from 'vuex'
-    import {getNoti, markAsRead} from "../../../api/notification";
+import { mapGetters, mapActions } from 'vuex'
+import Cookies from 'js-cookie'
+import { getNoti, markAsRead } from '../../../api/notification'
 
-    export default {
-        name: "Header",
-
-        computed:{
-            ...mapGetters([
-                'stateSidebar',
-                'loggedIn',
-                'username',
-                'notifications'
-            ])
-        },
-        created(){
-            getNoti()
-              .then(response => {
-                  let notifications = response.data;
-                  this.$store.dispatch('updateNotifications',notifications)
-              })
-              .catch(error => {
-                  console.log(error)
-              })
-
-
-        },
-        mounted(){
-            var pusher = new Pusher('e6b2660952105b0dc309', {
-                cluster: 'ap1',
-                forceTLS: true
-            });
-            var channel = pusher.subscribe('send-noti');
-            var app = this;
-            channel.bind('NotificationEvent', function(data) {
-                let notifications =data;
-                app.$store.dispatch('updateNotifications',notifications)
-            });
-        },
-        methods: {
-            ...mapActions([
-                'changeStateSidebar',
-
-            ]),
-            logout(){
-                this.$store.dispatch('destroyToken')
-                    .then(response => {
-                        this.$router.push({name:'login'});
-                    })
-            },
-            markAsRead(){
-                markAsRead()
-                    .then(response =>{
-                        this.$store.dispatch('deleteNotifications')
-                    })
-            }
-        }
+export default {
+  name: 'Header',
+  data(){
+    return{
+      locale: Cookies.get('language')||'en'
     }
+  },
+  watch: {
+    locale() {
+      this.$i18n.locale = this.locale
+      this.$store.dispatch('setLanguage', this.locale)
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'stateSidebar',
+      'loggedIn',
+      'username',
+      'notifications',
+      'language'
+    ])
+  },
+  created() {
+    getNoti()
+      .then((response) => {
+        const notifications = response.data
+        this.$store.dispatch('updateNotifications', notifications)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  },
+  mounted() {
+    const pusher = new Pusher('e6b2660952105b0dc309', {
+      cluster: 'ap1',
+      forceTLS: true
+    })
+    const channel = pusher.subscribe('send-noti')
+    const app = this
+    channel.bind('NotificationEvent', (data) => {
+      const notifications = data
+      app.$store.dispatch('updateNotifications', notifications)
+    })
+  },
+  methods: {
+    ...mapActions([
+      'changeStateSidebar'
+
+    ]),
+    logout() {
+      this.$store.dispatch('destroyToken')
+        .then((response) => {
+          this.$router.push({ name: 'login' })
+        })
+    },
+    markAsRead() {
+      markAsRead()
+        .then((response) => {
+          this.$store.dispatch('deleteNotifications')
+        })
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -220,5 +244,9 @@
 
     .hide {
         display: none;
+    }
+
+    .logout:hover{
+
     }
 </style>
