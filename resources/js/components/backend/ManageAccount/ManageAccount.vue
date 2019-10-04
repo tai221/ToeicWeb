@@ -16,6 +16,9 @@
                         </div>
                     </form>
                 </div>
+                <div class="col-2">
+                    <button v-on:click="exportEX()">Export</button>
+                </div>
             </div>
         </div>
 
@@ -168,6 +171,19 @@ export default {
         .catch((resp) => {
           console.log('xay ra loi gui ket qua')
         })
+    },
+    exportEX(){
+      import('../../../vendor/Export2Excel').then(excel => {
+        const tHeader = ['Id', 'Title', 'Author', 'Readings', 'Date']
+        const data = ['1', 'aaa', 'fdsds', 'dfsfs', '11-11']
+        excel.export_table_to_excel({
+          header: tHeader, //Header Required
+          data, //Specific data Required
+          filename: 'excel-list', //Optional
+          autoWidth: true, //Optional
+          bookType: 'xlsx' //Optional
+        })
+      })
     }
   }
 }

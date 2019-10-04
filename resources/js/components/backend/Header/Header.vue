@@ -5,24 +5,24 @@
                 <!-- Brand -->
 
         		<img
-class="btn-expand"
-id="list-ico"
-alt="expand"
-@click="changeStateSidebar"
-v-bind:class="{hide: stateSidebar}"
+                    class="btn-expand"
+                    id="list-ico"
+                    alt="expand"
+                    @click="changeStateSidebar"
+                    v-bind:class="{hide: stateSidebar}"
         			src="../../../images/list.png">
         		<img
-class="btn-expand "
-id="hide-ico"
-alt="expand"
-v-bind:class="{hide: !stateSidebar}"
-@click="changeStateSidebar"
+                    class="btn-expand "
+                    id="hide-ico"
+                    alt="expand"
+                    v-bind:class="{hide: !stateSidebar}"
+                    @click="changeStateSidebar"
         			src="../../../images/hide.png">
 <!--                <router-link :to="xxx" class="navbar-brand">BKTOEIC ADMIN</router-link>-->
 
                 <!-- Navbar links -->
                 <div
-class=" navbar-collapse justify-content-end"
+                    class=" navbar-collapse justify-content-end"
                     id="collapsibleNavbar">
                     <ul class="navbar-nav ">
                         <select class="selectpicker" data-width="fit" v-model="locale">
@@ -45,10 +45,10 @@ class=" navbar-collapse justify-content-end"
 <!--                                <img class="ico-header" src="../../../images/account-icon.png">-->
 <!--                            </router-link>-->
 <!--                        </li>-->
-                        <li style="size: 20px; color: #ae1c17; margin-left: 5px">
+                        <li style="size: 20px; color: #ae1c17; margin-right: 100px">
                             {{username}}
                         </li>
-                        <li class="nav-item logout" style="color: #3f9ae5; margin-left: 5px;" v-if="loggedIn" v-on:click="logout()">
+                        <li class="nav-item logout" style="color: #3f9ae5; margin-left: 5px; margin-right: 5px" v-if="loggedIn" v-on:click="logout()">
                             <i class="fa fa-sign-out" :title="$t('header.logout')" aria-hidden="true"></i>
                         </li>
                     </ul>
@@ -246,7 +246,14 @@ export default {
         display: none;
     }
 
-    .logout:hover{
+    .selectpicker{
+        margin-right: 10px;
+    }
 
+    #recv-rp{
+        margin-right: 10px;
+    }
+    #collapsibleNavbar {
+        /*margin-right: 25px;*/
     }
 </style>

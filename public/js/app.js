@@ -1,6 +1,50 @@
 /******/ (function(modules) { // webpackBootstrap
+/******/ 	// install a JSONP callback for chunk loading
+/******/ 	function webpackJsonpCallback(data) {
+/******/ 		var chunkIds = data[0];
+/******/ 		var moreModules = data[1];
+/******/
+/******/
+/******/ 		// add "moreModules" to the modules object,
+/******/ 		// then flag all "chunkIds" as loaded and fire callback
+/******/ 		var moduleId, chunkId, i = 0, resolves = [];
+/******/ 		for(;i < chunkIds.length; i++) {
+/******/ 			chunkId = chunkIds[i];
+/******/ 			if(Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 				resolves.push(installedChunks[chunkId][0]);
+/******/ 			}
+/******/ 			installedChunks[chunkId] = 0;
+/******/ 		}
+/******/ 		for(moduleId in moreModules) {
+/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+/******/ 				modules[moduleId] = moreModules[moduleId];
+/******/ 			}
+/******/ 		}
+/******/ 		if(parentJsonpFunction) parentJsonpFunction(data);
+/******/
+/******/ 		while(resolves.length) {
+/******/ 			resolves.shift()();
+/******/ 		}
+/******/
+/******/ 	};
+/******/
+/******/
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
+/******/
+/******/ 	// object to store loaded and loading chunks
+/******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 	// Promise = chunk loading, 0 = chunk loaded
+/******/ 	var installedChunks = {
+/******/ 		"/js/app": 0
+/******/ 	};
+/******/
+/******/
+/******/
+/******/ 	// script path function
+/******/ 	function jsonpScriptSrc(chunkId) {
+/******/ 		return __webpack_require__.p + "" + ({}[chunkId]||chunkId) + ".js"
+/******/ 	}
 /******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
@@ -26,6 +70,67 @@
 /******/ 		return module.exports;
 /******/ 	}
 /******/
+/******/ 	// This file contains only the entry chunk.
+/******/ 	// The chunk loading function for additional chunks
+/******/ 	__webpack_require__.e = function requireEnsure(chunkId) {
+/******/ 		var promises = [];
+/******/
+/******/
+/******/ 		// JSONP chunk loading for javascript
+/******/
+/******/ 		var installedChunkData = installedChunks[chunkId];
+/******/ 		if(installedChunkData !== 0) { // 0 means "already installed".
+/******/
+/******/ 			// a Promise means "currently loading".
+/******/ 			if(installedChunkData) {
+/******/ 				promises.push(installedChunkData[2]);
+/******/ 			} else {
+/******/ 				// setup Promise in chunk cache
+/******/ 				var promise = new Promise(function(resolve, reject) {
+/******/ 					installedChunkData = installedChunks[chunkId] = [resolve, reject];
+/******/ 				});
+/******/ 				promises.push(installedChunkData[2] = promise);
+/******/
+/******/ 				// start chunk loading
+/******/ 				var script = document.createElement('script');
+/******/ 				var onScriptComplete;
+/******/
+/******/ 				script.charset = 'utf-8';
+/******/ 				script.timeout = 120;
+/******/ 				if (__webpack_require__.nc) {
+/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 				}
+/******/ 				script.src = jsonpScriptSrc(chunkId);
+/******/
+/******/ 				// create error before stack unwound to get useful stacktrace later
+/******/ 				var error = new Error();
+/******/ 				onScriptComplete = function (event) {
+/******/ 					// avoid mem leaks in IE.
+/******/ 					script.onerror = script.onload = null;
+/******/ 					clearTimeout(timeout);
+/******/ 					var chunk = installedChunks[chunkId];
+/******/ 					if(chunk !== 0) {
+/******/ 						if(chunk) {
+/******/ 							var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+/******/ 							var realSrc = event && event.target && event.target.src;
+/******/ 							error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
+/******/ 							error.name = 'ChunkLoadError';
+/******/ 							error.type = errorType;
+/******/ 							error.request = realSrc;
+/******/ 							chunk[1](error);
+/******/ 						}
+/******/ 						installedChunks[chunkId] = undefined;
+/******/ 					}
+/******/ 				};
+/******/ 				var timeout = setTimeout(function(){
+/******/ 					onScriptComplete({ type: 'timeout', target: script });
+/******/ 				}, 120000);
+/******/ 				script.onerror = script.onload = onScriptComplete;
+/******/ 				document.head.appendChild(script);
+/******/ 			}
+/******/ 		}
+/******/ 		return Promise.all(promises);
+/******/ 	};
 /******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
@@ -78,6 +183,16 @@
 /******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "/";
+/******/
+/******/ 	// on error function for async loading
+/******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
+/******/
+/******/ 	var jsonpArray = window["webpackJsonp"] = window["webpackJsonp"] || [];
+/******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+/******/ 	jsonpArray.push = webpackJsonpCallback;
+/******/ 	jsonpArray = jsonpArray.slice();
+/******/ 	for(var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+/******/ 	var parentJsonpFunction = oldJsonpFunction;
 /******/
 /******/
 /******/ 	// Load entry module and return exports
@@ -2259,6 +2374,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2331,6 +2449,24 @@ __webpack_require__.r(__webpack_exports__);
         });
       })["catch"](function (resp) {
         console.log('xay ra loi gui ket qua');
+      });
+    },
+    exportEX: function exportEX() {
+      Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(1)]).then(__webpack_require__.bind(null, /*! ../../../vendor/Export2Excel */ "./resources/js/vendor/Export2Excel.js")).then(function (excel) {
+        var tHeader = ['Id', 'Title', 'Author', 'Readings', 'Date'];
+        var data = ['1', 'aaa', 'fdsds', 'dfsfs', '11-11'];
+        excel.export_table_to_excel({
+          header: tHeader,
+          //Header Required
+          data: data,
+          //Specific data Required
+          filename: 'excel-list',
+          //Optional
+          autoWidth: true,
+          //Optional
+          bookType: 'xlsx' //Optional
+
+        });
       });
     }
   }
@@ -9209,7 +9345,7 @@ exports = module.exports = __webpack_require__(/*! ../css-loader/lib/css-base.js
 
 
 // module
-exports.push([module.i, "/* Make clicks pass-through */\n#nprogress {\n  pointer-events: none;\n}\n\n#nprogress .bar {\n  background: #29d;\n\n  position: fixed;\n  z-index: 1031;\n  top: 0;\n  left: 0;\n\n  width: 100%;\n  height: 2px;\n}\n\n/* Fancy blur effect */\n#nprogress .peg {\n  display: block;\n  position: absolute;\n  right: 0px;\n  width: 100px;\n  height: 100%;\n  box-shadow: 0 0 10px #29d, 0 0 5px #29d;\n  opacity: 1.0;\n  transform: rotate(3deg) translate(0px, -4px);\n}\n\n/* Remove these to get rid of the spinner */\n#nprogress .spinner {\n  display: block;\n  position: fixed;\n  z-index: 1031;\n  top: 15px;\n  right: 15px;\n}\n\n#nprogress .spinner-icon {\n  width: 18px;\n  height: 18px;\n  box-sizing: border-box;\n\n  border: solid 2px transparent;\n  border-top-color: #29d;\n  border-left-color: #29d;\n  border-radius: 50%;\n\n  -webkit-animation: nprogress-spinner 400ms linear infinite;\n          animation: nprogress-spinner 400ms linear infinite;\n}\n\n.nprogress-custom-parent {\n  overflow: hidden;\n  position: relative;\n}\n\n.nprogress-custom-parent #nprogress .spinner,\n.nprogress-custom-parent #nprogress .bar {\n  position: absolute;\n}\n\n@-webkit-keyframes nprogress-spinner {\n  0%   { -webkit-transform: rotate(0deg); }\n  100% { -webkit-transform: rotate(360deg); }\n}\n@keyframes nprogress-spinner {\n  0%   { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n\n", ""]);
+exports.push([module.i, "/* Make clicks pass-through */\n#nprogress {\n  pointer-events: none;\n}\n\n#nprogress .bar {\n  background: #29d;\n\n  position: fixed;\n  z-index: 1031;\n  top: 0;\n  left: 0;\n\n  width: 100%;\n  height: 3px;\n}\n\n/* Fancy blur effect */\n#nprogress .peg {\n  display: block;\n  position: absolute;\n  right: 0px;\n  width: 100px;\n  height: 100%;\n  box-shadow: 0 0 10px #29d, 0 0 5px #29d;\n  opacity: 1.0;\n  transform: rotate(3deg) translate(0px, -4px);\n}\n\n/* Remove these to get rid of the spinner */\n#nprogress .spinner {\n  display: block;\n  position: fixed;\n  z-index: 1031;\n  top: 15px;\n  right: 15px;\n}\n\n#nprogress .spinner-icon {\n  width: 18px;\n  height: 18px;\n  box-sizing: border-box;\n\n  border: solid 2px transparent;\n  border-top-color: #29d;\n  border-left-color: #29d;\n  border-radius: 50%;\n\n  -webkit-animation: nprogress-spinner 400ms linear infinite;\n          animation: nprogress-spinner 400ms linear infinite;\n}\n\n.nprogress-custom-parent {\n  overflow: hidden;\n  position: relative;\n}\n\n.nprogress-custom-parent #nprogress .spinner,\n.nprogress-custom-parent #nprogress .bar {\n  position: absolute;\n}\n\n@-webkit-keyframes nprogress-spinner {\n  0%   { -webkit-transform: rotate(0deg); }\n  100% { -webkit-transform: rotate(360deg); }\n}\n@keyframes nprogress-spinner {\n  0%   { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n\n", ""]);
 
 // exports
 
@@ -9247,7 +9383,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.navbar[data-v-5aacbe4e] {\n    padding-left: 0;\n}\n.btn-expand[data-v-5aacbe4e] {\n    height: 100%;\n    margin: 0 8px;\n    cursor: pointer;\n}\n.sidebar-nav[data-v-5aacbe4e] {\n    position: fixed;\n    top: 0;\n    height: 100%;\n    width: 15em;\n    margin: 0;\n    padding: 0;\n    background-color: #212529;\n    list-style: none;\n    z-index: 1;\n    padding-top: 4em;\n}\n.group-rp[data-v-5aacbe4e] {\n    border-bottom: 1px solid #dccece !important;\n    padding-bottom: 1em;\n}\nli.nav-item[data-v-5aacbe4e]{\n    cursor: pointer;\n    position: relative;\n}\n.sum-notice[data-v-5aacbe4e] {\n    position: absolute;\n    top: 0;\n    background: red;\n    color: white;\n    border-radius: 1em;\n    min-width: 1.5em;\n    min-height: 1.5em;\n    line-height: 1.5em;\n    text-align: center;\n    right: 1.3em;\n    padding: 2px;\n    font-size: 0.9em;\n}\n.one-rp[data-v-5aacbe4e] {\n    padding-bottom: 1em;\n    background: #f7f7f7c2;\n}\n.acc-rp[data-v-5aacbe4e] {\n    font-size: 1.2em;\n    font-weight: bold;\n}\n.content-rp[data-v-5aacbe4e] {\n    font-size: 1.2em;\n}\n.div-proc-rp[data-v-5aacbe4e] {\n    text-align: right;\n    margin-top: 1.3em;\n}\n.proc-rp[data-v-5aacbe4e] {\n    color: white;\n}\n#skip-rp[data-v-5aacbe4e] {\n    background: #ff3d00;\n}\n#view-rp[data-v-5aacbe4e] {\n    background: #0b5a0e;\n}\n.choice[data-v-5aacbe4e] {\n    color: white !important;\n}\n\n/*.sidebar-nav li {*/\n/*    text-indent: 2em;*/\n/*    line-height: 3.5em;*/\n/*}*/\n\n/*.sidebar-nav li a {*/\n/*    display: block;*/\n/*    text-decoration: none;*/\n/*    color: #999999;*/\n/*}*/\n\n/*.sidebar-nav li a:hover {*/\n/*    text-decoration: none;*/\n/*    color: #fff;*/\n/*    background: rgba(255, 255, 255, 0.2);*/\n/*}*/\n\n/*.sidebar-nav li a:active, .sidebar-nav li a:focus {*/\n/*    text-decoration: none;*/\n/*}*/\n.ico-manag[data-v-5aacbe4e] {\n    width: 1.5em;\n    margin-right: 0.5em;\n}\n.ico-header[data-v-5aacbe4e] {\n    width: 1.3em;\n}\n.hide[data-v-5aacbe4e] {\n    display: none;\n}\n.logout[data-v-5aacbe4e]:hover{\n}\n", ""]);
+exports.push([module.i, "\n.navbar[data-v-5aacbe4e] {\n    padding-left: 0;\n}\n.btn-expand[data-v-5aacbe4e] {\n    height: 100%;\n    margin: 0 8px;\n    cursor: pointer;\n}\n.sidebar-nav[data-v-5aacbe4e] {\n    position: fixed;\n    top: 0;\n    height: 100%;\n    width: 15em;\n    margin: 0;\n    padding: 0;\n    background-color: #212529;\n    list-style: none;\n    z-index: 1;\n    padding-top: 4em;\n}\n.group-rp[data-v-5aacbe4e] {\n    border-bottom: 1px solid #dccece !important;\n    padding-bottom: 1em;\n}\nli.nav-item[data-v-5aacbe4e]{\n    cursor: pointer;\n    position: relative;\n}\n.sum-notice[data-v-5aacbe4e] {\n    position: absolute;\n    top: 0;\n    background: red;\n    color: white;\n    border-radius: 1em;\n    min-width: 1.5em;\n    min-height: 1.5em;\n    line-height: 1.5em;\n    text-align: center;\n    right: 1.3em;\n    padding: 2px;\n    font-size: 0.9em;\n}\n.one-rp[data-v-5aacbe4e] {\n    padding-bottom: 1em;\n    background: #f7f7f7c2;\n}\n.acc-rp[data-v-5aacbe4e] {\n    font-size: 1.2em;\n    font-weight: bold;\n}\n.content-rp[data-v-5aacbe4e] {\n    font-size: 1.2em;\n}\n.div-proc-rp[data-v-5aacbe4e] {\n    text-align: right;\n    margin-top: 1.3em;\n}\n.proc-rp[data-v-5aacbe4e] {\n    color: white;\n}\n#skip-rp[data-v-5aacbe4e] {\n    background: #ff3d00;\n}\n#view-rp[data-v-5aacbe4e] {\n    background: #0b5a0e;\n}\n.choice[data-v-5aacbe4e] {\n    color: white !important;\n}\n\n/*.sidebar-nav li {*/\n/*    text-indent: 2em;*/\n/*    line-height: 3.5em;*/\n/*}*/\n\n/*.sidebar-nav li a {*/\n/*    display: block;*/\n/*    text-decoration: none;*/\n/*    color: #999999;*/\n/*}*/\n\n/*.sidebar-nav li a:hover {*/\n/*    text-decoration: none;*/\n/*    color: #fff;*/\n/*    background: rgba(255, 255, 255, 0.2);*/\n/*}*/\n\n/*.sidebar-nav li a:active, .sidebar-nav li a:focus {*/\n/*    text-decoration: none;*/\n/*}*/\n.ico-manag[data-v-5aacbe4e] {\n    width: 1.5em;\n    margin-right: 0.5em;\n}\n.ico-header[data-v-5aacbe4e] {\n    width: 1.3em;\n}\n.hide[data-v-5aacbe4e] {\n    display: none;\n}\n.selectpicker[data-v-5aacbe4e]{\n    margin-right: 10px;\n}\n#recv-rp[data-v-5aacbe4e]{\n    margin-right: 10px;\n}\n#collapsibleNavbar[data-v-5aacbe4e] {\n    /*margin-right: 25px;*/\n}\n", ""]);
 
 // exports
 
@@ -51886,7 +52022,7 @@ var render = function() {
                     staticStyle: {
                       size: "20px",
                       color: "#ae1c17",
-                      "margin-left": "5px"
+                      "margin-right": "100px"
                     }
                   },
                   [
@@ -51903,7 +52039,11 @@ var render = function() {
                       "li",
                       {
                         staticClass: "nav-item logout",
-                        staticStyle: { color: "#3f9ae5", "margin-left": "5px" },
+                        staticStyle: {
+                          color: "#3f9ae5",
+                          "margin-left": "5px",
+                          "margin-right": "5px"
+                        },
                         on: {
                           click: function($event) {
                             return _vm.logout()
@@ -52333,6 +52473,20 @@ var render = function() {
                   ])
                 ])
               ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-2" }, [
+            _c(
+              "button",
+              {
+                on: {
+                  click: function($event) {
+                    return _vm.exportEX()
+                  }
+                }
+              },
+              [_vm._v("Export")]
             )
           ])
         ])
@@ -70423,7 +70577,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-i18n */ "./node_modules/vue-i18n/dist/vue-i18n.esm.js");
+/* harmony import */ var vue_i18n__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-i18n */ "./node_modules/vue-i18n/dist/vue-i18n.esm.js");
 /* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! js-cookie */ "./node_modules/js-cookie/src/js.cookie.js");
 /* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(js_cookie__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _vn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./vn */ "./resources/js/lang/vn.js");
@@ -70433,12 +70587,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_i18n__WEBPACK_IMPORTED_MODULE_1__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_i18n__WEBPACK_IMPORTED_MODULE_5__["default"]);
 var messages = {
   vn: _vn__WEBPACK_IMPORTED_MODULE_3__["default"],
   en: _en__WEBPACK_IMPORTED_MODULE_4__["default"]
 };
-var i18n = new vue_i18n__WEBPACK_IMPORTED_MODULE_1__["default"]({
+var i18n = new vue_i18n__WEBPACK_IMPORTED_MODULE_5__["default"]({
   locale: js_cookie__WEBPACK_IMPORTED_MODULE_2___default.a.get('language') || 'en',
   messages: messages
 });
