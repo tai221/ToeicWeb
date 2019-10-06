@@ -39,4 +39,6 @@ Route::group([
     Route::post('reset', 'ResetPasswordController@reset')->name('password.update');
 });
 
+Route::middleware('auth:api')->post('exportExcel', 'ExportController@export');
+
 

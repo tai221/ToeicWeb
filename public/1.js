@@ -11,8 +11,8 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "export_table_to_excel", function() { return export_table_to_excel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "export_json_to_excel", function() { return export_json_to_excel; });
-/* harmony import */ var xlsx__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! xlsx */ "./node_modules/xlsx/xlsx.js");
-/* harmony import */ var xlsx__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(xlsx__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var xlsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! xlsx */ "./node_modules/xlsx/xlsx.js");
+/* harmony import */ var xlsx__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(xlsx__WEBPACK_IMPORTED_MODULE_1__);
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -112,20 +112,20 @@ function sheet_from_array_of_arrays(data, opts) {
         v: data[R][C]
       };
       if (cell.v == null) continue;
-      var cell_ref = xlsx__WEBPACK_IMPORTED_MODULE_0___default.a.utils.encode_cell({
+      var cell_ref = xlsx__WEBPACK_IMPORTED_MODULE_1___default.a.utils.encode_cell({
         c: C,
         r: R
       });
       if (typeof cell.v === 'number') cell.t = 'n';else if (typeof cell.v === 'boolean') cell.t = 'b';else if (cell.v instanceof Date) {
         cell.t = 'n';
-        cell.z = xlsx__WEBPACK_IMPORTED_MODULE_0___default.a.SSF._table[14];
+        cell.z = xlsx__WEBPACK_IMPORTED_MODULE_1___default.a.SSF._table[14];
         cell.v = datenum(cell.v);
       } else cell.t = 's';
       ws[cell_ref] = cell;
     }
   }
 
-  if (range.s.c < 10000000) ws['!ref'] = xlsx__WEBPACK_IMPORTED_MODULE_0___default.a.utils.encode_range(range);
+  if (range.s.c < 10000000) ws['!ref'] = xlsx__WEBPACK_IMPORTED_MODULE_1___default.a.utils.encode_range(range);
   return ws;
 }
 
@@ -164,7 +164,7 @@ function export_table_to_excel(id) {
 
   wb.SheetNames.push(ws_name);
   wb.Sheets[ws_name] = ws;
-  var wbout = xlsx__WEBPACK_IMPORTED_MODULE_0___default.a.write(wb, {
+  var wbout = xlsx__WEBPACK_IMPORTED_MODULE_1___default.a.write(wb, {
     bookType: 'xlsx',
     bookSST: false,
     type: 'binary'
@@ -232,7 +232,7 @@ function export_json_to_excel() {
 
   wb.SheetNames.push(ws_name);
   wb.Sheets[ws_name] = ws;
-  var wbout = xlsx__WEBPACK_IMPORTED_MODULE_0___default.a.write(wb, {
+  var wbout = xlsx__WEBPACK_IMPORTED_MODULE_1___default.a.write(wb, {
     bookType: bookType,
     bookSST: false,
     type: 'binary'

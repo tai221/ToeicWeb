@@ -1,6 +1,7 @@
 export default {
     route: {
-        manageAccount: 'Manage account'
+        manageAccount: 'Manage account',
+        manageTest: 'Manage test'
     },
     header: {
         markAsRead: 'Mark as all read',

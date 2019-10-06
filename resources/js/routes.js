@@ -9,6 +9,7 @@ import ResultSearch from './components/backend/ManageAccount/ResultSearch'
 import UserIndex from './views/users/index'
 import Login from './views/Login/Login'
 import InputEmail from './views/ResetPassword/InputEmail'
+import TestList from './views/test/TestList'
 
 Vue.use(Router)
 
@@ -44,7 +45,13 @@ export const routes = [
         path: 'manage-account/result',
         component: ResultSearch,
         name: 'resultSearch'
-      }
+      },
+        {
+            path: 'manage-test',
+            component: TestList,
+            name: 'managetest'
+        },
+
 
     ]
   }, {

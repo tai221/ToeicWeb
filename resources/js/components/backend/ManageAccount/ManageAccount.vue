@@ -17,7 +17,7 @@
                     </form>
                 </div>
                 <div class="col-2">
-                    <button v-on:click="exportEX()">Export</button>
+                    <button type="button" class="btn btn-success" v-on:click="exportEX()">Export</button>
                 </div>
             </div>
         </div>
@@ -91,11 +91,12 @@ href="#"
 </template>
 
 <script>
+import axios from 'axios'
 import Pagination from '../Pagination/Pagination'
 import {
   getAllAccount, deleteAccount, banAccount, unbanAccount, searchAccount
 } from '../../../api/managAccount'
-
+import {apiExportExcel} from '../../../api/exportExcel'
 export default {
   name: 'ManageAccount',
   data() {
@@ -172,21 +173,12 @@ export default {
           console.log('xay ra loi gui ket qua')
         })
     },
-    exportEX(){
-      import('../../../vendor/Export2Excel').then(excel => {
-        const tHeader = ['Id', 'Title', 'Author', 'Readings', 'Date']
-        const data = ['1', 'aaa', 'fdsds', 'dfsfs', '11-11']
-        excel.export_table_to_excel({
-          header: tHeader, //Header Required
-          data, //Specific data Required
-          filename: 'excel-list', //Optional
-          autoWidth: true, //Optional
-          bookType: 'xlsx' //Optional
-        })
-      })
+    exportEX() {
+      apiExportExcel('account', 'dstk')
     }
   }
 }
+
 </script>
 
 <style scoped>

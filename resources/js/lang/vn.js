@@ -1,6 +1,7 @@
 export default {
     route: {
-        manageAccount: 'Quản lý tài khoản'
+        manageAccount: 'Quản lý tài khoản',
+        manageTest: 'Quản lý bài kiểm tra'
     },
     header: {
         markAsRead: 'Đánh dấu là tất cả đã đọc',
