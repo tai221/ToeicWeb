@@ -9,7 +9,7 @@
                 </router-link>
             </li>
             <li>
-                <router-link  :to="{name: 'managetest'}" >
+                <router-link  :to="{name: 'manage test'}" >
                     <img class="ico-manag"
                          src="../../../images/t-manager.png">
                     {{ $t('route.manageTest') }}

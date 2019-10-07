@@ -7,11 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Test extends Model
 {
     //
-    protected $primaryKey = 'id';
     protected $table = 'tests';
 
     protected $fillable = [
-        'accessCount', 'title', 'audio'
+        'id', 'accessCount', 'title', 'audio'
     ];
 
     function users(){

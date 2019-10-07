@@ -41,4 +41,14 @@ Route::group([
 
 Route::middleware('auth:api')->post('exportExcel', 'ExportController@export');
 
+Route::group([
+    'prefix' => 'test',
+    'middleware' => 'auth:api'
+], function () {
+    Route::get('getall', 'TestController@getAllTest');
+    Route::get('get', 'TestController@getTest');
+    Route::post('create', 'TestController@createTest');
+    Route::post('update', 'TestController@updateTest');
+    Route::post('delete', 'TestController@deleteTest');
+});
 

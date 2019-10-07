@@ -1,14 +1,22 @@
 <template>
-    <app-table :fields="fields" :list-api="listApi" :delete-api="deleteApi"></app-table>
+    <div>
+        <app-filter-bar></app-filter-bar>
+        <app-table
+            ref="table"
+            :fields="fields"
+            :list-api="listApi">
+        </app-table>
+    </div>
 </template>
 
 <script>
 import Table from './Table'
-
+import FilterBar from './FilterBar'
 export default {
   name: 'ListComponent',
   components: {
-    appTable: Table
+    appTable: Table,
+    appFilterBar: FilterBar
   },
   props: {
     fields: {

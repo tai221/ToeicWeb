@@ -5,7 +5,7 @@
         </div>
 
         <div class="panel panel-default">
-            <div class="panel-primary">Create new account</div>
+            <div class="panel-primary" >{{ isEdit?'Update account':'Create new account'}}</div>
             <div class="panel-body">
                 <form v-on:submit="saveForm()">
                     <div class="row">

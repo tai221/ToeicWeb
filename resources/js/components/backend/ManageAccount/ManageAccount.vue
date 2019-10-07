@@ -174,7 +174,7 @@ export default {
         })
     },
     exportEX() {
-      apiExportExcel('account', 'dstk')
+      apiExportExcel('accounts', 'dstk')
     }
   }
 }

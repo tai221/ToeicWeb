@@ -1,10 +1,10 @@
 <template>
-    <ListComponent :fields="fields" :list-api="getAllAccount" :delete-api="deleteAccount"></ListComponent>
+    <ListComponent :fields="fields" :list-api="getAllTest" :delete-api="deleteTest"></ListComponent>
 </template>
 
 <script>
 import ListComponent from '../../components/backend/ListComponent/ListComponent'
-import {getAllAccount, deleteAccount} from '../../api/managAccount'
+import {getAllTest, deleteTest} from '../../api/manageTest'
 
 export default {
   name: 'TestList',
@@ -13,24 +13,28 @@ export default {
   },
   data() {
     return {
-      getAllAccount,
-      deleteAccount,
+      getAllTest,
+      deleteTest,
       fields: [
         {
           name: 'id',
           title: 'ID'
         },
         {
-          name: 'username',
-          title: 'Username'
+          name: 'title',
+          title: 'Title'
         },
         {
-          name: 'email',
-          title: 'Email'
+          name: 'accessCount',
+          title: 'Count access'
         },
         {
-          name: 'hasRole',
-          title: 'Role'
+          name: 'audio',
+          title: 'Audio'
+        },
+        {
+          name: '__component:action-column',
+          title: ''
         }
       ]
     }

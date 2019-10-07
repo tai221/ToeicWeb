@@ -10,6 +10,7 @@ import UserIndex from './views/users/index'
 import Login from './views/Login/Login'
 import InputEmail from './views/ResetPassword/InputEmail'
 import TestList from './views/test/TestList'
+import TestEdit from './views/test/TestEdit'
 
 Vue.use(Router)
 
@@ -45,14 +46,7 @@ export const routes = [
         path: 'manage-account/result',
         component: ResultSearch,
         name: 'resultSearch'
-      },
-        {
-            path: 'manage-test',
-            component: TestList,
-            name: 'managetest'
-        },
-
-
+      }
     ]
   }, {
     path: '/login',
@@ -62,6 +56,27 @@ export const routes = [
     path: '/reset-password',
     component: InputEmail,
     name: 'resetPassword'
+  }, {
+    path: '/tests',
+    component: Layout,
+    children: [
+      {
+        path: '',
+        component: TestList,
+        name: 'manage test'
+      },
+      {
+        path: 'create',
+        component: TestEdit,
+        name: 'create test',
+        props: { isEdit: false }
+      },
+      {
+        path: ':id(\\d+)',
+        component: TestEdit,
+        name: 'edit test'
+      }
+    ]
   }
   // ,{
   //     path:'/account',
