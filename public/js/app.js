@@ -2082,6 +2082,10 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ActionColumn__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ActionColumn */ "./resources/js/components/backend/ListComponent/ActionColumn.vue");
+/* harmony import */ var _Pagination_Pagination__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Pagination/Pagination */ "./resources/js/components/backend/Pagination/Pagination.vue");
+//
+//
+//
 //
 //
 //
@@ -2101,14 +2105,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Table',
   components: {
-    ActionColumn: _ActionColumn__WEBPACK_IMPORTED_MODULE_0__["default"]
+    ActionColumn: _ActionColumn__WEBPACK_IMPORTED_MODULE_0__["default"],
+    Pagination: _Pagination_Pagination__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
-      datas: []
+      datas: [],
+      partOfDatas: []
     };
   },
   props: {
@@ -2126,7 +2133,12 @@ __webpack_require__.r(__webpack_exports__);
 
     this.listApi().then(function (resp) {
       _this.datas = resp.data;
-      console.log(_this.datas);
+
+      if (_this.datas.length > 10) {
+        _this.partOfDatas = _this.datas.slice(0, 10);
+      } else {
+        _this.partOfDatas = _this.datas;
+      }
     })["catch"](function (resp) {
       alert('Could not load data');
     });
@@ -9551,7 +9563,7 @@ exports = module.exports = __webpack_require__(/*! ../css-loader/lib/css-base.js
 
 
 // module
-exports.push([module.i, "/* Make clicks pass-through */\n#nprogress {\n  pointer-events: none;\n}\n\n#nprogress .bar {\n  background: #29d;\n\n  position: fixed;\n  z-index: 1031;\n  top: 0;\n  left: 0;\n\n  width: 100%;\n  height: 3px;\n}\n\n/* Fancy blur effect */\n#nprogress .peg {\n  display: block;\n  position: absolute;\n  right: 0px;\n  width: 100px;\n  height: 100%;\n  box-shadow: 0 0 10px #29d, 0 0 5px #29d;\n  opacity: 1.0;\n  transform: rotate(3deg) translate(0px, -4px);\n}\n\n/* Remove these to get rid of the spinner */\n#nprogress .spinner {\n  display: block;\n  position: fixed;\n  z-index: 1031;\n  top: 15px;\n  right: 15px;\n}\n\n#nprogress .spinner-icon {\n  width: 18px;\n  height: 18px;\n  box-sizing: border-box;\n\n  border: solid 2px transparent;\n  border-top-color: #29d;\n  border-left-color: #29d;\n  border-radius: 50%;\n\n  -webkit-animation: nprogress-spinner 400ms linear infinite;\n          animation: nprogress-spinner 400ms linear infinite;\n}\n\n.nprogress-custom-parent {\n  overflow: hidden;\n  position: relative;\n}\n\n.nprogress-custom-parent #nprogress .spinner,\n.nprogress-custom-parent #nprogress .bar {\n  position: absolute;\n}\n\n@-webkit-keyframes nprogress-spinner {\n  0%   { -webkit-transform: rotate(0deg); }\n  100% { -webkit-transform: rotate(360deg); }\n}\n@keyframes nprogress-spinner {\n  0%   { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n\n", ""]);
+exports.push([module.i, "/* Make clicks pass-through */\n#nprogress {\n  pointer-events: none;\n}\n\n#nprogress .bar {\n  background: #29d;\n\n  position: fixed;\n  z-index: 1031;\n  top: 0;\n  left: 0;\n\n  width: 100%;\n  height: 2px;\n}\n\n/* Fancy blur effect */\n#nprogress .peg {\n  display: block;\n  position: absolute;\n  right: 0px;\n  width: 100px;\n  height: 100%;\n  box-shadow: 0 0 10px #29d, 0 0 5px #29d;\n  opacity: 1.0;\n  transform: rotate(3deg) translate(0px, -4px);\n}\n\n/* Remove these to get rid of the spinner */\n#nprogress .spinner {\n  display: block;\n  position: fixed;\n  z-index: 1031;\n  top: 15px;\n  right: 15px;\n}\n\n#nprogress .spinner-icon {\n  width: 18px;\n  height: 18px;\n  box-sizing: border-box;\n\n  border: solid 2px transparent;\n  border-top-color: #29d;\n  border-left-color: #29d;\n  border-radius: 50%;\n\n  -webkit-animation: nprogress-spinner 400ms linear infinite;\n          animation: nprogress-spinner 400ms linear infinite;\n}\n\n.nprogress-custom-parent {\n  overflow: hidden;\n  position: relative;\n}\n\n.nprogress-custom-parent #nprogress .spinner,\n.nprogress-custom-parent #nprogress .bar {\n  position: absolute;\n}\n\n@-webkit-keyframes nprogress-spinner {\n  0%   { -webkit-transform: rotate(0deg); }\n  100% { -webkit-transform: rotate(360deg); }\n}\n@keyframes nprogress-spinner {\n  0%   { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n\n", ""]);
 
 // exports
 
@@ -52495,48 +52507,63 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "table",
-    { staticClass: "table table-bordered" },
+    "div",
     [
-      _c("thead", [
-        _c(
-          "tr",
-          _vm._l(_vm.fields, function(field) {
-            return field.title != ""
-              ? _c("th", [_vm._v(_vm._s(field.title))])
-              : _vm._e()
-          }),
-          0
-        )
-      ]),
-      _vm._v(" "),
-      _vm._l(_vm.datas, function(data, index) {
-        return _c("tbody", [
-          _c(
-            "tr",
-            [
-              _vm._l(_vm.fields, function(field, i) {
+      _c(
+        "table",
+        { staticClass: "table table-bordered" },
+        [
+          _c("thead", [
+            _c(
+              "tr",
+              _vm._l(_vm.fields, function(field) {
                 return field.title != ""
-                  ? _c("td", { key: i }, [_vm._v(_vm._s(data[field.name]))])
+                  ? _c("th", [_vm._v(_vm._s(field.title))])
                   : _vm._e()
               }),
-              _vm._v(" "),
+              0
+            )
+          ]),
+          _vm._v(" "),
+          _vm._l(_vm.partOfDatas, function(data, index) {
+            return _c("tbody", [
               _c(
-                "td",
+                "tr",
                 [
-                  _c("action-column", {
-                    attrs: { "row-data": data, "row-index": index }
-                  })
+                  _vm._l(_vm.fields, function(field, i) {
+                    return field.title != ""
+                      ? _c("td", { key: i }, [_vm._v(_vm._s(data[field.name]))])
+                      : _vm._e()
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "td",
+                    [
+                      _c("action-column", {
+                        attrs: { "row-data": data, "row-index": index }
+                      })
+                    ],
+                    1
+                  )
                 ],
-                1
+                2
               )
-            ],
-            2
-          )
-        ])
+            ])
+          })
+        ],
+        2
+      ),
+      _vm._v(" "),
+      _c("pagination", {
+        attrs: { "list-data": _vm.datas },
+        on: {
+          paginate: function($event) {
+            _vm.partOfDatas = $event
+          }
+        }
       })
     ],
-    2
+    1
   )
 }
 var staticRenderFns = []
