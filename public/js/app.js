@@ -1993,7 +1993,8 @@ __webpack_require__.r(__webpack_exports__);
       };
       console.log(data);
       this.$parent.$parent.deleteApi(data).then(function (resp) {
-        _this.$parent.datas.splice(_this.rowIndex, 1);
+        _this.$parent.partOfDatas.splice(_this.rowIndex, 1); // this.$parent.$refs.vuetable.reload()
+
       });
     }
   }
@@ -2705,6 +2706,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Pagination',
   data: function data() {
@@ -2730,6 +2735,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     prevPage: function prevPage() {
       this.pageNumber--;
+      this.$emit('paginate', this.paginatedData);
+    },
+    toPage: function toPage(page) {
+      this.pageNumber = page - 1;
       this.$emit('paginate', this.paginatedData);
     }
   },
@@ -9696,7 +9705,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.pag[data-v-444543b9]{\n    position:relative;\n    margin-bottom: 100px;\n}\n", ""]);
+exports.push([module.i, "\n.pag[data-v-444543b9]{\n    position:relative;\n    margin-bottom: 100px;\n}\n.base-pagination__description--current[data-v-444543b9]{\n    background-color: #0b5a0e;\n}\n", ""]);
 
 // exports
 
@@ -52477,7 +52486,7 @@ var render = function() {
       _c("app-filter-bar"),
       _vm._v(" "),
       _c("app-table", {
-        ref: "table",
+        ref: "vuetable",
         attrs: { fields: _vm.fields, "list-api": _vm.listApi }
       })
     ],
@@ -53325,28 +53334,48 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "pag" }, [
-    _c(
-      "button",
-      { attrs: { disabled: _vm.pageNumber == 0 }, on: { click: _vm.prevPage } },
-      [_vm._v(_vm._s(_vm.$t("pagination.previous")))]
-    ),
-    _vm._v(" "),
-    _c("span", [
-      _vm._v(
-        "Page " + _vm._s(_vm.pageNumber + 1) + " of " + _vm._s(_vm.pageCount)
+  return _c(
+    "div",
+    { staticClass: "pag" },
+    [
+      _c(
+        "button",
+        {
+          attrs: { disabled: _vm.pageNumber == 0 },
+          on: { click: _vm.prevPage }
+        },
+        [_vm._v(_vm._s(_vm.$t("pagination.previous")))]
+      ),
+      _vm._v(" "),
+      _vm._l(_vm.pageCount, function(page) {
+        return _c(
+          "button",
+          {
+            class: {
+              "base-pagination__description--current":
+                _vm.pageNumber === page - 1
+            },
+            on: {
+              click: function($event) {
+                return _vm.toPage(page)
+              }
+            }
+          },
+          [_vm._v(_vm._s(page))]
+        )
+      }),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          attrs: { disabled: _vm.pageNumber >= _vm.pageCount - 1 },
+          on: { click: _vm.nextPage }
+        },
+        [_vm._v(_vm._s(_vm.$t("pagination.next")))]
       )
-    ]),
-    _vm._v(" "),
-    _c(
-      "button",
-      {
-        attrs: { disabled: _vm.pageNumber >= _vm.pageCount - 1 },
-        on: { click: _vm.nextPage }
-      },
-      [_vm._v(_vm._s(_vm.$t("pagination.next")))]
-    )
-  ])
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

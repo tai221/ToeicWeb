@@ -2,7 +2,7 @@
     <div>
         <app-filter-bar></app-filter-bar>
         <app-table
-            ref="table"
+            ref="vuetable"
             :fields="fields"
             :list-api="listApi">
         </app-table>

@@ -39,7 +39,9 @@ export default {
       console.log(data)
       this.$parent.$parent.deleteApi(data)
         .then(resp => {
-          this.$parent.datas.splice(this.rowIndex, 1)
+          this.$parent.partOfDatas.splice(this.rowIndex, 1)
+          // this.$parent.$refs.vuetable.reload()
+
         })
     }
   }

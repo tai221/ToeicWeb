@@ -1,7 +1,11 @@
 <template>
     <div class="pag">
         <button @click="prevPage" :disabled="pageNumber == 0">{{ $t('pagination.previous') }}</button>
-        <span>Page {{ pageNumber + 1 }} of {{ pageCount }}</span>
+        <button v-for="page of pageCount" @click="toPage(page)" :class="{
+      'base-pagination__description--current':
+        pageNumber === page-1}">{{page}}</button>
+
+<!--        <span>Page {{ pageNumber + 1 }} of {{ pageCount }}</span>-->
         <button @click="nextPage" :disabled="pageNumber >= pageCount-1">{{ $t('pagination.next') }}</button>
     </div>
 </template>
@@ -33,6 +37,10 @@ export default {
     prevPage() {
       this.pageNumber--
       this.$emit('paginate', this.paginatedData)
+    },
+    toPage(page) {
+      this.pageNumber = page - 1
+      this.$emit('paginate', this.paginatedData)
     }
   },
   computed: {
@@ -54,5 +62,8 @@ export default {
     .pag{
         position:relative;
         margin-bottom: 100px;
+    }
+    .base-pagination__description--current{
+        background-color: #0b5a0e;
     }
 </style>
