@@ -1988,13 +1988,15 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var id = this.rowData.id;
+      this.$parent.datas = this.$parent.datas.filter(function (data) {
+        return data.id != id;
+      });
       var data = {
         id: id
       };
       console.log(data);
       this.$parent.$parent.deleteApi(data).then(function (resp) {
-        _this.$parent.partOfDatas.splice(_this.rowIndex, 1); // this.$parent.$refs.vuetable.reload()
-
+        _this.$parent.partOfDatas.splice(_this.rowIndex, 1);
       });
     }
   }
@@ -2511,10 +2513,14 @@ __webpack_require__.r(__webpack_exports__);
   computed: {},
   methods: {
     deleteAccount: function deleteAccount(id, index) {
+      this.userAccounts = this.userAccounts.filter(function (account) {
+        return account.id != id;
+      });
+      console.log(this.userAccounts);
       var app = this;
 
       Object(_api_managAccount__WEBPACK_IMPORTED_MODULE_2__["deleteAccount"])(id).then(function (resp) {
-        app.userAccounts.splice(index, 1);
+        app.partOfAccounts.splice(index, 1);
       })["catch"](function (resp) {
         alert('could not delete account');
       });
@@ -2698,6 +2704,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -53361,7 +53368,7 @@ var render = function() {
               }
             }
           },
-          [_vm._v(_vm._s(page))]
+          [_vm._v("\n            " + _vm._s(page) + "\n    ")]
         )
       }),
       _vm._v(" "),
