@@ -135,6 +135,9 @@ export default {
       })
       console.log(this.userAccounts)
       const app = this
+      app.userAccounts = app.userAccounts.filter((account) => {
+        return  account.id != id
+      })
       deleteAccount(id)
         .then((resp) => {
           app.partOfAccounts.splice(index, 1)

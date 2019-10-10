@@ -4,12 +4,13 @@
             <thead>
             <tr>
                 <th v-for="field in fields" v-if="field.title != ''">{{field.title}}</th>
+                <th></th>
             </tr>
             </thead>
             <tbody v-for="data, index in partOfDatas">
             <tr>
                 <td v-for="field, i in fields" :key="i" v-if="field.title != ''">{{data[field.name]}}</td>
-                <td >
+                <td>
                     <action-column :row-data="data" :row-index="index"></action-column>
                 </td>
             </tr>
@@ -71,5 +72,7 @@ export default {
 </script>
 
 <style scoped>
-
+ .table{
+     margin-top: 20px;
+ }
 </style>
