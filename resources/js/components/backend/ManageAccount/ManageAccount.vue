@@ -131,9 +131,12 @@ export default {
   methods: {
     deleteAccount(id, index) {
       const app = this
+      app.userAccounts = app.userAccounts.filter((account) => {
+        return  account.id != id
+      })
       deleteAccount(id)
         .then((resp) => {
-          app.userAccounts.splice(index, 1)
+          app.partOfAccounts.splice(index, 1)
         })
         .catch((resp) => {
           alert('could not delete account')

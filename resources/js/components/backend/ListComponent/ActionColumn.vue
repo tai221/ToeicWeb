@@ -33,6 +33,9 @@ export default {
   methods: {
     handleDelete() {
       const id = this.rowData.id
+      this.$parent.datas = this.$parent.datas.filter((data) => {
+        return data.id != id
+      })
       const data = {
         id
       }

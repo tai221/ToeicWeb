@@ -1,5 +1,5 @@
 <template>
-    <div style="overflow-x: hidden;" id="app" >
+    <div  id="app" >
         <app-header></app-header>
         <app-sidebar></app-sidebar>
         <div class="container">

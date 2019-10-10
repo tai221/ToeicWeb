@@ -35,8 +35,8 @@
                                 <span class="badge badge-light">{{notifications.length}}</span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li v-if="notifications.length > 0" v-on:click="markAsRead() ">{{ $t('header.markAsRead') }}</li>
-                                <li v-for="noti in notifications">{{noti.data.data}}</li>
+                                <li v-if="notifications.length > 0" v-on:click="markAsRead() " style="color: #ae1c17">{{ $t('header.markAsRead') }}</li>
+                                <li v-for="noti in notifications" style="color: #1820dd">{{noti.data.data}}</li>
                             </ul>
                         </li>
 
