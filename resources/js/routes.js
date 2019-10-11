@@ -11,6 +11,7 @@ import Login from './views/Login/Login'
 import InputEmail from './views/ResetPassword/InputEmail'
 import TestList from './views/test/TestList'
 import TestEdit from './views/test/TestEdit'
+import Register from './views/Register/Register'
 
 Vue.use(Router)
 
@@ -53,6 +54,11 @@ export const routes = [
     component: Login,
     name: 'login'
   }, {
+        path: '/register',
+        component: Register,
+        name: 'register'
+    },
+    {
     path: '/reset-password',
     component: InputEmail,
     name: 'resetPassword'

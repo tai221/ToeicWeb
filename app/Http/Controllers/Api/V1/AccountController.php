@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Requests\AccountRegisterRequest;
 use App\Http\Requests\AccountStoreRequest;
 use App\Repositories\Eloquents\AccountRepository;
 use App\Account;
@@ -155,5 +156,10 @@ class AccountController extends Controller
     public function destroy($id)
     {
         return $this->accountRepository->deleteAccount($id);
+    }
+
+    public function register(AccountRegisterRequest $request)
+    {
+        return ;
     }
 }

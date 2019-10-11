@@ -26,7 +26,7 @@ import { store } from './store/store'
 import router from './routes'
 import 'nprogress/nprogress.css'
 
-const whiteList = ['/login', '/reset-password']
+const whiteList = ['/login', '/reset-password', '/register']
 
 router.beforeEach((to, from, next) => {
   NProgress.start()

@@ -30,6 +30,14 @@ export function getAllAccount() {
   })
 }
 
+export function register(data) {
+  return request({
+    url: 'api/register',
+    method: 'post',
+    data
+  })
+}
+
 export function deleteAccount(id) {
   return request({
     url: `/api/v1/account/${id}`,

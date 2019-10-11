@@ -21,6 +21,9 @@ Route::group(['middleware' => 'auth:api', 'prefix' => '/v1', 'namespace' => 'Api
     Route::resource('account', 'AccountController', ['except' => ['create']]);
     Route::post('search/account', 'AccountController@searchByField');
 });
+Route::group([ 'namespace' => 'Api\V1'], function () {
+    Route::post('/register', 'AccountController@register');
+});
 
 Route::post('/login', 'AuthController@login');
 Route::middleware('auth:api')->post('/logout', 'AuthController@logout');
