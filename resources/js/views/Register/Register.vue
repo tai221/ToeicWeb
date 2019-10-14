@@ -5,20 +5,27 @@
 <!--             <img src="images/signup-bg.jpg" alt="">-->
             <div class="container">
                 <div class="signup-content">
-                    <form  id="signup-form" class="signup-form">
+                    <div  id="signup-form" class="signup-form">
                         <h2 class="form-title">Create account</h2>
+
+                        <div v-if="errors && errors.username" class="text-danger">{{ errors.username[0] }}</div>
                         <div class="form-group">
                             <input type="text" class="form-input" name="name" id="name" placeholder="User Name" v-model="account.username"/>
                         </div>
+
+                        <div v-if="errors && errors.email" class="text-danger">{{ errors.email[0] }}</div>
                         <div class="form-group">
                             <input type="email" class="form-input" name="email" id="email" placeholder="Your Email" v-model="account.email"/>
                         </div>
+
+                        <div v-if="errors && errors.password" class="text-danger">{{ errors.password[0] }}</div>
                         <div class="form-group">
                             <input type="password" class="form-input" name="password" id="password" placeholder="Password" v-model="account.password"/>
 <!--                            <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>-->
                         </div>
+
                         <div class="form-group">
-                            <input type="password" class="form-input" name="re_password" id="re_password" placeholder="Repeat your password" v-model="account.repeatPassword"/>
+                            <input type="password" class="form-input" name="re_password" id="re_password" placeholder="Repeat your password" v-model="account.password_confirmation"/>
                         </div>
 <!--                        <div class="form-group">-->
 <!--                            <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />-->
@@ -27,7 +34,7 @@
                         <div class="form-group">
                             <input type="submit" name="submit" id="submit" class="form-submit" value="Sign up" @click="signup()"/>
                         </div>
-                    </form>
+                    </div>
                     <p class="loginhere">
                         Have already an account ? <a href="#" class="loginhere-link">Login here</a>
                     </p>
@@ -41,6 +48,7 @@
 
 <script>
 import { register } from '../../api/managAccount'
+import axios from 'axios'
 
 export default {
   name: 'Register',
@@ -50,19 +58,23 @@ export default {
         username: '',
         email: '',
         password: '',
-        repeatPassword: ''
-      }
+        password_confirmation: ''
+      },
+      errors: []
     }
   },
   methods: {
     signup() {
-      register(this.account)
+      axios.post('http://127.0.0.1:8000/api/register', this.account)
         .then((resp) => {
-          console.log(resp)
+          console.log('cores' + resp)
         })
-        .catch((error) => {
-          console.log('register xay ra loi')
-          console.log(error)
+        .catch(error => {
+          if (error.response.status === 422) {
+            console.log(error.response.data.errors)
+            this.errors = error.response.data.errors
+            console.log(this.errors.email[0])
+          }
         })
     }
   }

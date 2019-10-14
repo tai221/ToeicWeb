@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 class AccountRegisterRequest extends FormRequest
 {
@@ -26,7 +27,8 @@ class AccountRegisterRequest extends FormRequest
         return [
             'username' => 'required',
             'email' => 'required|email',
-            'password' => 'required|min:8'
+            'password' => 'required|confirmed|min:8'
         ];
     }
+
 }

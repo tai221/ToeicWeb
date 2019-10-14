@@ -160,6 +160,7 @@ class AccountController extends Controller
 
     public function register(AccountRegisterRequest $request)
     {
-        return ;
+
+        return response()->json(null, 200);
     }
 }
