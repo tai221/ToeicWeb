@@ -8,12 +8,12 @@
                     <div  id="signup-form" class="signup-form">
                         <h2 class="form-title">Create account</h2>
 
-                        <div v-if="errors && errors.username" class="text-danger">{{ errors.username[0] }}</div>
+                        <div v-if="(errors && errors.username) || errors.username2" class="text-danger">{{ errors.username2 || errors.username[0] }}</div>
                         <div class="form-group">
                             <input type="text" class="form-input" name="name" id="name" placeholder="User Name" v-model="account.username"/>
                         </div>
 
-                        <div v-if="errors && errors.email" class="text-danger">{{ errors.email[0] }}</div>
+                        <div v-if="(errors && errors.email) || errors.email2" class="text-danger">{{ errors.email2 || errors.email[0] }}</div>
                         <div class="form-group">
                             <input type="email" class="form-input" name="email" id="email" placeholder="Your Email" v-model="account.email"/>
                         </div>
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     <p class="loginhere">
-                        Have already an account ? <a href="#" class="loginhere-link">Login here</a>
+                        Have already an account ? <a href="#" class="loginhere-link"><router-link :to="{name:'login'}">Login here</router-link></a>
                     </p>
                 </div>
             </div>
@@ -58,7 +58,8 @@ export default {
         username: '',
         email: '',
         password: '',
-        password_confirmation: ''
+        password_confirmation: '',
+        hasRole: 'ROLE_USER'
       },
       errors: []
     }
@@ -67,13 +68,25 @@ export default {
     signup() {
       axios.post('http://127.0.0.1:8000/api/register', this.account)
         .then((resp) => {
-          console.log('cores' + resp)
+          if (resp.data.checkUsername && resp.data.checkEmail) {
+            this.errors.username2 = 'Username exists!'
+            this.errors.email2 = 'Email exists!'
+          } else if (resp.data.checkUsername) {
+            this.errors.username2 = 'Username exists!'
+            this.errors.email2 = ''
+          } else if (resp.data.checkEmail) {
+            this.errors.username2 = ''
+            this.errors.email2 = 'Email exists!'
+          } else {
+            this.errors.username2 = ''
+            this.errors.email2 = ''
+            this.$router.push({ name: 'login' })
+          }
+          this.$forceUpdate()
         })
         .catch(error => {
           if (error.response.status === 422) {
-            console.log(error.response.data.errors)
             this.errors = error.response.data.errors
-            console.log(this.errors.email[0])
           }
         })
     }

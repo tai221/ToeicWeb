@@ -164,7 +164,7 @@ export default {
             app.$router.push({ name: 'manageaccount' })
           }
         })
-        .catch((resp) => {
+        .catch((error) => {
           alert('Could not create your account')
         })
     },

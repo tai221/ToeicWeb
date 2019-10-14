@@ -2332,7 +2332,7 @@ __webpack_require__.r(__webpack_exports__);
             name: 'manageaccount'
           });
         }
-      })["catch"](function (resp) {
+      })["catch"](function (error) {
         alert('Could not create your account');
       });
     },
@@ -2885,6 +2885,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Login',
   data: function data() {
@@ -2986,7 +2987,8 @@ __webpack_require__.r(__webpack_exports__);
         username: '',
         email: '',
         password: '',
-        password_confirmation: ''
+        password_confirmation: '',
+        hasRole: 'ROLE_USER'
       },
       errors: []
     };
@@ -2996,12 +2998,28 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('http://127.0.0.1:8000/api/register', this.account).then(function (resp) {
-        console.log('cores' + resp);
+        if (resp.data.checkUsername && resp.data.checkEmail) {
+          _this.errors.username2 = 'Username exists!';
+          _this.errors.email2 = 'Email exists!';
+        } else if (resp.data.checkUsername) {
+          _this.errors.username2 = 'Username exists!';
+          _this.errors.email2 = '';
+        } else if (resp.data.checkEmail) {
+          _this.errors.username2 = '';
+          _this.errors.email2 = 'Email exists!';
+        } else {
+          _this.errors.username2 = '';
+          _this.errors.email2 = '';
+
+          _this.$router.push({
+            name: 'login'
+          });
+        }
+
+        _this.$forceUpdate();
       })["catch"](function (error) {
         if (error.response.status === 422) {
-          console.log(error.response.data.errors);
           _this.errors = error.response.data.errors;
-          console.log(_this.errors.email[0]);
         }
       });
     }
@@ -3020,20 +3038,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _api_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../api/auth */ "./resources/js/api/auth.js");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -3084,7 +3088,6 @@ __webpack_require__.r(__webpack_exports__);
       Object(_api_auth__WEBPACK_IMPORTED_MODULE_0__["sendMail"])(email).then(function (response) {
         app.message = response.data.message;
       })["catch"](function (error) {
-        console.log('loi');
         console.log(error);
       });
     }
@@ -9677,7 +9680,7 @@ exports = module.exports = __webpack_require__(/*! ../css-loader/lib/css-base.js
 
 
 // module
-exports.push([module.i, "/* Make clicks pass-through */\n#nprogress {\n  pointer-events: none;\n}\n\n#nprogress .bar {\n  background: #29d;\n\n  position: fixed;\n  z-index: 1031;\n  top: 0;\n  left: 0;\n\n  width: 100%;\n  height: 2px;\n}\n\n/* Fancy blur effect */\n#nprogress .peg {\n  display: block;\n  position: absolute;\n  right: 0px;\n  width: 100px;\n  height: 100%;\n  box-shadow: 0 0 10px #29d, 0 0 5px #29d;\n  opacity: 1.0;\n  transform: rotate(3deg) translate(0px, -4px);\n}\n\n/* Remove these to get rid of the spinner */\n#nprogress .spinner {\n  display: block;\n  position: fixed;\n  z-index: 1031;\n  top: 15px;\n  right: 15px;\n}\n\n#nprogress .spinner-icon {\n  width: 18px;\n  height: 18px;\n  box-sizing: border-box;\n\n  border: solid 2px transparent;\n  border-top-color: #29d;\n  border-left-color: #29d;\n  border-radius: 50%;\n\n  -webkit-animation: nprogress-spinner 400ms linear infinite;\n          animation: nprogress-spinner 400ms linear infinite;\n}\n\n.nprogress-custom-parent {\n  overflow: hidden;\n  position: relative;\n}\n\n.nprogress-custom-parent #nprogress .spinner,\n.nprogress-custom-parent #nprogress .bar {\n  position: absolute;\n}\n\n@-webkit-keyframes nprogress-spinner {\n  0%   { -webkit-transform: rotate(0deg); }\n  100% { -webkit-transform: rotate(360deg); }\n}\n@keyframes nprogress-spinner {\n  0%   { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n\n", ""]);
+exports.push([module.i, "/* Make clicks pass-through */\n#nprogress {\n  pointer-events: none;\n}\n\n#nprogress .bar {\n  background: #29d;\n\n  position: fixed;\n  z-index: 1031;\n  top: 0;\n  left: 0;\n\n  width: 100%;\n  height: 3px;\n}\n\n/* Fancy blur effect */\n#nprogress .peg {\n  display: block;\n  position: absolute;\n  right: 0px;\n  width: 100px;\n  height: 100%;\n  box-shadow: 0 0 10px #29d, 0 0 5px #29d;\n  opacity: 1.0;\n  transform: rotate(3deg) translate(0px, -4px);\n}\n\n/* Remove these to get rid of the spinner */\n#nprogress .spinner {\n  display: block;\n  position: fixed;\n  z-index: 1031;\n  top: 15px;\n  right: 15px;\n}\n\n#nprogress .spinner-icon {\n  width: 18px;\n  height: 18px;\n  box-sizing: border-box;\n\n  border: solid 2px transparent;\n  border-top-color: #29d;\n  border-left-color: #29d;\n  border-radius: 50%;\n\n  -webkit-animation: nprogress-spinner 400ms linear infinite;\n          animation: nprogress-spinner 400ms linear infinite;\n}\n\n.nprogress-custom-parent {\n  overflow: hidden;\n  position: relative;\n}\n\n.nprogress-custom-parent #nprogress .spinner,\n.nprogress-custom-parent #nprogress .bar {\n  position: absolute;\n}\n\n@-webkit-keyframes nprogress-spinner {\n  0%   { -webkit-transform: rotate(0deg); }\n  100% { -webkit-transform: rotate(360deg); }\n}\n@keyframes nprogress-spinner {\n  0%   { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}\n\n", ""]);
 
 // exports
 
@@ -9867,7 +9870,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* BASIC */\nhtml[data-v-783d9754] {\n    background-color: #56baed;\n}\nbody[data-v-783d9754] {\n    font-family: \"Poppins\", sans-serif;\n    height: 100vh;\n}\na[data-v-783d9754] {\n    color: #92badd;\n    display:inline-block;\n    text-decoration: none;\n    font-weight: 400;\n}\nh2[data-v-783d9754] {\n    text-align: center;\n    font-size: 16px;\n    font-weight: 600;\n    text-transform: uppercase;\n    display:inline-block;\n    margin: 40px 8px 10px 8px;\n    color: #cccccc;\n}\n\n/* STRUCTURE */\n.wrapper[data-v-783d9754] {\n    display: flex;\n    align-items: center;\n    flex-direction: column;\n    justify-content: center;\n    width: 100%;\n    min-height: 100%;\n    padding: 20px;\n}\n#formContent[data-v-783d9754] {\n    border-radius: 10px 10px 10px 10px;\n    background: #fff;\n    padding: 30px;\n    width: 90%;\n    max-width: 450px;\n    position: relative;\n    padding: 0px;\n    box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);\n    text-align: center;\n}\n#formFooter[data-v-783d9754] {\n    background-color: #f6f6f6;\n    border-top: 1px solid #dce8f1;\n    padding: 25px;\n    text-align: center;\n    border-radius: 0 0 10px 10px;\n}\n\n/* TABS */\nh2.inactive[data-v-783d9754] {\n    color: #cccccc;\n}\nh2.active[data-v-783d9754] {\n    color: #0d0d0d;\n    border-bottom: 2px solid #5fbae9;\n}\n\n/* FORM TYPOGRAPHY*/\ninput[type=button][data-v-783d9754], input[type=submit][data-v-783d9754], input[type=reset][data-v-783d9754]  {\n    background-color: #56baed;\n    border: none;\n    color: white;\n    padding: 15px 80px;\n    text-align: center;\n    text-decoration: none;\n    display: inline-block;\n    text-transform: uppercase;\n    font-size: 13px;\n    box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);\n    border-radius: 5px 5px 5px 5px;\n    margin: 5px 20px 40px 20px;\n    transition: all 0.3s ease-in-out;\n}\ninput[type=button][data-v-783d9754]:hover, input[type=submit][data-v-783d9754]:hover, input[type=reset][data-v-783d9754]:hover  {\n    background-color: #39ace7;\n}\ninput[type=button][data-v-783d9754]:active, input[type=submit][data-v-783d9754]:active, input[type=reset][data-v-783d9754]:active  {\n    transform: scale(0.95);\n}\ninput[type=text][data-v-783d9754] {\n    background-color: #f6f6f6;\n    border: none;\n    color: #0d0d0d;\n    padding: 15px 32px;\n    text-align: center;\n    text-decoration: none;\n    display: inline-block;\n    font-size: 16px;\n    margin: 5px;\n    width: 85%;\n    border: 2px solid #f6f6f6;\n    transition: all 0.5s ease-in-out;\n    border-radius: 5px 5px 5px 5px;\n}\ninput[type=text][data-v-783d9754]:focus {\n    background-color: #fff;\n    border-bottom: 2px solid #5fbae9;\n}\ninput[type=text][data-v-783d9754]:placeholder {\n    color: #cccccc;\n}\ninput[type=password][data-v-783d9754] {\n    background-color: #f6f6f6;\n    border: none;\n    color: #0d0d0d;\n    padding: 15px 32px;\n    text-align: center;\n    text-decoration: none;\n    display: inline-block;\n    font-size: 16px;\n    margin: 5px;\n    width: 85%;\n    border: 2px solid #f6f6f6;\n    transition: all 0.5s ease-in-out;\n    border-radius: 5px 5px 5px 5px;\n}\ninput[type=password][data-v-783d9754]:focus {\n    background-color: #fff;\n    border-bottom: 2px solid #5fbae9;\n}\ninput[type=password][data-v-783d9754]:placeholder {\n    color: #cccccc;\n}\n\n/* ANIMATIONS */\n\n/* Simple CSS3 Fade-in-down Animation */\n.fadeInDown[data-v-783d9754] {\n    -webkit-animation-name: fadeInDown-data-v-783d9754;\n    animation-name: fadeInDown-data-v-783d9754;\n    -webkit-animation-duration: 1s;\n    animation-duration: 1s;\n    -webkit-animation-fill-mode: both;\n    animation-fill-mode: both;\n}\n@-webkit-keyframes fadeInDown-data-v-783d9754 {\n0% {\n        opacity: 0;\n        transform: translate3d(0, -100%, 0);\n}\n100% {\n        opacity: 1;\n        transform: none;\n}\n}\n@keyframes fadeInDown-data-v-783d9754 {\n0% {\n        opacity: 0;\n        transform: translate3d(0, -100%, 0);\n}\n100% {\n        opacity: 1;\n        transform: none;\n}\n}\n\n/* Simple CSS3 Fade-in Animation */\n@-webkit-keyframes fadeIn-data-v-783d9754 {\nfrom { opacity:0;\n}\nto { opacity:1;\n}\n}\n@keyframes fadeIn-data-v-783d9754 {\nfrom { opacity:0;\n}\nto { opacity:1;\n}\n}\n.fadeIn[data-v-783d9754] {\n    opacity:0;\n    -webkit-animation:fadeIn-data-v-783d9754 ease-in 1;\n    animation:fadeIn-data-v-783d9754 ease-in 1;\n\n    -webkit-animation-fill-mode:forwards;\n    animation-fill-mode:forwards;\n\n    -webkit-animation-duration:1s;\n    animation-duration:1s;\n}\n.fadeIn.first[data-v-783d9754] {\n    -webkit-animation-delay: 0.4s;\n    animation-delay: 0.4s;\n}\n.fadeIn.second[data-v-783d9754] {\n    -webkit-animation-delay: 0.6s;\n    animation-delay: 0.6s;\n}\n.fadeIn.third[data-v-783d9754] {\n    -webkit-animation-delay: 0.8s;\n    animation-delay: 0.8s;\n}\n.fadeIn.fourth[data-v-783d9754] {\n    -webkit-animation-delay: 1s;\n    animation-delay: 1s;\n}\n\n/* Simple CSS3 Fade-in Animation */\n.underlineHover[data-v-783d9754]:after {\n    display: block;\n    left: 0;\n    bottom: -10px;\n    width: 0;\n    height: 2px;\n    background-color: #56baed;\n    content: \"\";\n    transition: width 0.2s;\n}\n.underlineHover[data-v-783d9754]:hover {\n    color: #0d0d0d;\n}\n.underlineHover[data-v-783d9754]:hover:after{\n    width: 100%;\n}\n\n/* OTHERS */\n*[data-v-783d9754]:focus {\n    outline: none;\n}\n#icon[data-v-783d9754] {\n    /*width:60%;*/\n}\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* BASIC */\nhtml[data-v-783d9754] {\n    background-color: #56baed;\n}\nbody[data-v-783d9754] {\n    font-family: \"Poppins\", sans-serif;\n    height: 100vh;\n}\na[data-v-783d9754] {\n    color: #92badd;\n    display:inline-block;\n    text-decoration: none;\n    font-weight: 400;\n}\nh2[data-v-783d9754] {\n    text-align: center;\n    font-size: 16px;\n    font-weight: 600;\n    text-transform: uppercase;\n    display:inline-block;\n    margin: 40px 8px 10px 8px;\n    color: #cccccc;\n}\n\n/* STRUCTURE */\n.wrapper[data-v-783d9754] {\n    display: flex;\n    align-items: center;\n    flex-direction: column;\n    justify-content: center;\n    width: 100%;\n    min-height: 100%;\n    padding: 20px;\n}\n#formContent[data-v-783d9754] {\n    border-radius: 10px 10px 10px 10px;\n    background: #fff;\n    padding: 30px;\n    width: 90%;\n    max-width: 450px;\n    position: relative;\n    padding: 0px;\n    box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);\n    text-align: center;\n}\n#formFooter[data-v-783d9754] {\n    background-color: #f6f6f6;\n    border-top: 1px solid #dce8f1;\n    padding: 25px;\n    text-align: center;\n    border-radius: 0 0 10px 10px;\n}\n\n/* TABS */\nh2.inactive[data-v-783d9754] {\n    color: #cccccc;\n}\nh2.active[data-v-783d9754] {\n    color: #0d0d0d;\n    border-bottom: 2px solid #5fbae9;\n}\n\n/* FORM TYPOGRAPHY*/\ninput[type=button][data-v-783d9754], input[type=submit][data-v-783d9754], input[type=reset][data-v-783d9754]  {\n    background-color: #56baed;\n    border: none;\n    color: white;\n    padding: 15px 80px;\n    text-align: center;\n    text-decoration: none;\n    display: inline-block;\n    text-transform: uppercase;\n    font-size: 13px;\n    box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);\n    border-radius: 5px 5px 5px 5px;\n    margin: 5px 20px 40px 20px;\n    transition: all 0.3s ease-in-out;\n}\ninput[type=button][data-v-783d9754]:hover, input[type=submit][data-v-783d9754]:hover, input[type=reset][data-v-783d9754]:hover  {\n    background-color: #39ace7;\n}\ninput[type=button][data-v-783d9754]:active, input[type=submit][data-v-783d9754]:active, input[type=reset][data-v-783d9754]:active  {\n    transform: scale(0.95);\n}\ninput[type=text][data-v-783d9754] {\n    background-color: #f6f6f6;\n    border: none;\n    color: #0d0d0d;\n    padding: 15px 32px;\n    text-align: center;\n    text-decoration: none;\n    display: inline-block;\n    font-size: 16px;\n    margin: 5px;\n    width: 85%;\n    border: 2px solid #f6f6f6;\n    transition: all 0.5s ease-in-out;\n    border-radius: 5px 5px 5px 5px;\n}\ninput[type=text][data-v-783d9754]:focus {\n    background-color: #fff;\n    border-bottom: 2px solid #5fbae9;\n}\ninput[type=text][data-v-783d9754]:placeholder {\n    color: #cccccc;\n}\ninput[type=password][data-v-783d9754] {\n    background-color: #f6f6f6;\n    border: none;\n    color: #0d0d0d;\n    padding: 15px 32px;\n    text-align: center;\n    text-decoration: none;\n    display: inline-block;\n    font-size: 16px;\n    margin: 5px;\n    width: 85%;\n    border: 2px solid #f6f6f6;\n    transition: all 0.5s ease-in-out;\n    border-radius: 5px 5px 5px 5px;\n}\ninput[type=password][data-v-783d9754]:focus {\n    background-color: #fff;\n    border-bottom: 2px solid #5fbae9;\n}\ninput[type=password][data-v-783d9754]:placeholder {\n    color: #cccccc;\n}\n\n/* ANIMATIONS */\n\n/* Simple CSS3 Fade-in-down Animation */\n.fadeInDown[data-v-783d9754] {\n    -webkit-animation-name: fadeInDown-data-v-783d9754;\n    animation-name: fadeInDown-data-v-783d9754;\n    -webkit-animation-duration: 1s;\n    animation-duration: 1s;\n    -webkit-animation-fill-mode: both;\n    animation-fill-mode: both;\n}\n@-webkit-keyframes fadeInDown-data-v-783d9754 {\n0% {\n        opacity: 0;\n        transform: translate3d(0, -100%, 0);\n}\n100% {\n        opacity: 1;\n        transform: none;\n}\n}\n@keyframes fadeInDown-data-v-783d9754 {\n0% {\n        opacity: 0;\n        transform: translate3d(0, -100%, 0);\n}\n100% {\n        opacity: 1;\n        transform: none;\n}\n}\n\n/* Simple CSS3 Fade-in Animation */\n@-webkit-keyframes fadeIn-data-v-783d9754 {\nfrom { opacity:0;\n}\nto { opacity:1;\n}\n}\n@keyframes fadeIn-data-v-783d9754 {\nfrom { opacity:0;\n}\nto { opacity:1;\n}\n}\n.fadeIn[data-v-783d9754] {\n    opacity:0;\n    -webkit-animation:fadeIn-data-v-783d9754 ease-in 1;\n    animation:fadeIn-data-v-783d9754 ease-in 1;\n\n    -webkit-animation-fill-mode:forwards;\n    animation-fill-mode:forwards;\n\n    -webkit-animation-duration:1s;\n    animation-duration:1s;\n}\n.fadeIn.first[data-v-783d9754] {\n    -webkit-animation-delay: 0.4s;\n    animation-delay: 0.4s;\n}\n.fadeIn.second[data-v-783d9754] {\n    -webkit-animation-delay: 0.6s;\n    animation-delay: 0.6s;\n}\n.fadeIn.third[data-v-783d9754] {\n    -webkit-animation-delay: 0.8s;\n    animation-delay: 0.8s;\n}\n.fadeIn.fourth[data-v-783d9754] {\n    -webkit-animation-delay: 1s;\n    animation-delay: 1s;\n}\n\n/* Simple CSS3 Fade-in Animation */\n.underlineHover[data-v-783d9754]:after {\n    display: block;\n    left: 0;\n    bottom: -10px;\n    width: 0;\n    height: 2px;\n    background-color: #56baed;\n    content: \"\";\n    transition: width 0.2s;\n}\n.underlineHover[data-v-783d9754]:hover {\n    color: #0d0d0d;\n}\n.underlineHover[data-v-783d9754]:hover:after{\n    width: 100%;\n}\n\n/* OTHERS */\n*[data-v-783d9754]:focus {\n    outline: none;\n}\n#icon[data-v-783d9754] {\n    /*width:60%;*/\n}\n\n", ""]);
 
 // exports
 
@@ -9887,7 +9890,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* @extend display-flex; */\ndisplay-flex[data-v-ecde73c0], .display-flex[data-v-ecde73c0], .display-flex-center[data-v-ecde73c0] {\n    display: flex;\n    display: -webkit-flex;\n}\n\n/* @extend list-type-ulli; */\nlist-type-ulli[data-v-ecde73c0] {\n    list-style-type: none;\n    margin: 0;\n    padding: 0;\n}\n\n/* Montserrat-300 - latin */\n@font-face {\n    font-family: 'Montserrat';\n    font-style: normal;\n    font-weight: 300;\n    src: url(" + escape(__webpack_require__(/*! ./fonts/montserrat/Montserrat-Light.ttf */ "./resources/js/views/Register/fonts/montserrat/Montserrat-Light.ttf")) + ");\n    /* IE9 Compat Modes */\n}\n@font-face {\n    font-family: 'Montserrat';\n    font-style: normal;\n    font-weight: 400;\n    src: url(" + escape(__webpack_require__(/*! ./fonts/montserrat/Montserrat-Regular.ttf */ "./resources/js/views/Register/fonts/montserrat/Montserrat-Regular.ttf")) + ");\n    /* IE9 Compat Modes */\n}\n@font-face {\n    font-family: 'Montserrat';\n    font-style: italic;\n    font-weight: 400;\n    src: url(" + escape(__webpack_require__(/*! ./fonts/montserrat/Montserrat-Italic.ttf */ "./resources/js/views/Register/fonts/montserrat/Montserrat-Italic.ttf")) + ");\n    /* IE9 Compat Modes */\n}\n@font-face {\n    font-family: 'Montserrat';\n    font-style: normal;\n    font-weight: 500;\n    src: url(" + escape(__webpack_require__(/*! ./fonts/montserrat/Montserrat-Medium.ttf */ "./resources/js/views/Register/fonts/montserrat/Montserrat-Medium.ttf")) + ");\n    /* IE9 Compat Modes */\n}\n@font-face {\n    font-family: 'Montserrat';\n    font-style: normal;\n    font-weight: 600;\n    src: url(" + escape(__webpack_require__(/*! ./fonts/montserrat/Montserrat-SemiBold.ttf */ "./resources/js/views/Register/fonts/montserrat/Montserrat-SemiBold.ttf")) + ");\n    /* IE9 Compat Modes */\n}\n@font-face {\n    font-family: 'Montserrat';\n    font-style: normal;\n    font-weight: 700;\n    src: url(" + escape(__webpack_require__(/*! ./fonts/montserrat/Montserrat-Bold.ttf */ "./resources/js/views/Register/fonts/montserrat/Montserrat-Bold.ttf")) + ");\n    /* IE9 Compat Modes */\n}\n@font-face {\n    font-family: 'Montserrat';\n    font-style: italic;\n    font-weight: 700;\n    src: url(" + escape(__webpack_require__(/*! ./fonts/montserrat/Montserrat-BoldItalic.ttf */ "./resources/js/views/Register/fonts/montserrat/Montserrat-BoldItalic.ttf")) + ");\n    /* IE9 Compat Modes */\n}\n@font-face {\n    font-family: 'Montserrat';\n    font-style: italic;\n    font-weight: 900;\n    src: url(" + escape(__webpack_require__(/*! ./fonts/montserrat/montserrat-v12-latin-900.ttf */ "./resources/js/views/Register/fonts/montserrat/montserrat-v12-latin-900.ttf")) + "), url(" + escape(__webpack_require__(/*! ./fonts/montserrat/montserrat-v12-latin-900.eot */ "./resources/js/views/Register/fonts/montserrat/montserrat-v12-latin-900.eot")) + ") format(\"embedded-opentype\"), url(" + escape(__webpack_require__(/*! ./fonts/montserrat/montserrat-v12-latin-900.svg */ "./resources/js/views/Register/fonts/montserrat/montserrat-v12-latin-900.svg")) + ") format(\"woff2\"), url(" + escape(__webpack_require__(/*! ./fonts/montserrat/montserrat-v12-latin-900.woff */ "./resources/js/views/Register/fonts/montserrat/montserrat-v12-latin-900.woff")) + ") format(\"woff\"), url(" + escape(__webpack_require__(/*! ./fonts/montserrat/montserrat-v12-latin-900.woff2 */ "./resources/js/views/Register/fonts/montserrat/montserrat-v12-latin-900.woff2")) + ") format(\"truetype\");\n}\na[data-v-ecde73c0]:focus, a[data-v-ecde73c0]:active {\n    text-decoration: none;\n    outline: none;\n    transition: all 300ms ease 0s;\n    -moz-transition: all 300ms ease 0s;\n    -webkit-transition: all 300ms ease 0s;\n    -o-transition: all 300ms ease 0s;\n    -ms-transition: all 300ms ease 0s;\n}\ninput[data-v-ecde73c0], select[data-v-ecde73c0], textarea[data-v-ecde73c0] {\n    outline: none;\n    appearance: unset !important;\n    -moz-appearance: unset !important;\n    -webkit-appearance: unset !important;\n    -o-appearance: unset !important;\n    -ms-appearance: unset !important;\n}\ninput[data-v-ecde73c0]::-webkit-outer-spin-button, input[data-v-ecde73c0]::-webkit-inner-spin-button {\n    appearance: none !important;\n    -moz-appearance: none !important;\n    -webkit-appearance: none !important;\n    -o-appearance: none !important;\n    -ms-appearance: none !important;\n    margin: 0;\n}\ninput[data-v-ecde73c0]:focus, select[data-v-ecde73c0]:focus, textarea[data-v-ecde73c0]:focus {\n    outline: none;\n    box-shadow: none !important;\n    -moz-box-shadow: none !important;\n    -webkit-box-shadow: none !important;\n    -o-box-shadow: none !important;\n    -ms-box-shadow: none !important;\n}\ninput[type=checkbox][data-v-ecde73c0] {\n    appearance: checkbox !important;\n    -moz-appearance: checkbox !important;\n    -webkit-appearance: checkbox !important;\n    -o-appearance: checkbox !important;\n    -ms-appearance: checkbox !important;\n}\ninput[type=radio][data-v-ecde73c0] {\n    appearance: radio !important;\n    -moz-appearance: radio !important;\n    -webkit-appearance: radio !important;\n    -o-appearance: radio !important;\n    -ms-appearance: radio !important;\n}\nimg[data-v-ecde73c0] {\n    max-width: 100%;\n    height: auto;\n}\nfigure[data-v-ecde73c0] {\n    margin: 0;\n}\np[data-v-ecde73c0] {\n    margin-bottom: 0px;\n    font-size: 15px;\n    color: #777;\n}\nh2[data-v-ecde73c0] {\n    line-height: 1.66;\n    margin: 0;\n    padding: 0;\n    font-weight: 900;\n    color: #222;\n    font-family: 'Montserrat';\n    font-size: 24px;\n    text-transform: uppercase;\n    text-align: center;\n    margin-bottom: 40px;\n}\n.clear[data-v-ecde73c0] {\n    clear: both;\n}\nbody[data-v-ecde73c0] {\n    font-size: 14px;\n    line-height: 1.8;\n    color: #222;\n    font-weight: 400;\n    font-family: 'Montserrat';\n    background-image: url(" + escape(__webpack_require__(/*! ./images/signup-bg.jpg */ "./resources/js/views/Register/images/signup-bg.jpg")) + ");\n    background-repeat: no-repeat;\n    background-size: cover;\n    -moz-background-size: cover;\n    -webkit-background-size: cover;\n    -o-background-size: cover;\n    -ms-background-size: cover;\n    background-position: center center;\n    padding: 115px 0;\n}\n.container[data-v-ecde73c0] {\n    width: 660px;\n    position: relative;\n    margin: 0 auto;\n}\n.display-flex[data-v-ecde73c0] {\n    justify-content: space-between;\n    -moz-justify-content: space-between;\n    -webkit-justify-content: space-between;\n    -o-justify-content: space-between;\n    -ms-justify-content: space-between;\n    align-items: center;\n    -moz-align-items: center;\n    -webkit-align-items: center;\n    -o-align-items: center;\n    -ms-align-items: center;\n}\n.display-flex-center[data-v-ecde73c0] {\n    justify-content: center;\n    -moz-justify-content: center;\n    -webkit-justify-content: center;\n    -o-justify-content: center;\n    -ms-justify-content: center;\n    align-items: center;\n    -moz-align-items: center;\n    -webkit-align-items: center;\n    -o-align-items: center;\n    -ms-align-items: center;\n}\n.position-center[data-v-ecde73c0] {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    -moz-transform: translate(-50%, -50%);\n    -webkit-transform: translate(-50%, -50%);\n    -o-transform: translate(-50%, -50%);\n    -ms-transform: translate(-50%, -50%);\n}\n.signup-content[data-v-ecde73c0] {\n    background: #fff;\n    border-radius: 10px;\n    -moz-border-radius: 10px;\n    -webkit-border-radius: 10px;\n    -o-border-radius: 10px;\n    -ms-border-radius: 10px;\n    padding: 50px 85px;\n}\n.form-group[data-v-ecde73c0] {\n    overflow: hidden;\n    margin-bottom: 20px;\n}\n.form-input[data-v-ecde73c0] {\n    width: 100%;\n    border: 1px solid #ebebeb;\n    border-radius: 5px;\n    -moz-border-radius: 5px;\n    -webkit-border-radius: 5px;\n    -o-border-radius: 5px;\n    -ms-border-radius: 5px;\n    padding: 17px 20px;\n    box-sizing: border-box;\n    font-size: 14px;\n    font-weight: 500;\n    color: #222;\n}\n.form-input[data-v-ecde73c0]::-webkit-input-placeholder {\n    color: #999;\n}\n.form-input[data-v-ecde73c0]::-moz-placeholder {\n    color: #999;\n}\n.form-input[data-v-ecde73c0]:-ms-input-placeholder {\n    color: #999;\n}\n.form-input[data-v-ecde73c0]:-moz-placeholder {\n    color: #999;\n}\n.form-input[data-v-ecde73c0]::-webkit-input-placeholder {\n    font-weight: 500;\n}\n.form-input[data-v-ecde73c0]::-moz-placeholder {\n    font-weight: 500;\n}\n.form-input[data-v-ecde73c0]:-ms-input-placeholder {\n    font-weight: 500;\n}\n.form-input[data-v-ecde73c0]:-moz-placeholder {\n    font-weight: 500;\n}\n.form-input[data-v-ecde73c0]:focus {\n    border: 1px solid transparent;\n    -webkit-border-image-source: -webkit-linear-gradient(to right, #9face6, #74ebd5);\n    -moz-border-image-source: -moz-linear-gradient(to right, #9face6, #74ebd5);\n    -o-border-image-source: -o-linear-gradient(to right, #9face6, #74ebd5);\n    border-image-source: linear-gradient(to right, #9face6, #74ebd5);\n    -webkit-border-image-slice: 1;\n    border-image-slice: 1;\n    border-radius: 5px;\n    -moz-border-radius: 5px;\n    -webkit-border-radius: 5px;\n    -o-border-radius: 5px;\n    -ms-border-radius: 5px;\n    background-origin: border-box;\n    background-clip: content-box, border-box;\n}\n.form-input[data-v-ecde73c0]:focus::-webkit-input-placeholder {\n    color: #222;\n}\n.form-input[data-v-ecde73c0]:focus::-moz-placeholder {\n    color: #222;\n}\n.form-input[data-v-ecde73c0]:focus:-ms-input-placeholder {\n    color: #222;\n}\n.form-input[data-v-ecde73c0]:focus:-moz-placeholder {\n    color: #222;\n}\n.form-submit[data-v-ecde73c0] {\n    width: 100%;\n    border-radius: 5px;\n    -moz-border-radius: 5px;\n    -webkit-border-radius: 5px;\n    -o-border-radius: 5px;\n    -ms-border-radius: 5px;\n    padding: 17px 20px;\n    box-sizing: border-box;\n    font-size: 14px;\n    font-weight: 700;\n    color: #fff;\n    text-transform: uppercase;\n    border: none;\n    background-image: linear-gradient(to left, #74ebd5, #9face6);\n}\ninput[type=checkbox][data-v-ecde73c0]:not(old) {\n    width: 2em;\n    margin: 0;\n    padding: 0;\n    font-size: 1em;\n    display: none;\n}\ninput[type=checkbox]:not(old) + label[data-v-ecde73c0] {\n    display: inline-block;\n    margin-top: 7px;\n    margin-bottom: 25px;\n}\ninput[type=checkbox]:not(old) + label > span[data-v-ecde73c0] {\n    display: inline-block;\n    width: 13px;\n    height: 13px;\n    margin-right: 15px;\n    margin-bottom: 3px;\n    border: 1px solid #ebebeb;\n    border-radius: 2px;\n    -moz-border-radius: 2px;\n    -webkit-border-radius: 2px;\n    -o-border-radius: 2px;\n    -ms-border-radius: 2px;\n    background: white;\n    background-image: linear-gradient(white, white);\n    vertical-align: bottom;\n}\ninput[type=checkbox]:not(old):checked + label > span[data-v-ecde73c0] {\n    background-image: linear-gradient(white, white);\n}\ninput[type=checkbox]:not(old):checked + label > span[data-v-ecde73c0]:before {\n    content: '\\F26B';\n    display: block;\n    color: #222;\n    font-size: 11px;\n    line-height: 1.2;\n    text-align: center;\n    font-family: 'Material-Design-Iconic-Font';\n    font-weight: bold;\n}\n.label-agree-term[data-v-ecde73c0] {\n    font-size: 12px;\n    font-weight: 600;\n    color: #555;\n}\n.term-service[data-v-ecde73c0] {\n    color: #555;\n}\n.loginhere[data-v-ecde73c0] {\n    color: #555;\n    font-weight: 500;\n    text-align: center;\n    margin-top: 91px;\n    margin-bottom: 5px;\n}\n.loginhere-link[data-v-ecde73c0] {\n    font-weight: 700;\n    color: #222;\n}\n.field-icon[data-v-ecde73c0] {\n    float: right;\n    margin-right: 17px;\n    margin-top: -32px;\n    position: relative;\n    z-index: 2;\n    color: #555;\n}\n@media screen and (max-width: 768px) {\n.container[data-v-ecde73c0] {\n        width: calc(100% - 40px);\n        max-width: 100%;\n}\n}\n@media screen and (max-width: 480px) {\n.signup-content[data-v-ecde73c0] {\n        padding: 50px 25px;\n}\n}\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* @extend display-flex; */\ndisplay-flex[data-v-ecde73c0], .display-flex[data-v-ecde73c0], .display-flex-center[data-v-ecde73c0] {\n    display: flex;\n    display: -webkit-flex;\n}\n\n/* @extend list-type-ulli; */\nlist-type-ulli[data-v-ecde73c0] {\n    list-style-type: none;\n    margin: 0;\n    padding: 0;\n}\n\n/* Montserrat-300 - latin */\n@font-face {\n    font-family: 'Montserrat';\n    font-style: normal;\n    font-weight: 300;\n    src: url(" + escape(__webpack_require__(/*! ./fonts/montserrat/Montserrat-Light.ttf */ "./resources/js/views/Register/fonts/montserrat/Montserrat-Light.ttf")) + ");\n    /* IE9 Compat Modes */\n}\n@font-face {\n    font-family: 'Montserrat';\n    font-style: normal;\n    font-weight: 400;\n    src: url(" + escape(__webpack_require__(/*! ./fonts/montserrat/Montserrat-Regular.ttf */ "./resources/js/views/Register/fonts/montserrat/Montserrat-Regular.ttf")) + ");\n    /* IE9 Compat Modes */\n}\n@font-face {\n    font-family: 'Montserrat';\n    font-style: italic;\n    font-weight: 400;\n    src: url(" + escape(__webpack_require__(/*! ./fonts/montserrat/Montserrat-Italic.ttf */ "./resources/js/views/Register/fonts/montserrat/Montserrat-Italic.ttf")) + ");\n    /* IE9 Compat Modes */\n}\n@font-face {\n    font-family: 'Montserrat';\n    font-style: normal;\n    font-weight: 500;\n    src: url(" + escape(__webpack_require__(/*! ./fonts/montserrat/Montserrat-Medium.ttf */ "./resources/js/views/Register/fonts/montserrat/Montserrat-Medium.ttf")) + ");\n    /* IE9 Compat Modes */\n}\n@font-face {\n    font-family: 'Montserrat';\n    font-style: normal;\n    font-weight: 600;\n    src: url(" + escape(__webpack_require__(/*! ./fonts/montserrat/Montserrat-SemiBold.ttf */ "./resources/js/views/Register/fonts/montserrat/Montserrat-SemiBold.ttf")) + ");\n    /* IE9 Compat Modes */\n}\n@font-face {\n    font-family: 'Montserrat';\n    font-style: normal;\n    font-weight: 700;\n    src: url(" + escape(__webpack_require__(/*! ./fonts/montserrat/Montserrat-Bold.ttf */ "./resources/js/views/Register/fonts/montserrat/Montserrat-Bold.ttf")) + ");\n    /* IE9 Compat Modes */\n}\n@font-face {\n    font-family: 'Montserrat';\n    font-style: italic;\n    font-weight: 700;\n    src: url(" + escape(__webpack_require__(/*! ./fonts/montserrat/Montserrat-BoldItalic.ttf */ "./resources/js/views/Register/fonts/montserrat/Montserrat-BoldItalic.ttf")) + ");\n    /* IE9 Compat Modes */\n}\n@font-face {\n    font-family: 'Montserrat';\n    font-style: italic;\n    font-weight: 900;\n    src: url(" + escape(__webpack_require__(/*! ./fonts/montserrat/montserrat-v12-latin-900.ttf */ "./resources/js/views/Register/fonts/montserrat/montserrat-v12-latin-900.ttf")) + "), url(" + escape(__webpack_require__(/*! ./fonts/montserrat/montserrat-v12-latin-900.eot */ "./resources/js/views/Register/fonts/montserrat/montserrat-v12-latin-900.eot")) + ") format(\"embedded-opentype\"), url(" + escape(__webpack_require__(/*! ./fonts/montserrat/montserrat-v12-latin-900.svg */ "./resources/js/views/Register/fonts/montserrat/montserrat-v12-latin-900.svg")) + ") format(\"woff2\"), url(" + escape(__webpack_require__(/*! ./fonts/montserrat/montserrat-v12-latin-900.woff */ "./resources/js/views/Register/fonts/montserrat/montserrat-v12-latin-900.woff")) + ") format(\"woff\"), url(" + escape(__webpack_require__(/*! ./fonts/montserrat/montserrat-v12-latin-900.woff2 */ "./resources/js/views/Register/fonts/montserrat/montserrat-v12-latin-900.woff2")) + ") format(\"truetype\");\n}\na[data-v-ecde73c0]:focus, a[data-v-ecde73c0]:active {\n    text-decoration: none;\n    outline: none;\n    transition: all 300ms ease 0s;\n    -moz-transition: all 300ms ease 0s;\n    -webkit-transition: all 300ms ease 0s;\n    -o-transition: all 300ms ease 0s;\n    -ms-transition: all 300ms ease 0s;\n}\ninput[data-v-ecde73c0], select[data-v-ecde73c0], textarea[data-v-ecde73c0] {\n    outline: none;\n    appearance: unset !important;\n    -moz-appearance: unset !important;\n    -webkit-appearance: unset !important;\n    -o-appearance: unset !important;\n    -ms-appearance: unset !important;\n}\ninput[data-v-ecde73c0]::-webkit-outer-spin-button, input[data-v-ecde73c0]::-webkit-inner-spin-button {\n    appearance: none !important;\n    -moz-appearance: none !important;\n    -webkit-appearance: none !important;\n    -o-appearance: none !important;\n    -ms-appearance: none !important;\n    margin: 0;\n}\ninput[data-v-ecde73c0]:focus, select[data-v-ecde73c0]:focus, textarea[data-v-ecde73c0]:focus {\n    outline: none;\n    box-shadow: none !important;\n    -moz-box-shadow: none !important;\n    -webkit-box-shadow: none !important;\n    -o-box-shadow: none !important;\n    -ms-box-shadow: none !important;\n}\ninput[type=checkbox][data-v-ecde73c0] {\n    appearance: checkbox !important;\n    -moz-appearance: checkbox !important;\n    -webkit-appearance: checkbox !important;\n    -o-appearance: checkbox !important;\n    -ms-appearance: checkbox !important;\n}\ninput[type=radio][data-v-ecde73c0] {\n    appearance: radio !important;\n    -moz-appearance: radio !important;\n    -webkit-appearance: radio !important;\n    -o-appearance: radio !important;\n    -ms-appearance: radio !important;\n}\nimg[data-v-ecde73c0] {\n    max-width: 100%;\n    height: auto;\n}\nfigure[data-v-ecde73c0] {\n    margin: 0;\n}\np[data-v-ecde73c0] {\n    margin-bottom: 0px;\n    font-size: 15px;\n    color: #777;\n}\nh2[data-v-ecde73c0] {\n    line-height: 1.66;\n    margin: 0;\n    padding: 0;\n    font-weight: 900;\n    color: #222;\n    font-family: 'Montserrat';\n    font-size: 24px;\n    text-transform: uppercase;\n    text-align: center;\n    margin-bottom: 40px;\n}\n.clear[data-v-ecde73c0] {\n    clear: both;\n}\nbody[data-v-ecde73c0] {\n    font-size: 14px;\n    line-height: 1.8;\n    color: #222;\n    font-weight: 400;\n    font-family: 'Montserrat';\n    background-image: url(" + escape(__webpack_require__(/*! ./images/signup-bg.jpg */ "./resources/js/views/Register/images/signup-bg.jpg")) + ");\n    background-repeat: no-repeat;\n    background-size: cover;\n    -moz-background-size: cover;\n    -webkit-background-size: cover;\n    -o-background-size: cover;\n    -ms-background-size: cover;\n    background-position: center center;\n    padding: 115px 0;\n}\n.container[data-v-ecde73c0] {\n    width: 660px;\n    position: relative;\n    margin: 0 auto;\n}\n.display-flex[data-v-ecde73c0] {\n    justify-content: space-between;\n    -moz-justify-content: space-between;\n    -webkit-justify-content: space-between;\n    -o-justify-content: space-between;\n    -ms-justify-content: space-between;\n    align-items: center;\n    -moz-align-items: center;\n    -webkit-align-items: center;\n    -o-align-items: center;\n    -ms-align-items: center;\n}\n.display-flex-center[data-v-ecde73c0] {\n    justify-content: center;\n    -moz-justify-content: center;\n    -webkit-justify-content: center;\n    -o-justify-content: center;\n    -ms-justify-content: center;\n    align-items: center;\n    -moz-align-items: center;\n    -webkit-align-items: center;\n    -o-align-items: center;\n    -ms-align-items: center;\n}\n.position-center[data-v-ecde73c0] {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    -moz-transform: translate(-50%, -50%);\n    -webkit-transform: translate(-50%, -50%);\n    -o-transform: translate(-50%, -50%);\n    -ms-transform: translate(-50%, -50%);\n}\n.signup-content[data-v-ecde73c0] {\n    background: #fff;\n    border-radius: 10px;\n    -moz-border-radius: 10px;\n    -webkit-border-radius: 10px;\n    -o-border-radius: 10px;\n    -ms-border-radius: 10px;\n    padding: 50px 85px;\n}\n.form-group[data-v-ecde73c0] {\n    overflow: hidden;\n    margin-bottom: 20px;\n}\n.form-input[data-v-ecde73c0] {\n    width: 100%;\n    border: 1px solid #ebebeb;\n    border-radius: 5px;\n    -moz-border-radius: 5px;\n    -webkit-border-radius: 5px;\n    -o-border-radius: 5px;\n    -ms-border-radius: 5px;\n    padding: 17px 20px;\n    box-sizing: border-box;\n    font-size: 14px;\n    font-weight: 500;\n    color: #222;\n}\n.form-input[data-v-ecde73c0]::-webkit-input-placeholder {\n    color: #999;\n}\n.form-input[data-v-ecde73c0]::-moz-placeholder {\n    color: #999;\n}\n.form-input[data-v-ecde73c0]:-ms-input-placeholder {\n    color: #999;\n}\n.form-input[data-v-ecde73c0]:-moz-placeholder {\n    color: #999;\n}\n.form-input[data-v-ecde73c0]::-webkit-input-placeholder {\n    font-weight: 500;\n}\n.form-input[data-v-ecde73c0]::-moz-placeholder {\n    font-weight: 500;\n}\n.form-input[data-v-ecde73c0]:-ms-input-placeholder {\n    font-weight: 500;\n}\n.form-input[data-v-ecde73c0]:-moz-placeholder {\n    font-weight: 500;\n}\n.form-input[data-v-ecde73c0]:focus {\n    border: 1px solid transparent;\n    -webkit-border-image-source: -webkit-linear-gradient(to right, #9face6, #74ebd5);\n    -moz-border-image-source: -moz-linear-gradient(to right, #9face6, #74ebd5);\n    -o-border-image-source: -o-linear-gradient(to right, #9face6, #74ebd5);\n    border-image-source: linear-gradient(to right, #9face6, #74ebd5);\n    -webkit-border-image-slice: 1;\n    border-image-slice: 1;\n    border-radius: 5px;\n    -moz-border-radius: 5px;\n    -webkit-border-radius: 5px;\n    -o-border-radius: 5px;\n    -ms-border-radius: 5px;\n    background-origin: border-box;\n    background-clip: content-box, border-box;\n}\n.form-input[data-v-ecde73c0]:focus::-webkit-input-placeholder {\n    color: #222;\n}\n.form-input[data-v-ecde73c0]:focus::-moz-placeholder {\n    color: #222;\n}\n.form-input[data-v-ecde73c0]:focus:-ms-input-placeholder {\n    color: #222;\n}\n.form-input[data-v-ecde73c0]:focus:-moz-placeholder {\n    color: #222;\n}\n.form-submit[data-v-ecde73c0] {\n    width: 100%;\n    border-radius: 5px;\n    -moz-border-radius: 5px;\n    -webkit-border-radius: 5px;\n    -o-border-radius: 5px;\n    -ms-border-radius: 5px;\n    padding: 17px 20px;\n    box-sizing: border-box;\n    font-size: 14px;\n    font-weight: 700;\n    color: #fff;\n    text-transform: uppercase;\n    border: none;\n    background-image: linear-gradient(to left, #74ebd5, #9face6);\n}\ninput[type=checkbox][data-v-ecde73c0]:not(old) {\n    width: 2em;\n    margin: 0;\n    padding: 0;\n    font-size: 1em;\n    display: none;\n}\ninput[type=checkbox]:not(old) + label[data-v-ecde73c0] {\n    display: inline-block;\n    margin-top: 7px;\n    margin-bottom: 25px;\n}\ninput[type=checkbox]:not(old) + label > span[data-v-ecde73c0] {\n    display: inline-block;\n    width: 13px;\n    height: 13px;\n    margin-right: 15px;\n    margin-bottom: 3px;\n    border: 1px solid #ebebeb;\n    border-radius: 2px;\n    -moz-border-radius: 2px;\n    -webkit-border-radius: 2px;\n    -o-border-radius: 2px;\n    -ms-border-radius: 2px;\n    background: white;\n    background-image: linear-gradient(white, white);\n    vertical-align: bottom;\n}\ninput[type=checkbox]:not(old):checked + label > span[data-v-ecde73c0] {\n    background-image: linear-gradient(white, white);\n}\ninput[type=checkbox]:not(old):checked + label > span[data-v-ecde73c0]:before {\n    content: '\\F26B';\n    display: block;\n    color: #222;\n    font-size: 11px;\n    line-height: 1.2;\n    text-align: center;\n    font-family: 'Material-Design-Iconic-Font';\n    font-weight: bold;\n}\n.label-agree-term[data-v-ecde73c0] {\n    font-size: 12px;\n    font-weight: 600;\n    color: #555;\n}\n.term-service[data-v-ecde73c0] {\n    color: #555;\n}\n.loginhere[data-v-ecde73c0] {\n    color: #555;\n    font-weight: 500;\n    text-align: center;\n    margin-top: 91px;\n    margin-bottom: 5px;\n}\n.loginhere-link[data-v-ecde73c0] {\n    font-weight: 700;\n    color: #222;\n}\n.field-icon[data-v-ecde73c0] {\n    float: right;\n    margin-right: 17px;\n    margin-top: -32px;\n    position: relative;\n    z-index: 2;\n    color: #555;\n}\n@media screen and (max-width: 768px) {\n.container[data-v-ecde73c0] {\n        width: calc(100% - 40px);\n        max-width: 100%;\n}\n}\n@media screen and (max-width: 480px) {\n.signup-content[data-v-ecde73c0] {\n        padding: 50px 25px;\n}\n}\n", ""]);
 
 // exports
 
@@ -9906,7 +9909,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.form-gap[data-v-5a35fad6] {\n    padding-top: 70px;\n}\n.message[data-v-5a35fad6] {\n    color: red;\n}\n", ""]);
+exports.push([module.i, "\n.message[data-v-5a35fad6] {\n    color: red;\n}\n.aa[data-v-5a35fad6] {\n    padding-top: 10%;\n    margin: auto;\n    width: 500px;\n}\n", ""]);
 
 // exports
 
@@ -53841,6 +53844,17 @@ var render = function() {
             ])
           ],
           1
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          { staticClass: "underlineHover", attrs: { href: "#" } },
+          [
+            _c("router-link", { attrs: { to: { name: "register" } } }, [
+              _vm._v("Or register")
+            ])
+          ],
+          1
         )
       ])
     ])
@@ -53895,9 +53909,11 @@ var render = function() {
                 _vm._v("Create account")
               ]),
               _vm._v(" "),
-              _vm.errors && _vm.errors.username
+              (_vm.errors && _vm.errors.username) || _vm.errors.username2
                 ? _c("div", { staticClass: "text-danger" }, [
-                    _vm._v(_vm._s(_vm.errors.username[0]))
+                    _vm._v(
+                      _vm._s(_vm.errors.username2 || _vm.errors.username[0])
+                    )
                   ])
                 : _vm._e(),
               _vm._v(" "),
@@ -53930,9 +53946,9 @@ var render = function() {
                 })
               ]),
               _vm._v(" "),
-              _vm.errors && _vm.errors.email
+              (_vm.errors && _vm.errors.email) || _vm.errors.email2
                 ? _c("div", { staticClass: "text-danger" }, [
-                    _vm._v(_vm._s(_vm.errors.email[0]))
+                    _vm._v(_vm._s(_vm.errors.email2 || _vm.errors.email[0]))
                   ])
                 : _vm._e(),
               _vm._v(" "),
@@ -54052,25 +54068,25 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _vm._m(0)
+          _c("p", { staticClass: "loginhere" }, [
+            _vm._v("\n                        Have already an account ? "),
+            _c(
+              "a",
+              { staticClass: "loginhere-link", attrs: { href: "#" } },
+              [
+                _c("router-link", { attrs: { to: { name: "login" } } }, [
+                  _vm._v("Login here")
+                ])
+              ],
+              1
+            )
+          ])
         ])
       ])
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", { staticClass: "loginhere" }, [
-      _vm._v("\n                        Have already an account ? "),
-      _c("a", { staticClass: "loginhere-link", attrs: { href: "#" } }, [
-        _vm._v("Login here")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -54092,92 +54108,84 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "form-gap" }),
-    _vm._v(" "),
-    _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-4 col-md-offset-4" }, [
-          _c("div", { staticClass: "panel panel-default" }, [
-            _c("div", { staticClass: "panel-body" }, [
-              _c("div", { staticClass: "text-center" }, [
-                _vm._m(0),
-                _vm._v(" "),
-                _c("h2", { staticClass: "text-center" }, [
-                  _vm._v("Forgot Password?")
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "general" }, [
+      _c("div", { staticClass: "aa" }, [
+        _c("div", { staticClass: "text-center " }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("h2", { staticClass: "text-center" }, [
+            _vm._v("Forgot Password?")
+          ]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Enter your email here.")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "panel-body" }, [
+            _c(
+              "form",
+              {
+                staticClass: "form",
+                attrs: {
+                  id: "register-form",
+                  role: "form",
+                  autocomplete: "off"
+                }
+              },
+              [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("div", { staticClass: "input-group" }, [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.email,
+                          expression: "email"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        id: "email",
+                        name: "email",
+                        placeholder: "email address",
+                        type: "email"
+                      },
+                      domProps: { value: _vm.email },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.email = $event.target.value
+                        }
+                      }
+                    })
+                  ])
                 ]),
                 _vm._v(" "),
-                _c("p", [_vm._v("Enter your email here.")]),
-                _vm._v(" "),
-                _c("div", { staticClass: "panel-body" }, [
-                  _c(
-                    "form",
-                    {
-                      staticClass: "form",
-                      attrs: {
-                        id: "register-form",
-                        role: "form",
-                        autocomplete: "off"
-                      }
+                _c("div", { staticClass: "form-group" }, [
+                  _c("input", {
+                    staticClass: "btn btn-lg btn-primary btn-block",
+                    attrs: {
+                      name: "recover-submit",
+                      value: "Reset Password",
+                      type: "submit"
                     },
-                    [
-                      _c("div", { staticClass: "form-group" }, [
-                        _c("div", { staticClass: "input-group" }, [
-                          _vm._m(1),
-                          _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.email,
-                                expression: "email"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            attrs: {
-                              id: "email",
-                              name: "email",
-                              placeholder: "email address",
-                              type: "email"
-                            },
-                            domProps: { value: _vm.email },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.email = $event.target.value
-                              }
-                            }
-                          })
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "form-group" }, [
-                        _c("input", {
-                          staticClass: "btn btn-lg btn-primary btn-block",
-                          attrs: {
-                            name: "recover-submit",
-                            value: "Reset Password",
-                            type: "submit"
-                          },
-                          on: {
-                            click: function($event) {
-                              return _vm.sendEmail()
-                            }
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "message" }, [
-                        _vm._v(_vm._s(_vm.message))
-                      ])
-                    ]
-                  )
+                    on: {
+                      click: function($event) {
+                        return _vm.sendEmail()
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "message" }, [
+                  _vm._v(_vm._s(_vm.message))
                 ])
-              ])
-            ])
+              ]
+            )
           ])
         ])
       ])

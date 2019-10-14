@@ -160,7 +160,28 @@ class AccountController extends Controller
 
     public function register(AccountRegisterRequest $request)
     {
+        $username = $request["username"];
+        $email = $request["email"];
+        $res = array();
+        $checkUserName = $this->accountRepository->getAccountByField('username', $username);
+        $checkEmail = $this->accountRepository->getAccountByField('email', $email);
 
-        return response()->json(null, 200);
+        if($checkUserName) {
+            $res["checkUsername"] = true;
+        } else {
+            $res["checkUsername"] = false;
+        }
+
+        if($checkEmail){
+            $res["checkEmail"] = true;
+        } else {
+            $res["checkEmail"] = false;
+        }
+
+        if($res["checkUsername"] == false && $res["checkEmail"] == false) {
+            $this->accountRepository->storeAccount($request);
+        }
+
+        return $res;
     }
 }

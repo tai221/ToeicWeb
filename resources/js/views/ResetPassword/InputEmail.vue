@@ -1,19 +1,8 @@
 <template>
-<!--    <div>-->
-<!--        <span>Enter your email:</span><br>-->
-<!--        <input type="text" v-model="email"><br>-->
-<!--        <button type="submit" v-on:click="sendEmail()">Send email</button><br>-->
-<!--        <span>{{message}}</span>-->
-<!--    </div>-->
-<!--    -->
-    <div>
-    <div class="form-gap"></div>
     <div class="container">
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <div class="text-center">
+                <div class="general">
+                    <div class="aa">
+                        <div class="text-center ">
                             <h3><i class="fa fa-lock fa-4x"></i></h3>
                             <h2 class="text-center">Forgot Password?</h2>
                             <p>Enter your email here.</p>
@@ -38,9 +27,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    </div>
 </template>
 
 <script>
@@ -64,7 +50,6 @@ export default {
           app.message = response.data.message
         })
         .catch((error) => {
-          console.log('loi')
           console.log(error)
         })
     }
@@ -73,10 +58,13 @@ export default {
 </script>
 
 <style scoped>
-    .form-gap {
-        padding-top: 70px;
-    }
+
     .message {
         color: red;
+    }
+    .aa {
+        padding-top: 10%;
+        margin: auto;
+        width: 500px;
     }
 </style>
